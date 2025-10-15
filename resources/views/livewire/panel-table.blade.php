@@ -6,7 +6,6 @@
         <table class="min-w-full divide-y divide-gray-200 dark:divide-white/10">
             <thead class="bg-gray-50 dark:bg-gray-800">
                 <tr>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">#</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">Time (UTC)</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">Victim</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">Victim Org</th>
@@ -23,7 +22,6 @@
                     @php($victimOrgIcon = ($victimOrg && ! empty($victimOrg->icon)) ? \Illuminate\Support\Str::contains($victimOrg->icon, 'http') ? $victimOrg->icon : 'https://robertsspaceindustries.com/' . $victimOrg->icon : 'https://cdn.robertsspaceindustries.com/static/images/account/avatar_default_big.jpg'))
                     @php($killerOrgIcon = ($killerOrg && ! empty($killerOrg->icon)) ? \Illuminate\Support\Str::contains($killerOrg->icon, 'http') ? $killerOrg->icon : 'https://robertsspaceindustries.com/' . $killerOrg->icon : 'https://cdn.robertsspaceindustries.com/static/images/account/avatar_default_big.jpg'))
                     <tr>
-                        <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-700 dark:text-gray-200">{{ $kill->id }}</td>
                         <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ \Carbon\Carbon::parse($kill->destroyed_at)->toTimeString() }}</td>
                         <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><b><a href="https://robertsspaceindustries.com/citizens/{{ $kill->victim->name }}" target="_blank">{{ $kill->victim->name }}</a></b></td>
                         @if($victimOrg)
