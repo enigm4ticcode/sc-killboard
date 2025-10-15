@@ -20,7 +20,7 @@
                         @php($avatarUrl = \Illuminate\Support\Str::contains($killer->killer->avatar, 'http') ? $killer->killer->avatar : 'https://robertsspaceindustries.com/' . $killer->killer->avatar)
                         <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><a href="https://robertsspaceindustries.com/citizens/{{ $killer->killer->name }}" target="_blank"><img width="50" height="50" alt="{{ $killer->killer->name }}" src="{{ $avatarUrl }}" /></a></td>
                     @else
-                        <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300">No Image</td>
+                        <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><img width="50" height="50" src="https://cdn.robertsspaceindustries.com/static/images/account/avatar_default_big.jpg" alt="No image" /></td>
                     @endif
                     <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><b><a href="https://robertsspaceindustries.com/citizens/{{ $killer->killer->name }}" target="_blank">{{ $killer->killer->name }}</a></b></td>
                     <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-700 dark:text-gray-200">{{ $killer->kill_count }}</td>
