@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use Filament\Http\Middleware\Authenticate as FilamentAuthenticate;
-use Illuminate\Http\Request;
 
 class FilamentDiscordAuthenticate extends FilamentAuthenticate
 {
@@ -17,7 +16,8 @@ class FilamentDiscordAuthenticate extends FilamentAuthenticate
             return route('larascord.login');
         } catch (\Throwable $e) {
             $prefix = (string) config('larascord.route_prefix', 'larascord');
-            return url('/' . trim($prefix, '/') . '/login');
+
+            return url('/'.trim($prefix, '/').'/login');
         }
     }
 }

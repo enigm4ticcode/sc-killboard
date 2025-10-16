@@ -10,6 +10,7 @@ class Weapon extends Model
     protected $table = 'weapons';
 
     public $timestamps = false;
+
     protected $fillable = [
         'id',
         'slug',

@@ -3,7 +3,6 @@
 namespace App\Livewire;
 
 use App\Models\Kill;
-use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 

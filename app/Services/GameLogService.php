@@ -19,6 +19,7 @@ use PHPHtmlParser\Dom;
 class GameLogService
 {
     protected string $actorKillString;
+
     protected string $isoTimestampPattern;
 
     public function __construct(array $config)
@@ -26,6 +27,7 @@ class GameLogService
         $this->actorKillString = $config['actor_kill_string'];
         $this->isoTimestampPattern = $config['iso_timestamp_pattern'];
     }
+
     public function processGameLog(string $path): int
     {
         $filePath = Storage::path($path);
@@ -137,25 +139,25 @@ class GameLogService
         ])->get('{+endpoint}/{playerName}');
 
         if ($response->successful()) {
-            $dom = new Dom();
+            $dom = new Dom;
 
             try {
                 $dom->loadStr($response->body());
                 $contents = $dom->find('div[class=profile left-col]');
 
-                if (!empty($contents)) {
+                if (! empty($contents)) {
                     $avatarDiv = $contents->find('div[class=thumb]');
 
                     if (! empty($avatarDiv)) {
                         $img = $avatarDiv->find('img');
 
-                        if (!empty($img)) {
+                        if (! empty($img)) {
                             $avatar = $img->getAttribute('src');
                         }
                     }
                 }
             } catch (\Exception $e) {
-                Log::error('[ORG PARSER] Unable to load player data: ' . $e->getMessage());
+                Log::error('[ORG PARSER] Unable to load player data: '.$e->getMessage());
             }
         }
 
@@ -177,7 +179,7 @@ class GameLogService
         ])->get('{+endpoint}/{playerName}/organizations');
 
         if ($response->successful()) {
-            $dom = new Dom();
+            $dom = new Dom;
 
             try {
                 $dom->loadStr($response->body());
@@ -214,7 +216,7 @@ class GameLogService
                     }
                 }
             } catch (\Exception $e) {
-                Log::error('[ORG PARSER] Unable to load organization: ' . $e->getMessage());
+                Log::error('[ORG PARSER] Unable to load organization: '.$e->getMessage());
             }
         }
 

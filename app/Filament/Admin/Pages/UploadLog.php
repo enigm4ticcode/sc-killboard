@@ -7,9 +7,9 @@ use Filament\Actions\Action;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Schemas\Schema;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Storage;
 
 class UploadLog extends Page implements HasForms
@@ -51,7 +51,8 @@ class UploadLog extends Page implements HasForms
                     ->getUploadedFileNameForStorageUsing(function ($file): string {
                         $original = $file->getClientOriginalName();
                         $safe = preg_replace('/[^A-Za-z0-9._-]/', '_', $original);
-                        return uniqid('log_', true) . '-' . $safe;
+
+                        return uniqid('log_', true).'-'.$safe;
                     })
                     ->rules(['required', 'file', 'mimetypes:text/plain', 'extensions:log'])
                     ->helperText('Only .log files are accepted.')
@@ -72,7 +73,7 @@ class UploadLog extends Page implements HasForms
         if ($file instanceof \Illuminate\Http\UploadedFile) {
             $original = $file->getClientOriginalName();
             $safe = preg_replace('/[^A-Za-z0-9._-]/', '_', $original);
-            $name = uniqid('log_', true) . '-' . $safe;
+            $name = uniqid('log_', true).'-'.$safe;
             $storedPath = $file->storeAs('uploads/logs', $name, $disk);
         } elseif (is_string($file)) {
             $storedPath = $file;
@@ -113,7 +114,7 @@ class UploadLog extends Page implements HasForms
                 ->label('Process Game.log')
                 ->rateLimit(5)
                 ->icon('heroicon-o-arrow-up-tray')
-                ->action(fn () => $this->save())
+                ->action(fn () => $this->save()),
         ];
     }
 }

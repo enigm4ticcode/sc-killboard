@@ -57,7 +57,7 @@ return [
     |
     */
 
-    'redirect_uri' => env('APP_URL', 'http://localhost:8000') . '/' . env('LARASCORD_PREFIX', 'larascord') . '/callback',
+    'redirect_uri' => env('APP_URL', 'http://localhost:8000').'/'.env('LARASCORD_PREFIX', 'larascord').'/callback',
 
     /*
     |--------------------------------------------------------------------------
@@ -179,63 +179,63 @@ return [
     'error_messages' => [
         'missing_code' => [
             'message' => 'The authorization code is missing.',
-            'redirect' => '/'
+            'redirect' => '/',
         ],
         'invalid_code' => [
             'message' => 'The authorization code is invalid.',
-            'redirect' => '/'
+            'redirect' => '/',
         ],
         'authorization_failed' => [
             'message' => 'The authorization failed.',
-            'redirect' => '/'
+            'redirect' => '/',
         ],
         'missing_email' => [
             'message' => 'Couldn\'t get your e-mail address.',
-            'redirect' => '/'
+            'redirect' => '/',
         ],
         'invalid_user' => [
             'message' => 'The user ID doesn\'t match the logged-in user.',
-            'redirect' => '/'
+            'redirect' => '/',
         ],
         'database_error' => [
             'message' => 'There was an error with the database. Please try again later.',
-            'redirect' => '/'
+            'redirect' => '/',
         ],
         'missing_guilds_scope' => [
             'message' => 'The "guilds" scope is required.',
-            'redirect' => '/'
+            'redirect' => '/',
         ],
         'missing_guilds_members_read_scope' => [
             'message' => 'The "guilds" and "guilds.members.read" scopes are required.',
-            'redirect' => '/'
+            'redirect' => '/',
         ],
         'authorization_failed_guilds' => [
             'message' => 'Couldn\'t get the servers you\'re in.',
-            'redirect' => '/'
+            'redirect' => '/',
         ],
         'not_member_guild_only' => [
             'message' => 'You are not a member of the required guilds.',
-            'redirect' => '/'
+            'redirect' => '/',
         ],
         'missing_access_token' => [
             'message' => 'The access token is missing.',
-            'redirect' => '/'
+            'redirect' => '/',
         ],
         'authorization_failed_roles' => [
             'message' => 'Couldn\'t get the roles you have.',
-            'redirect' => '/'
+            'redirect' => '/',
         ],
         'missing_role' => [
             'message' => 'You don\'t have the required roles.',
-            'redirect' => '/'
+            'redirect' => '/',
         ],
         'revoke_token_failed' => [
             'message' => 'An error occurred while trying to revoke your access token.',
-            'redirect' => '/'
+            'redirect' => '/',
         ],
         'user_deleted' => [
             'message' => 'Your account is deleted and you can\'t log in.',
-            'redirect' => '/'
+            'redirect' => '/',
         ],
     ],
 
@@ -252,7 +252,7 @@ return [
     'success_messages' => [
         'user_deleted' => [
             'message' => 'Your account has been deleted.',
-            'redirect' => '/'
+            'redirect' => '/',
         ],
     ],
 

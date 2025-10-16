@@ -11,10 +11,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Jakyeru\Larascord\Traits\InteractsWithDiscord;
 
-
 class User extends Authenticatable implements FilamentUser, HasName
 {
-    use HasFactory, Notifiable, InteractsWithDiscord;
+    use HasFactory, InteractsWithDiscord, Notifiable;
 
     public function canAccessPanel(Panel $panel): bool
     {
@@ -25,7 +24,7 @@ class User extends Authenticatable implements FilamentUser, HasName
     {
         $name = $this->global_name ?: $this->username ?: $this->email;
 
-        return (string) ($name ?? 'User #' . $this->getKey());
+        return (string) ($name ?? 'User #'.$this->getKey());
     }
 
     /**

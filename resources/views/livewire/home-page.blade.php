@@ -17,10 +17,16 @@
                 <livewire:top-killer />
             </div>
             <div>
+                <livewire:top-orgs />
+            </div>
+            <div>
                 <livewire:top-weapon />
             </div>
             <div>
                 <livewire:top-victim />
+            </div>
+            <div>
+                <livewire:victim-orgs />
             </div>
         </div>
     </div>
