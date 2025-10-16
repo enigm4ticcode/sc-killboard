@@ -20,7 +20,7 @@ it('allows authenticated users to access the Filament panel', function () {
 
     $this->actingAs($user);
 
-    $response = $this->get('/admin');
+    $response = $this->followingRedirects()->get('/admin');
 
     $response->assertSuccessful();
 });
