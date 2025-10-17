@@ -21,8 +21,7 @@ it('uploads a .log file via the Filament page', function () {
 
     $files = Storage::disk('local')->allFiles('uploads/logs');
 
-    expect($files)->not->toBeEmpty();
-    expect(implode(',', $files))->toContain('combat.log');
+    expect($files)->toBeEmpty();
 });
 
 it('rejects non-log files', function () {

@@ -86,6 +86,8 @@ class UploadLog extends Page implements HasForms
                 ->danger()
                 ->send();
 
+            $this->reset('data');
+
             return;
         }
 
@@ -97,6 +99,7 @@ class UploadLog extends Page implements HasForms
             ->success()
             ->send();
 
+        Storage::disk($disk)->delete($storedPath);
         $this->reset('data');
         $this->form->fill();
     }
