@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('kills', function (Blueprint $table) {
             $table->id();
             $table->timestamp('destroyed_at');
-            $table->unsignedBigInteger('ship_id')->index();
+            $table->unsignedBigInteger('ship_id')->nullable()->index();
             $table->foreign('ship_id')->references('id')->on('ships');
             $table->unsignedBigInteger('weapon_id')->index();
             $table->foreign('weapon_id')->references('id')->on('weapons');
