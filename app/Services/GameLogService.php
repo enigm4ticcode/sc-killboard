@@ -98,7 +98,8 @@ class GameLogService
                     ]);
 
                     $killerModel->organization()->associate($killerOrgModel)->save();
-
+                } elseif ($killerModel->organization()->exists()) {
+                    $killerModel->organization()->dissociate()->save();
                 }
 
                 if ($victimOrgData['name'] !== null) {
@@ -109,6 +110,8 @@ class GameLogService
                     ]);
 
                     $victimModel->organization()->associate($victimOrgModel)->save();
+                } elseif ($victimModel->organization()->exists()) {
+                    $victimModel->organization()->dissociate()->save();
                 }
 
                 Kill::query()->firstOrCreate([
