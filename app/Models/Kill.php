@@ -2,11 +2,17 @@
 
 namespace App\Models;
 
+use App\Observers\KillObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+#[ObservedBy([KillObserver::class])]
 class Kill extends Model
 {
+    public const TYPE_FPS = 'fps';
+    public const TYPE_VEHICLE = 'vehicle';
+
     protected $table = 'kills';
 
     protected $fillable = [
@@ -16,6 +22,7 @@ class Kill extends Model
         'weapon_id',
         'victim_id',
         'killer_id',
+        'type',
     ];
 
     public function victim(): BelongsTo

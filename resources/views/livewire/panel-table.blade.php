@@ -9,7 +9,7 @@
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">Time (UTC)</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">Victim</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">Victim Org</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">Ship</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">Ship / FPS</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">Final Blow</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">Organization</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">Weapon</th>
@@ -19,9 +19,10 @@
                 @forelse ($kills as $kill)
                     @php($victimOrg = $kill->victim->organization)
                     @php($killerOrg = $kill->killer->organization)
+                    @php($killType = $kill->type)
                     @php($victimOrgIcon = ($victimOrg && ! empty($victimOrg->icon)) ? \Illuminate\Support\Str::contains($victimOrg->icon, 'http') ? $victimOrg->icon : 'https://robertsspaceindustries.com/' . $victimOrg->icon : 'https://cdn.robertsspaceindustries.com/static/images/account/avatar_default_big.jpg'))
                     @php($killerOrgIcon = ($killerOrg && ! empty($killerOrg->icon)) ? \Illuminate\Support\Str::contains($killerOrg->icon, 'http') ? $killerOrg->icon : 'https://robertsspaceindustries.com/' . $killerOrg->icon : 'https://cdn.robertsspaceindustries.com/static/images/account/avatar_default_big.jpg'))
-                    <tr>
+                    <tr class="{{ $killType === \App\Models\Kill::TYPE_FPS ? 'bg-neutral' : 'bg-indigo' }}">
                         <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ \Carbon\Carbon::parse($kill->destroyed_at)->toTimeString() }}</td>
                         <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><b><a href="https://robertsspaceindustries.com/citizens/{{ $kill->victim->name }}" target="_blank">{{ $kill->victim->name }}</a></b></td>
                         @if($victimOrg)
@@ -29,7 +30,11 @@
                         @else
                             <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><img width="50" height="50" src="{{ $victimOrgIcon }}" alt="None" /></td>
                         @endif
-                        <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ $kill->ship->name }}</td>
+                        @if($killType === \App\Models\Kill::TYPE_VEHICLE)
+                             <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ $kill->ship->name }}</td>
+                        @else
+                            <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-900 dark:text-gray-100">FPS</td>
+                        @endif
                         <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><b><a href="https://robertsspaceindustries.com/citizens/{{ $kill->killer->name }}" target="_blank">{{ $kill->killer->name }}</a></b></td>
                         @if($killerOrg)
                             <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><a href="https://robertsspaceindustries.com/orgs/{{ $killerOrg->spectrum_id }}" target="_blank"><img width="50" height="50" src="{{ $killerOrgIcon }}" alt="{{ $killerOrg->name }}" /></a></td>

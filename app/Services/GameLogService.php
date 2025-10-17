@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Models\Kill;
 use App\Models\Organization;
 use App\Models\Player;
-use App\Models\Ship;
 use App\Models\Weapon;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
@@ -20,11 +19,17 @@ class GameLogService
 {
     protected string $actorKillString;
 
+    protected string $npcKillString;
+
     protected string $isoTimestampPattern;
 
-    public function __construct(array $config)
+    protected VehicleService $vehicleService;
+
+    public function __construct(VehicleService $vehicleService, array $config)
     {
-        $this->actorKillString = $config['actor_kill_string'];
+        $this->vehicleService = $vehicleService;
+        $this->actorKillString = Str::upper($config['actor_kill_string']);
+        $this->npcKillString = Str::upper($config['npc_kill_string']);
         $this->isoTimestampPattern = $config['iso_timestamp_pattern'];
     }
 
@@ -42,88 +47,97 @@ class GameLogService
             }
             fclose($handle);
         })->each(function ($line) use ($cacheKey) {
-            if (Str::contains($line, $this->actorKillString)) {
+            if (Str::contains(Str::upper($line), $this->actorKillString)) {
                 $explodedLine = explode(' ', $line);
                 $timestamp = Carbon::parse(Str::match($this->isoTimestampPattern, $explodedLine[0]));
                 $victim = Str::remove("'", $explodedLine[5]);
-                $victimGameId = (int) Str::remove('[', Str::remove(']', $explodedLine[6]));
-                $victimShip = Str::slug(Str::beforeLast($explodedLine[9], '_'));
                 $killer = Str::remove("'", $explodedLine[12]);
-                $killerGameId = (int) Str::remove('[', Str::remove(']', $explodedLine[13]));
-                $killWeapon = Str::slug(Str::beforeLast($explodedLine[15], '_'));
 
-                $killWeaponModel = Weapon::query()->firstOrCreate([
-                    'slug' => $killWeapon,
-                ], [
-                    'name' => Str::title(Str::replace('-', ' ', $killWeapon)),
-                ]);
+                // Omit NPC kills
+                if (! Str::contains(Str::upper($victim), $this->npcKillString)
+                    && ! Str::contains(Str::upper($killer), $this->npcKillString)
+                ) {
+                    $victimGameId = (int)Str::remove('[', Str::remove(']', $explodedLine[6]));
+                    $victimZone = Str::trim(Str::beforeLast($explodedLine[9], '_'), "'\" ");
+                    $killType = Kill::TYPE_FPS;
+                    $vehicle = $this->vehicleService->getVehicleByClass($victimZone);
 
-                $victimShipModel = Ship::query()->firstOrCreate([
-                    'slug' => $victimShip,
-                ], [
-                    'name' => Str::title(Str::replace('-', ' ', $victimShip)),
-                ]);
+                    // Try searching for the closest match
+                    if ($vehicle) {
+                        $killType = Kill::TYPE_VEHICLE;
+                    }
 
-                $victimModel = Player::query()->firstOrCreate([
-                    'name' => $victim,
-                ], [
-                    'game_id' => $victimGameId,
-                ]);
+                    $killerGameId = (int) Str::remove('[', Str::remove(']', $explodedLine[13]));
+                    $killWeapon = Str::slug(Str::beforeLast($explodedLine[15], '_'));
 
-                $killerModel = Player::query()->firstOrCreate([
-                    'name' => $killer,
-                ], [
-                    'game_id' => $killerGameId,
-                ]);
-
-                $killerAvatar = $this->getPlayerAvatar($killerModel);
-                $victimAvatar = $this->getPlayerAvatar($victimModel);
-
-                if ($killerAvatar !== null) {
-                    $killerModel->update(['avatar' => $killerAvatar]);
-                }
-
-                if ($victimAvatar !== null) {
-                    $victimModel->update(['avatar' => $victimAvatar]);
-                }
-
-                $killerOrgData = $this->getPlayerOrgData($killerModel);
-                $victimOrgData = $this->getPlayerOrgData($victimModel);
-
-                if ($killerOrgData['name'] !== null) {
-                    $killerOrgModel = Organization::query()->firstOrCreate([
-                        'name' => $killerOrgData['name'],
-                        'icon' => $killerOrgData['icon'],
-                        'spectrum_id' => $killerOrgData['spectrum_id'],
+                    $killWeaponModel = Weapon::query()->firstOrCreate([
+                        'slug' => $killWeapon,
+                    ], [
+                        'name' => Str::title(Str::replace('-', ' ', $killWeapon)),
                     ]);
 
-                    $killerModel->organization()->associate($killerOrgModel)->save();
-                } elseif ($killerModel->organization()->exists()) {
-                    $killerModel->organization()->dissociate()->save();
-                }
-
-                if ($victimOrgData['name'] !== null) {
-                    $victimOrgModel = Organization::query()->firstOrCreate([
-                        'name' => $victimOrgData['name'],
-                        'icon' => $victimOrgData['icon'],
-                        'spectrum_id' => $victimOrgData['spectrum_id'],
+                    $victimModel = Player::query()->firstOrCreate([
+                        'name' => $victim,
+                    ], [
+                        'game_id' => $victimGameId,
                     ]);
 
-                    $victimModel->organization()->associate($victimOrgModel)->save();
-                } elseif ($victimModel->organization()->exists()) {
-                    $victimModel->organization()->dissociate()->save();
+                    $killerModel = Player::query()->firstOrCreate([
+                        'name' => $killer,
+                    ], [
+                        'game_id' => $killerGameId,
+                    ]);
+
+                    $killerAvatar = $this->getPlayerAvatar($killerModel);
+                    $victimAvatar = $this->getPlayerAvatar($victimModel);
+
+                    if ($killerAvatar !== null) {
+                        $killerModel->update(['avatar' => $killerAvatar]);
+                    }
+
+                    if ($victimAvatar !== null) {
+                        $victimModel->update(['avatar' => $victimAvatar]);
+                    }
+
+                    $killerOrgData = $this->getPlayerOrgData($killerModel);
+                    $victimOrgData = $this->getPlayerOrgData($victimModel);
+
+                    if ($killerOrgData['name'] !== null) {
+                        $killerOrgModel = Organization::query()->firstOrCreate([
+                            'name' => $killerOrgData['name'],
+                            'icon' => $killerOrgData['icon'],
+                            'spectrum_id' => $killerOrgData['spectrum_id'],
+                        ]);
+
+                        $killerModel->organization()->associate($killerOrgModel)->save();
+                    } elseif ($killerModel->organization()->exists()) {
+                        $killerModel->organization()->dissociate()->save();
+                    }
+
+                    if ($victimOrgData['name'] !== null) {
+                        $victimOrgModel = Organization::query()->firstOrCreate([
+                            'name' => $victimOrgData['name'],
+                            'icon' => $victimOrgData['icon'],
+                            'spectrum_id' => $victimOrgData['spectrum_id'],
+                        ]);
+
+                        $victimModel->organization()->associate($victimOrgModel)->save();
+                    } elseif ($victimModel->organization()->exists()) {
+                        $victimModel->organization()->dissociate()->save();
+                    }
+
+                    Kill::query()->firstOrCreate([
+                        'destroyed_at' => $timestamp,
+                        'ship_id' => $killType === Kill::TYPE_VEHICLE ? $vehicle->id : null,
+                        'weapon_id' => $killWeaponModel->id,
+                        'victim_id' => $victimModel->id,
+                        'killer_id' => $killerModel->id,
+                        'type' => $killType,
+                    ]);
+
+                    Cache::increment($cacheKey);
+
                 }
-
-                Kill::query()->firstOrCreate([
-                    'destroyed_at' => $timestamp,
-                    'ship_id' => $victimShipModel->id,
-                    'weapon_id' => $killWeaponModel->id,
-                    'victim_id' => $victimModel->id,
-                    'killer_id' => $killerModel->id,
-                ]);
-
-                Cache::increment($cacheKey);
-
             }
         });
 

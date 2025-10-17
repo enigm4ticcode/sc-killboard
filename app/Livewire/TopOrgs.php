@@ -2,37 +2,17 @@
 
 namespace App\Livewire;
 
-use Carbon\Carbon;
+use App\Services\LeaderboardService;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class TopOrgs extends Component
 {
     public Collection $orgs;
 
-    public function mount(): void
+    public function mount(LeaderboardService $leaderboardService): void
     {
-        $ttl = config('killboard.cache.ttl');
-
-        $this->orgs = Cache::remember('top-organizations', $ttl, function () {
-            return DB::table('kills')
-                ->join('players', 'kills.killer_id', '=', 'players.id')
-                ->join('organizations', 'players.organization_id', '=', 'organizations.id')
-                ->where('kills.destroyed_at', '>=', Carbon::now()->subWeek()->startOfDay())
-                ->groupBy('organizations.id', 'organizations.name', 'organizations.icon')
-                ->select(
-                    'organizations.name as organization_name',
-                    'organizations.icon as organization_icon',
-                    DB::raw('COUNT(kills.id) as total_kills'),
-                    DB::raw('COUNT(DISTINCT players.id) as total_players'),
-                    DB::raw('COUNT(kills.id) / COUNT(DISTINCT players.id) as average_kills_per_player')
-                )
-                ->orderByDesc('average_kills_per_player')
-                ->take(10)
-                ->get();
-        });
+        $this->orgs = $leaderboardService->getLeaderboards()['top_orgs'];
     }
 
     public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\View\View

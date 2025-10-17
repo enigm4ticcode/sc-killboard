@@ -17,6 +17,9 @@
                 <livewire:top-killer />
             </div>
             <div>
+                <livewire:top-fps-killers />
+            </div>
+            <div>
                 <livewire:top-orgs />
             </div>
             <div>
@@ -24,6 +27,9 @@
             </div>
             <div>
                 <livewire:top-victim />
+            </div>
+            <div>
+                <livewire:top-fps-victims />
             </div>
             <div>
                 <livewire:victim-orgs />

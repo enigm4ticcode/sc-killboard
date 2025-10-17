@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('ships', function (Blueprint $table) {
             $table->id();
-            $table->string('slug')->unique();
+            $table->string('slug');
             $table->string('name');
-            $table->string('description')->nullable();
+            $table->string('class_name')->unique();
+            $table->longText('description')->nullable();
+            $table->string('version')->nullable();
             $table->unsignedBigInteger('price_uec')->nullable();
             $table->unsignedBigInteger('price_usd')->nullable();
             $table->string('icon')->nullable();

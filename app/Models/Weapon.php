@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Weapon extends Model
 {
+    public const TYPE_VEHICLE = 'vehicle';
+    public const TYPE_FPS = 'fps';
+    public const TYPE_UNKNOWN = 'unknown';
+
     protected $table = 'weapons';
 
     public $timestamps = false;

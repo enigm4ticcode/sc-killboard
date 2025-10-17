@@ -2,21 +2,21 @@
 
 namespace App\Providers;
 
-use App\Services\GameLogService;
+use App\Services\StarCitizenWikiService;
 use App\Services\VehicleService;
 use Illuminate\Support\ServiceProvider;
 
-class GameLogServiceProvider extends ServiceProvider
+class VehicleServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
      */
     public function register(): void
     {
-        $this->app->singleton(GameLogService::class, function ($app) {
-            return new GameLogService(
-                app(VehicleService::class),
-                config('gamelog'),
+        $this->app->singleton(VehicleService::class, function ($app) {
+            return new VehicleService(
+                app(StarCitizenWikiService::class),
+                config('killboard.cache.vehicles-cache-key'),
             );
         });
     }

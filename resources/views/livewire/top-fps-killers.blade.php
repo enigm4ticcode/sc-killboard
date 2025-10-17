@@ -1,6 +1,6 @@
 <div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm dark:border-white/10 dark:bg-gray-900">
     <div class="border-b border-gray-200 bg-gray-50 px-4 py-3 text-sm font-medium text-gray-700 dark:border-white/10 dark:bg-gray-800 dark:text-gray-200">
-        Top Ship Victims (7 Days)
+        Top FPS Killers (7 Days)
     </div>
     <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200 dark:divide-white/10">
@@ -9,21 +9,21 @@
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">Rank</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">Avatar</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">Name</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">Deaths</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">Kills</th>
             </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 bg-white dark:divide-white/10 dark:bg-gray-900">
-            @forelse ($victims as $i => $victim)
+            @forelse ($killers as $i => $killer)
                 <tr>
                     <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-700 dark:text-gray-200">{{ $i + 1 }}</td>
-                    @if ($victim->victim->avatar !== null)
-                        @php($avatarUrl = \Illuminate\Support\Str::contains($victim->victim->avatar, 'http') ? $victim->victim->avatar : 'https://robertsspaceindustries.com/' . $victim->victim->avatar)
-                        <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><a href="https://robertsspaceindustries.com/citizens/{{ $victim->victim->name }}" target="_blank"><img width="50" height="50" alt="{{ $victim->victim->name }}" src="{{ $avatarUrl }}" /></a></td>
+                    @if ($killer->killer->avatar !== null)
+                        @php($avatarUrl = \Illuminate\Support\Str::contains($killer->killer->avatar, 'http') ? $killer->killer->avatar : 'https://robertsspaceindustries.com/' . $killer->killer->avatar)
+                        <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><a href="https://robertsspaceindustries.com/citizens/{{ $killer->killer->name }}" target="_blank"><img width="50" height="50" alt="{{ $killer->killer->name }}" src="{{ $avatarUrl }}" /></a></td>
                     @else
                         <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><img width="50" height="50" src="https://cdn.robertsspaceindustries.com/static/images/account/avatar_default_big.jpg" alt="No image" /></td>
                     @endif
-                    <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><b><a href="https://robertsspaceindustries.com/citizens/{{ $victim->victim->name }}" target="_blank">{{ $victim->victim->name }}</a></b></td>
-                    <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-700 dark:text-gray-200">{{ $victim->death_count }}</td>
+                    <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><b><a href="https://robertsspaceindustries.com/citizens/{{ $killer->killer->name }}" target="_blank">{{ $killer->killer->name }}</a></b></td>
+                    <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-700 dark:text-gray-200">{{ $killer->kill_count }}</td>
                 </tr>
             @empty
                 <tr>
@@ -32,5 +32,5 @@
             @endforelse
             </tbody>
         </table>
-    </div>w
+    </div>
 </div>

@@ -22,6 +22,9 @@ return new class extends Migration
             $table->foreign('victim_id')->references('id')->on('players');
             $table->unsignedBigInteger('killer_id')->index();
             $table->foreign('killer_id')->references('id')->on('players');
+            $table->enum('type', [\App\Models\Kill::TYPE_VEHICLE, \App\Models\Kill::TYPE_FPS])
+                ->default(\App\Models\Kill::TYPE_VEHICLE)
+                ->index();
             $table->timestamps();
         });
     }

@@ -6,17 +6,17 @@ use App\Services\LeaderboardService;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 
-class TopWeapon extends Component
+class TopFpsKillers extends Component
 {
-    public Collection $weapons;
+    public Collection $killers;
 
     public function mount(LeaderboardService $leaderboardService): void
     {
-        $this->weapons = $leaderboardService->getLeaderboards()['top_weapons'];
+        $this->killers = $leaderboardService->getLeaderboards()['top_fps_killers'];
     }
 
     public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\View\View
     {
-        return view('livewire.top-weapon');
+        return view('livewire.top-fps-killers');
     }
 }
