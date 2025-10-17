@@ -25,8 +25,7 @@ class GetAllVehiclesCommand extends Command
     public function __construct(
         protected StarCitizenWikiService $starCitizenWikiService,
         protected VehicleService $vehicleService,
-    )
-    {
+    ) {
         parent::__construct();
     }
 
@@ -44,7 +43,7 @@ class GetAllVehiclesCommand extends Command
             $totalVehicles = (int) $initialData['meta']['total'];
 
             if (! empty($data)) {
-                $bar =$this->output->createProgressBar($totalVehicles);
+                $bar = $this->output->createProgressBar($totalVehicles);
                 foreach ($data as $vehicle) {
                     $this->processShipData($vehicle);
                     $bar->advance();

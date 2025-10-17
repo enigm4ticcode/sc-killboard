@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Kill extends Model
 {
     public const TYPE_FPS = 'fps';
+
     public const TYPE_VEHICLE = 'vehicle';
 
     protected $table = 'kills';

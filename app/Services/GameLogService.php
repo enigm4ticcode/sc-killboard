@@ -53,11 +53,9 @@ class GameLogService
                 $victim = Str::remove("'", $explodedLine[5]);
                 $killer = Str::remove("'", $explodedLine[12]);
 
-                // Omit NPC kills
-                if (! Str::contains(Str::upper($victim), $this->npcKillString)
-                    && ! Str::contains(Str::upper($killer), $this->npcKillString)
-                ) {
-                    $victimGameId = (int)Str::remove('[', Str::remove(']', $explodedLine[6]));
+                // Omit NPC kills and environment deaths
+                if ($victim !== $killer && ! $this->isNpc($victim) && ! $this->isNpc($killer)) {
+                    $victimGameId = (int) Str::remove('[', Str::remove(']', $explodedLine[6]));
                     $victimZone = Str::trim(Str::beforeLast($explodedLine[9], '_'), "'\" ");
                     $killType = Kill::TYPE_FPS;
                     $vehicle = $this->vehicleService->getVehicleByClass($victimZone);
@@ -174,7 +172,13 @@ class GameLogService
                     }
                 }
             } catch (\Exception $e) {
-                Log::error('[ORG PARSER] Unable to load player data: '.$e->getMessage());
+                Log::error('[ORG PARSER] Unable to load player data: '.$e->getMessage(), [
+                    'playerName' => $playerName,
+                    'code' => $e->getCode(),
+                    'line' => $e->getLine(),
+                    'file' => $e->getFile(),
+                    'message' => $e->getMessage(),
+                ]);
             }
         }
 
@@ -233,10 +237,28 @@ class GameLogService
                     }
                 }
             } catch (\Exception $e) {
-                Log::error('[ORG PARSER] Unable to load organization: '.$e->getMessage());
+                Log::error('[ORG PARSER] Unable to load organization: '.$e->getMessage(), [
+                    'playerName' => $playerName,
+                    'code' => $e->getCode(),
+                    'line' => $e->getLine(),
+                    'file' => $e->getFile(),
+                    'message' => $e->getMessage(),
+                ]);
             }
         }
 
         return $output;
+    }
+
+    private function isNpc(string $playerName): bool
+    {
+        if (Str::contains(Str::upper($playerName), $this->npcKillString)) {
+            return true;
+        }
+
+        preg_match_all('/\d/', $playerName, $numbers);
+        $numberCheck = count($numbers[0]) >= 10;
+
+        return $numberCheck && Str::contains($playerName, ['_', '-']);
     }
 }

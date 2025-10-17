@@ -4,7 +4,6 @@ namespace App\Observers;
 
 use App\Models\Ship;
 use App\Services\VehicleService;
-use Illuminate\Support\Facades\Cache;
 
 class ShipObserver
 {
@@ -14,6 +13,7 @@ class ShipObserver
     {
         $this->vehicleService = $vehicleService;
     }
+
     /**
      * Handle the Ship "created" event.
      */

@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 class VehicleService
 {
     protected StarCitizenWikiService $starCitizenWikiService;
+
     protected string $vehiclesCacheKey;
 
     public function __construct(StarCitizenWikiService $starCitizenWikiService, string $vehiclesCacheKey)

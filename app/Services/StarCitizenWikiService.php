@@ -19,7 +19,7 @@ class StarCitizenWikiService
 
     public function getVehicles(int $page = 1, int $limit = 0): array
     {
-        $url = $this->baseUrl . '/vehicles';
+        $url = $this->baseUrl.'/vehicles';
         $options = [
             'page' => $page,
             'limit' => $limit === 0 ? $this->perPage : $limit,
@@ -30,7 +30,7 @@ class StarCitizenWikiService
 
             return $response->json();
         } catch (\Exception $e) {
-            Log::error('[WIKI SERVICE] Error: ' . $e->getMessage());
+            Log::error('[WIKI SERVICE] Error: '.$e->getMessage());
         }
 
         return [];
@@ -38,14 +38,14 @@ class StarCitizenWikiService
 
     public function getVehicleById(string $uuid): array
     {
-        $url = $this->baseUrl . '/vehicles/' . $uuid;
+        $url = $this->baseUrl.'/vehicles/'.$uuid;
 
         try {
             $response = Http::get($url);
 
             return $response->json();
         } catch (\Exception $e) {
-            Log::error('[WIKI SERVICE] Error: ' . $e->getMessage());
+            Log::error('[WIKI SERVICE] Error: '.$e->getMessage());
         }
 
         return [];
@@ -53,14 +53,14 @@ class StarCitizenWikiService
 
     public function search(string $query): array
     {
-        $url = $this->baseUrl . '/vehicles/search';
+        $url = $this->baseUrl.'/vehicles/search';
 
         try {
             $response = Http::post($url, ['query' => $query]);
 
             return $response->json();
         } catch (\Exception $e) {
-            Log::error('[WIKI SERVICE] Error: ' . $e->getMessage());
+            Log::error('[WIKI SERVICE] Error: '.$e->getMessage());
         }
 
         return [];

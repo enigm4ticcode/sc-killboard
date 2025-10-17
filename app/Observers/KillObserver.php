@@ -7,8 +7,7 @@ use App\Services\LeaderboardService;
 
 class KillObserver
 {
-    public function __construct(protected LeaderboardService $leaderboardService)
-    {}
+    public function __construct(protected LeaderboardService $leaderboardService) {}
 
     /**
      * Handle the Kill "created" event.
