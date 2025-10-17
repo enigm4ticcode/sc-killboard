@@ -8,9 +8,7 @@
 
     <div class="flex h-screen">
         <div class="flex-1 p-2 space-y-4">
-            @foreach($recentDates as $date)
-                <livewire:panel-table date="{{ $date }}"/>
-            @endforeach
+            <livewire:main-kill-feed />
         </div>
         <div class="w-[240px] p-2 space-y-4">
             <div>

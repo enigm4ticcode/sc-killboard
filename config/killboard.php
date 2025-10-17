@@ -1,6 +1,12 @@
 <?php
 
 return [
+    'pagination' => [
+        'kills_per_page' => env('PAGINATION_KILLS_PER_PAGE', 30),
+    ],
+    'home_page' => [
+        'most_recent_kills_days' => env('MOST_RECENT_KILLS_DAYS', 3),
+    ],
     'cache' => [
         'ttl' => env('CACHE_TTL_TOP_TEN', 60),
         'vehicle-ttl' => env('VEHICLE_TTL', 86400),

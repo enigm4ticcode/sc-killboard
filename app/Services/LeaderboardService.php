@@ -80,7 +80,7 @@ class LeaderboardService
                 DB::raw('COUNT(DISTINCT players.id) as total_players'),
                 DB::raw('COUNT(kills.id) / COUNT(DISTINCT players.id) as average_kills_per_player')
             )
-            ->orderByDesc('average_kills_per_player')
+            ->orderByDesc('total_kills')
             ->take($this->numOfPositions)
             ->get();
     }
@@ -134,7 +134,7 @@ class LeaderboardService
                 DB::raw('COUNT(DISTINCT players.id) as total_players'),
                 DB::raw('COUNT(kills.id) / COUNT(DISTINCT players.id) as average_deaths_per_player')
             )
-            ->orderByDesc('average_deaths_per_player')
+            ->orderByDesc('total_deaths')
             ->take($this->numOfPositions)
             ->get();
     }
