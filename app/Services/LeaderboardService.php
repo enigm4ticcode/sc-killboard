@@ -72,9 +72,10 @@ class LeaderboardService
             ->join('players', 'kills.killer_id', '=', 'players.id')
             ->join('organizations', 'players.organization_id', '=', 'organizations.id')
             ->where('kills.destroyed_at', '>=', Carbon::now()->subWeek()->startOfDay())
-            ->groupBy('organizations.id', 'organizations.name', 'organizations.icon')
+            ->groupBy('organizations.id', 'organizations.name', 'organizations.icon', 'organizations.spectrum_id')
             ->select(
                 'organizations.name as organization_name',
+                'organizations.spectrum_id as spectrum_id',
                 'organizations.icon as organization_icon',
                 DB::raw('COUNT(kills.id) as total_kills'),
                 DB::raw('COUNT(DISTINCT players.id) as total_players'),
@@ -126,9 +127,10 @@ class LeaderboardService
             ->join('players', 'kills.victim_id', '=', 'players.id')
             ->join('organizations', 'players.organization_id', '=', 'organizations.id')
             ->where('kills.destroyed_at', '>=', Carbon::now()->subWeek()->startOfDay())
-            ->groupBy('organizations.id', 'organizations.name', 'organizations.icon')
+            ->groupBy('organizations.id', 'organizations.name', 'organizations.icon', 'organizations.spectrum_id')
             ->select(
                 'organizations.name as organization_name',
+                'organizations.spectrum_id as spectrum_id',
                 'organizations.icon as organization_icon',
                 DB::raw('COUNT(kills.id) as total_deaths'),
                 DB::raw('COUNT(DISTINCT players.id) as total_players'),

@@ -17,9 +17,9 @@ use PHPHtmlParser\Dom;
 
 class GameLogService
 {
-    protected string $actorKillString;
+    private const UNKNOWN = 'unknown';
 
-    protected string $npcKillString;
+    protected string $actorKillString;
 
     protected string $isoTimestampPattern;
 
@@ -29,7 +29,6 @@ class GameLogService
     {
         $this->vehicleService = $vehicleService;
         $this->actorKillString = Str::upper($config['actor_kill_string']);
-        $this->npcKillString = Str::upper($config['npc_kill_string']);
         $this->isoTimestampPattern = $config['iso_timestamp_pattern'];
     }
 
@@ -51,11 +50,13 @@ class GameLogService
                 $explodedLine = explode(' ', $line);
                 $timestamp = Carbon::parse(Str::match($this->isoTimestampPattern, $explodedLine[0]));
                 $victim = Str::remove("'", $explodedLine[5]);
+                $victimGameId = (int) Str::remove('[', Str::remove(']', $explodedLine[6]));
+                $killerGameId = (int) Str::remove('[', Str::remove(']', $explodedLine[13]));
+                $killWeapon = Str::slug(Str::beforeLast($explodedLine[15], '_'));
                 $killer = Str::remove("'", $explodedLine[12]);
 
                 // Omit NPC kills and environment deaths
                 if ($victim !== $killer && ! $this->isNpc($victim) && ! $this->isNpc($killer)) {
-                    $victimGameId = (int) Str::remove('[', Str::remove(']', $explodedLine[6]));
                     $victimZone = Str::trim(Str::beforeLast($explodedLine[9], '_'), "'\" ");
                     $killType = Kill::TYPE_FPS;
                     $vehicle = $this->vehicleService->getVehicleByClass($victimZone);
@@ -65,76 +66,74 @@ class GameLogService
                         $killType = Kill::TYPE_VEHICLE;
                     }
 
-                    $killerGameId = (int) Str::remove('[', Str::remove(']', $explodedLine[13]));
-                    $killWeapon = Str::slug(Str::beforeLast($explodedLine[15], '_'));
-
-                    $killWeaponModel = Weapon::query()->firstOrCreate([
-                        'slug' => $killWeapon,
-                    ], [
-                        'name' => Str::title(Str::replace('-', ' ', $killWeapon)),
-                    ]);
-
-                    $victimModel = Player::query()->firstOrCreate([
+                    $victimModel = Player::query()->updateOrCreate([
                         'name' => $victim,
                     ], [
                         'game_id' => $victimGameId,
                     ]);
 
-                    $killerModel = Player::query()->firstOrCreate([
+                    $killerModel = Player::query()->updateOrCreate([
                         'name' => $killer,
                     ], [
                         'game_id' => $killerGameId,
                     ]);
 
-                    $killerAvatar = $this->getPlayerAvatar($killerModel);
-                    $victimAvatar = $this->getPlayerAvatar($victimModel);
-
-                    if ($killerAvatar !== null) {
-                        $killerModel->update(['avatar' => $killerAvatar]);
-                    }
-
-                    if ($victimAvatar !== null) {
-                        $victimModel->update(['avatar' => $victimAvatar]);
-                    }
-
-                    $killerOrgData = $this->getPlayerOrgData($killerModel);
-                    $victimOrgData = $this->getPlayerOrgData($victimModel);
-
-                    if ($killerOrgData['name'] !== null) {
-                        $killerOrgModel = Organization::query()->firstOrCreate([
-                            'name' => $killerOrgData['name'],
-                            'icon' => $killerOrgData['icon'],
-                            'spectrum_id' => $killerOrgData['spectrum_id'],
+                    if ($victimModel && $killerModel) {
+                        $killWeaponModel = Weapon::query()->firstOrCreate([
+                            'slug' => $killWeapon,
+                        ], [
+                            'name' => Str::title(Str::replace('-', ' ', $killWeapon)),
                         ]);
 
-                        $killerModel->organization()->associate($killerOrgModel)->save();
-                    } elseif ($killerModel->organization()->exists()) {
-                        $killerModel->organization()->dissociate()->save();
-                    }
+                        $killerAvatar = $this->getPlayerAvatar($killerModel);
+                        $victimAvatar = $this->getPlayerAvatar($victimModel);
 
-                    if ($victimOrgData['name'] !== null) {
-                        $victimOrgModel = Organization::query()->firstOrCreate([
-                            'name' => $victimOrgData['name'],
-                            'icon' => $victimOrgData['icon'],
-                            'spectrum_id' => $victimOrgData['spectrum_id'],
+                        if ($killerAvatar !== null) {
+                            $killerModel->update(['avatar' => $killerAvatar]);
+                        }
+
+                        if ($victimAvatar !== null) {
+                            $victimModel->update(['avatar' => $victimAvatar]);
+                        }
+
+                        $killerOrgData = $this->getPlayerOrgData($killerModel);
+                        $victimOrgData = $this->getPlayerOrgData($victimModel);
+
+                        if ($killerOrgData['name'] !== null) {
+                            $killerOrgModel = Organization::query()->firstOrCreate([
+                                'name' => $killerOrgData['name'],
+                                'icon' => $killerOrgData['icon'],
+                                'spectrum_id' => $killerOrgData['spectrum_id'],
+                            ]);
+
+                            $killerModel->organization()->associate($killerOrgModel)->save();
+                        } elseif ($killerModel->organization()->exists()) {
+                            $killerModel->organization()->dissociate()->save();
+                        }
+
+                        if ($victimOrgData['name'] !== null) {
+                            $victimOrgModel = Organization::query()->firstOrCreate([
+                                'name' => $victimOrgData['name'],
+                                'icon' => $victimOrgData['icon'],
+                                'spectrum_id' => $victimOrgData['spectrum_id'],
+                            ]);
+
+                            $victimModel->organization()->associate($victimOrgModel)->save();
+                        } elseif ($victimModel->organization()->exists()) {
+                            $victimModel->organization()->dissociate()->save();
+                        }
+
+                        Kill::query()->firstOrCreate([
+                            'destroyed_at' => $timestamp,
+                            'ship_id' => $killType === Kill::TYPE_VEHICLE ? $vehicle->id : null,
+                            'weapon_id' => $killWeaponModel->id,
+                            'victim_id' => $victimModel->id,
+                            'killer_id' => $killerModel->id,
+                            'type' => $killType,
                         ]);
 
-                        $victimModel->organization()->associate($victimOrgModel)->save();
-                    } elseif ($victimModel->organization()->exists()) {
-                        $victimModel->organization()->dissociate()->save();
+                        Cache::increment($cacheKey);
                     }
-
-                    Kill::query()->firstOrCreate([
-                        'destroyed_at' => $timestamp,
-                        'ship_id' => $killType === Kill::TYPE_VEHICLE ? $vehicle->id : null,
-                        'weapon_id' => $killWeaponModel->id,
-                        'victim_id' => $victimModel->id,
-                        'killer_id' => $killerModel->id,
-                        'type' => $killType,
-                    ]);
-
-                    Cache::increment($cacheKey);
-
                 }
             }
         });
@@ -188,14 +187,14 @@ class GameLogService
     private function getPlayerOrgData(Player $player): array
     {
         $output = [
-            'icon' => null,
-            'name' => null,
-            'spectrum_id' => null,
+            'icon' => Organization::DEFAULT_ORG_PIC_URL,
+            'name' => Organization::ORG_NONE,
+            'spectrum_id' => Organization::ORG_NONE,
         ];
 
         $playerName = $player->name;
         $response = Http::withUrlParameters([
-            'endpoint' => 'https://robertsspaceindustries.com/citizens',
+            'endpoint' => 'https://robertsspaceindustries.com/en/citizens',
             'playerName' => $playerName,
         ])->get('{+endpoint}/{playerName}/organizations');
 
@@ -204,35 +203,43 @@ class GameLogService
 
             try {
                 $dom->loadStr($response->body());
-                $contents = $dom->find('div[class=box-content org main visibility-V]');
+                $contents = $dom->find('div[class=box-content org main visibility-R]')[0] ?? null;
 
-                if (! empty($contents)) {
-                    $thumbDiv = $contents->find('div[class=thumb]');
+                if ($contents !== null) {
+                    $output['name'] = Organization::ORG_REDACTED;
+                    $output['icon'] = Organization::REDACTED_ORG_PIC_URL;
+                    $output['spectrum_id'] = Organization::ORG_REDACTED;
+                } else {
+                    $contents = $dom->find('div[class=box-content org main visibility-V]')[0] ?? null;
 
-                    if (! empty($thumbDiv)) {
-                        $img = $thumbDiv->find('img');
+                    if ($contents !== null) {
+                        $thumbDiv = $contents->find('div[class=thumb]')[0] ?? null;
 
-                        if (! empty($img)) {
-                            $output['icon'] = $img->getAttribute('src');
-                        }
-                    }
+                        if ($thumbDiv !== null) {
+                            $img = $thumbDiv->find('img')[0] ?? null;
 
-                    $orgInfo = $contents->find('div[class=info]');
-
-                    if (! empty($orgInfo)) {
-                        $orgMeta = $orgInfo->find('p[class=entry]');
-                        $orgNameHtml = $orgMeta[0] ?? null;
-
-                        if (! empty($orgNameHtml)) {
-                            $orgName = $orgNameHtml->find('a')[0] ?? null;
-                            $output['name'] = $orgName->firstChild()?->text ?? null;
+                            if ($img !== null) {
+                                $output['icon'] = $img->getAttribute('src');
+                            }
                         }
 
-                        $orgSpectrumIdHtml = $orgMeta[1] ?? null;
+                        $orgInfo = $contents->find('div[class=info]')[0] ?? null;
 
-                        if (! empty($orgSpectrumIdHtml)) {
-                            $orgSpectrumId = $orgSpectrumIdHtml->find('strong[class=value]')[0] ?? null;
-                            $output['spectrum_id'] = $orgSpectrumId->firstChild()?->text ?? null;
+                        if ($orgInfo !== null) {
+                            $orgMeta = $orgInfo->find('p[class=entry]');
+                            $orgNameHtml = $orgMeta[0] ?? null;
+
+                            if ($orgNameHtml !== null) {
+                                $orgName = $orgNameHtml->find('a')[0] ?? null;
+                                $output['name'] = $orgName->firstChild()?->text ?? null;
+                            }
+
+                            $orgSpectrumIdHtml = $orgMeta[1] ?? null;
+
+                            if (! empty($orgSpectrumIdHtml)) {
+                                $orgSpectrumId = $orgSpectrumIdHtml->find('strong[class=value]')[0] ?? null;
+                                $output['spectrum_id'] = $orgSpectrumId->firstChild()?->text ?? null;
+                            }
                         }
                     }
                 }
@@ -252,13 +259,15 @@ class GameLogService
 
     private function isNpc(string $playerName): bool
     {
-        if (Str::contains(Str::upper($playerName), $this->npcKillString)) {
+        if (Str::lower($playerName) === self::UNKNOWN) {
             return true;
         }
 
-        preg_match_all('/\d/', $playerName, $numbers);
-        $numberCheck = count($numbers[0]) >= 10;
+        $response = Http::withUrlParameters([
+            'endpoint' => 'https://robertsspaceindustries.com/en/citizens',
+            'playerName' => $playerName,
+        ])->get('{+endpoint}/{playerName}');
 
-        return $numberCheck && Str::contains($playerName, ['_', '-']);
+        return ! $response->ok();
     }
 }
