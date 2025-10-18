@@ -14,7 +14,7 @@
             </thead>
             <tbody class="divide-y divide-gray-200 bg-white dark:divide-white/10 dark:bg-gray-900">
             @forelse ($killers as $i => $killer)
-                <tr>
+                <tr class="bg-green-200/20 dark:bg-green-900/20">
                     <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-700 dark:text-gray-200">{{ $i + 1 }}</td>
                     @if ($killer->killer->avatar !== null)
                         @php($avatarUrl = \Illuminate\Support\Str::contains($killer->killer->avatar, 'http') ? $killer->killer->avatar : 'https://robertsspaceindustries.com/' . $killer->killer->avatar)

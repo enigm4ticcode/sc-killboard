@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Livewire\HomePage;
+use App\Livewire\HowTo;
+use App\Livewire\Legal;
 use App\Livewire\Service\UploadLog;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', HomePage::class)->name('home');
+Route::get('/how-it-works', HowTo::class)->name('how-it-works');
+Route::get('/legal', Legal::class)->name('legal');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

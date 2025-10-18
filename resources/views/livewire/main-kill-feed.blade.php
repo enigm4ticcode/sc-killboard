@@ -1,18 +1,15 @@
 @php use App\Models\Kill;use App\Models\Organization;use Carbon\Carbon;use Illuminate\Support\Str @endphp
-<div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm dark:border-white/10 dark:bg-gray-900">
-    <div
-        class="border-b border-gray-200 bg-gray-50 px-4 py-3 text-sm font-medium text-gray-700 dark:border-white/10 dark:bg-gray-800 dark:text-gray-200">
-        Displaying Last {{ config('killboard.home_page.most_recent_kills_days') }} Days of Kills
-    </div>
-    <div class="bg-white dark:bg-gray-900 px-4 py-3 sm:px-6">
-        {{ $kills->links() }}
-    </div>
-    <div class="overflow-x-auto">
+<div>
+    <div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm dark:border-white/10 dark:bg-gray-900">
+        <div class="px-4 py-2 sm:px-6 border-b border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-gray-800">
+            {{ $kills->links() }}
+        </div>
+
         <table class="min-w-full divide-y divide-gray-200 dark:divide-white/10">
             <thead class="bg-gray-50 dark:bg-gray-800">
             <tr>
                 <th scope="col"
-                    class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">
+                    class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300 rounded-tl-lg">
                     {{ __('Date / Time (UTC)') }}
                 </th>
                 <th scope="col"
@@ -32,7 +29,7 @@
                     {{ __('Final Blow') }}
                 </th>
                 <th scope="col"
-                    class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">
+                    class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300 rounded-tr-lg">
                     {{ __('Organization') }}
                 </th>
             </tr>
@@ -44,7 +41,7 @@
                 @php($killType = $kill->type)
                 @php($victimOrgIcon = ($victimOrg && ! empty($victimOrg->icon)) ? Str::contains($victimOrg->icon, 'http') ? $victimOrg->icon : 'https://robertsspaceindustries.com/' . $victimOrg->icon : 'https://cdn.robertsspaceindustries.com/static/images/Temp/default-image.png')
                 @php($killerOrgIcon = ($killerOrg && ! empty($killerOrg->icon)) ? Str::contains($killerOrg->icon, 'http') ? $killerOrg->icon : 'https://robertsspaceindustries.com/' . $killerOrg->icon : 'https://cdn.robertsspaceindustries.com/static/images/Temp/default-image.png')
-                <tr style="{{ $killType !== Kill::TYPE_VEHICLE ? 'background-color: indigo' : '' }}">
+                <tr class="{{ $killType !== Kill::TYPE_VEHICLE ? 'bg-indigo-100/20 dark:bg-indigo-900/20' : 'bg-green-200/20 dark:bg-green-900/20' }}">
                     <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ Carbon::parse($kill->destroyed_at)->format('D, M j Y H:i') }}</td>
                     <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><b><a
                                 href="https://robertsspaceindustries.com/citizens/{{ $kill->victim->name }}"
@@ -73,16 +70,16 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="4" class="px-6 py-10 text-center text-sm text-gray-500 dark:text-gray-400">No data
+                    <td colspan="6" class="px-6 py-10 text-center text-sm text-gray-500 dark:text-gray-400">No data
                         yet.
                     </td>
                 </tr>
             @endforelse
             </tbody>
         </table>
-    </div>
-    <div
-        class="border-t border border-gray-200 bg-white shadow-sm dark:border-white/10 dark:bg-gray-900 px-4 py-3 sm:px-6">
-        {{ $kills->links() }}
+
+        <div class="border-t border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-gray-800 rounded-b-lg px-4 py-3 sm:px-6">
+            {{ $kills->links() }}
+        </div>
     </div>
 </div>
