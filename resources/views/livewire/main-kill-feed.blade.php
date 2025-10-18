@@ -1,4 +1,4 @@
-@php use App\Models\Kill;use App\Models\Organization;use Carbon\Carbon; @endphp
+@php use App\Models\Kill;use App\Models\Organization;use Carbon\Carbon;use Illuminate\Support\Str @endphp
 <div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm dark:border-white/10 dark:bg-gray-900">
     <div
         class="border-b border-gray-200 bg-gray-50 px-4 py-3 text-sm font-medium text-gray-700 dark:border-white/10 dark:bg-gray-800 dark:text-gray-200">
@@ -42,8 +42,8 @@
                 @php($victimOrg = $kill->victim->organization)
                 @php($killerOrg = $kill->killer->organization)
                 @php($killType = $kill->type)
-                @php($victimOrgIcon = ($victimOrg && ! empty($victimOrg->icon)) ? \Illuminate\Support\Str::contains($victimOrg->icon, 'http') ? $victimOrg->icon : 'https://robertsspaceindustries.com/' . $victimOrg->icon : 'https://cdn.robertsspaceindustries.com/static/images/Temp/default-image.png')
-                @php($killerOrgIcon = ($killerOrg && ! empty($killerOrg->icon)) ? \Illuminate\Support\Str::contains($killerOrg->icon, 'http') ? $killerOrg->icon : 'https://robertsspaceindustries.com/' . $killerOrg->icon : 'https://cdn.robertsspaceindustries.com/static/images/Temp/default-image.png')
+                @php($victimOrgIcon = ($victimOrg && ! empty($victimOrg->icon)) ? Str::contains($victimOrg->icon, 'http') ? $victimOrg->icon : 'https://robertsspaceindustries.com/' . $victimOrg->icon : 'https://cdn.robertsspaceindustries.com/static/images/Temp/default-image.png')
+                @php($killerOrgIcon = ($killerOrg && ! empty($killerOrg->icon)) ? Str::contains($killerOrg->icon, 'http') ? $killerOrg->icon : 'https://robertsspaceindustries.com/' . $killerOrg->icon : 'https://cdn.robertsspaceindustries.com/static/images/Temp/default-image.png')
                 <tr style="{{ $killType !== Kill::TYPE_VEHICLE ? 'background-color: indigo' : '' }}">
                     <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ Carbon::parse($kill->destroyed_at)->format('D, M j Y H:i') }}</td>
                     <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><b><a
