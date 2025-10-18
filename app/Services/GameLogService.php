@@ -7,6 +7,7 @@ use App\Models\Organization;
 use App\Models\Player;
 use App\Models\Weapon;
 use Carbon\Carbon;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -32,7 +33,12 @@ class GameLogService
         $this->vehicleService = $vehicleService;
         $this->actorKillString = Str::upper($config['actor_kill_string']);
         $this->isoTimestampPattern = $config['iso_timestamp_pattern'];
-        $this->arenaCommanderZonePrefixes = $config['arena_commander_zone_prefixes'];
+        $this->arenaCommanderZonePrefixes = Arr::map(
+            $config['arena_commander_zone_prefixes'],
+            function (string $value, string $key) {
+                return Str::lower($value);
+            }
+        );
     }
 
     public function processGameLog(string $path): int
@@ -63,7 +69,7 @@ class GameLogService
                 if ($victim !== $killer
                     && ! $this->isNpc($victim)
                     && ! $this->isNpc($killer)
-                    && ! Str::startsWith($victimZone, $this->arenaCommanderZonePrefixes)
+                    && ! Str::startsWith(Str::lower($victimZone), $this->arenaCommanderZonePrefixes)
                 ) {
                     $killType = Kill::TYPE_FPS;
                     $vehicle = $this->vehicleService->getVehicleByClass($victimZone);
