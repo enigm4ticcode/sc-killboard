@@ -18,7 +18,7 @@
                     <tr>
                         @php($iconUrl = \Illuminate\Support\Str::contains($org->organization_icon, 'http') ? $org->organization_icon : 'https://robertsspaceindustries.com/' . $org->organization_icon)
                         <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-700 dark:text-gray-200">{{ $i + 1 }}</td>
-                        <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><a href="https://robertsspaceindustries.com/organizations/{{ $org->organization_name }}" target="_blank"><img width="50" height="50" alt="{{ $org->organization_name }}" src="{{ $iconUrl }}" /></a></td>
+                        <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><a href="https://robertsspaceindustries.com/orgs/{{ $org->spectrum_id }}" target="_blank"><img width="50" height="50" alt="{{ $org->organization_name }}" src="{{ $iconUrl }}" /></a></td>
                         <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-700 dark:text-gray-200">{{ $org->total_kills }}</td>
                         <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-700 dark:text-gray-200">{{ \Illuminate\Support\Number::format($org->average_kills_per_player, 2) }}</td>
                     </tr>
