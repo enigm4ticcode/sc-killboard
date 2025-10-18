@@ -156,16 +156,22 @@ class GameLogService
 
     private function getPlayerAvatar(Player $player): ?string
     {
+        $response = null;
         $avatar = null;
-
         $playerName = $player->name;
 
-        $response = Http::withUrlParameters([
-            'endpoint' => 'https://robertsspaceindustries.com/citizens',
-            'playerName' => $playerName,
-        ])->get('{+endpoint}/{playerName}');
+        try {
+            $response = Http::withUrlParameters([
+                'endpoint' => 'https://robertsspaceindustries.com/citizens',
+                'playerName' => $playerName,
+            ])->get('{+endpoint}/{playerName}');
+        } catch (\Exception $e) {
+            Log::error('[RSI.COM PARSER] Unable to check player existence: '.$e->getMessage(), [
+                'playerName' => $playerName,
+            ]);
+        }
 
-        if ($response->successful()) {
+        if ($response !== null && $response->successful()) {
             $dom = new Dom;
 
             try {
@@ -199,19 +205,27 @@ class GameLogService
 
     private function getPlayerOrgData(Player $player): array
     {
+        $playerName = $player->name;
+        $response = null;
         $output = [
             'icon' => Organization::DEFAULT_ORG_PIC_URL,
             'name' => Organization::ORG_NONE,
             'spectrum_id' => Organization::ORG_NONE,
         ];
 
-        $playerName = $player->name;
-        $response = Http::withUrlParameters([
-            'endpoint' => 'https://robertsspaceindustries.com/en/citizens',
-            'playerName' => $playerName,
-        ])->get('{+endpoint}/{playerName}/organizations');
 
-        if ($response->successful()) {
+        try {
+            $response = Http::withUrlParameters([
+                'endpoint' => 'https://robertsspaceindustries.com/en/citizens',
+                'playerName' => $playerName,
+            ])->get('{+endpoint}/{playerName}/organizations');
+        } catch (\Exception $e) {
+            Log::error('[RSI.COM PARSER] Unable to check player org: '.$e->getMessage(), [
+                'playerName' => $playerName,
+            ]);
+        }
+
+        if ($response !== null && $response->successful()) {
             $dom = new Dom;
 
             try {
@@ -290,7 +304,7 @@ class GameLogService
 
             return ! $response->ok();
         } catch (\Exception $e) {
-            Log::error('[IS_NPC PARSER] Unable to check player existence: '.$e->getMessage(), [
+            Log::error('[RSI.COM PARSER] Unable to check player existence: '.$e->getMessage(), [
                 'playerName' => $playerName,
             ]);
         }
