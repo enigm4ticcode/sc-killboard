@@ -15,7 +15,7 @@ class TestableFilamentDiscordAuthenticate extends FilamentDiscordAuthenticate
 it('redirectTo returns Larascord login URL using route or prefix fallback', function () {
     $middleware = new TestableFilamentDiscordAuthenticate;
 
-    $request = \Illuminate\Http\Request::create('/admin', 'GET');
+    $request = \Illuminate\Http\Request::create('/service', 'GET');
 
     /** @var string|null $result */
     $result = $middleware->callRedirectTo($request);

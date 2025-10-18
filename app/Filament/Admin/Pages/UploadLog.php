@@ -93,11 +93,20 @@ class UploadLog extends Page implements HasForms
 
         $totalKills = $gameLogService->processGameLog($storedPath);
 
-        Notification::make()
-            ->title('Log file uploaded')
-            ->body("Log file uploaded successfully. Processed $totalKills Kills.")
-            ->success()
-            ->send();
+        if ($totalKills > 0) {
+            Notification::make()
+                ->title('Log file uploaded')
+                ->body("Log file uploaded successfully. Processed $totalKills Kills.")
+                ->success()
+                ->send();
+            $this->dispatch('killboard-updated')->to();
+        } else {
+            Notification::make()
+                ->title('Log file uploaded')
+                ->body('Log file uploaded successfully, however, no kills were found in the log.')
+                ->success()
+                ->send();
+        }
 
         Storage::disk($disk)->delete($storedPath);
         $this->reset('data');

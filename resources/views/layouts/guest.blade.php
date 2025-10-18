@@ -22,7 +22,7 @@
                         Login with Discord
                     </a>
                 @else
-                    <a href="{{ route('filament.admin.pages.upload-log') }}" class="inline-flex items-center rounded-lg bg-amber-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 dark:focus:ring-offset-gray-950">
+                    <a href="{{ route('filament.service.pages.upload-log') }}" class="inline-flex items-center rounded-lg bg-amber-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 dark:focus:ring-offset-gray-950">
                         Upload Game Log
                     </a>
                 @endif
