@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Kill;
+use App\Models\Organization;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
@@ -84,6 +85,8 @@ class LeaderboardService
                 DB::raw('COUNT(DISTINCT players.id) as total_players'),
                 DB::raw('COUNT(kills.id) / COUNT(DISTINCT players.id) as average_kills_per_player')
             )
+            ->where('organizations.spectrum_id', '<>', Organization::ORG_REDACTED)
+            ->where('organizations.spectrum_id', '<>', Organization::ORG_NONE)
             ->orderByDesc('total_kills')
             ->take($this->numOfPositions)
             ->get();
@@ -139,6 +142,8 @@ class LeaderboardService
                 DB::raw('COUNT(DISTINCT players.id) as total_players'),
                 DB::raw('COUNT(kills.id) / COUNT(DISTINCT players.id) as average_deaths_per_player')
             )
+            ->where('organizations.spectrum_id', '<>', Organization::ORG_REDACTED)
+            ->where('organizations.spectrum_id', '<>', Organization::ORG_NONE)
             ->orderByDesc('total_deaths')
             ->take($this->numOfPositions)
             ->get();

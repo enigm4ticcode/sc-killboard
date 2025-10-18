@@ -269,11 +269,19 @@ class GameLogService
             return false;
         }
 
-        $response = Http::withUrlParameters([
-            'endpoint' => 'https://robertsspaceindustries.com/en/citizens',
-            'playerName' => $playerName,
-        ])->get('{+endpoint}/{playerName}');
+        try {
+            $response = Http::withUrlParameters([
+                'endpoint' => 'https://robertsspaceindustries.com/en/citizens',
+                'playerName' => $playerName,
+            ])->get('{+endpoint}/{playerName}');
 
-        return ! $response->ok();
+            return ! $response->ok();
+        } catch (\Exception $e) {
+            Log::error('[IS_NPC PARSER] Unable to check player existence: '.$e->getMessage(), [
+                'playerName' => $playerName,
+            ]);
+        }
+
+        return true;
     }
 }
