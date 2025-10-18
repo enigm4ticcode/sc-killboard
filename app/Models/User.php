@@ -2,30 +2,14 @@
 
 namespace App\Models;
 
-use Filament\Models\Contracts\FilamentUser;
-use Filament\Models\Contracts\HasName;
-use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Jakyeru\Larascord\Traits\InteractsWithDiscord;
 
-class User extends Authenticatable implements FilamentUser, HasName
+class User extends Authenticatable
 {
     use HasFactory, InteractsWithDiscord, Notifiable;
-
-    public function canAccessPanel(Panel $panel): bool
-    {
-        return true;
-    }
-
-    public function getFilamentName(): string
-    {
-        $name = $this->global_name ?: $this->username ?: $this->email;
-
-        return (string) ($name ?? 'User #'.$this->getKey());
-    }
 
     /**
      * The attributes that are mass assignable.
@@ -34,7 +18,6 @@ class User extends Authenticatable implements FilamentUser, HasName
      */
     protected $fillable = [
         'id',
-        'player_id',
         'username',
         'global_name',
         'discriminator',
@@ -82,9 +65,4 @@ class User extends Authenticatable implements FilamentUser, HasName
         'public_flags' => 'integer',
         'roles' => 'json',
     ];
-
-    public function players(): HasOne
-    {
-        return $this->hasOne(Player::class, 'id', 'player_id');
-    }
 }

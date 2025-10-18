@@ -1,17 +1,19 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
+    "name": "eugenebednik/sc_killboard",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "description": "A killboard for Star Citizen.",
+    "keywords": ["laravel", "framework", "Star Citizen"],
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "filament/filament": "^4.0",
         "jakyeru/larascord": "^7.0",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
-        "paquettg/php-html-parser": "^2.2"
+        "livewire/livewire": "*",
+        "masmerise/livewire-toaster": "^2.8",
+        "paquettg/php-html-parser": "^2.2",
+        "spatie/livewire-filepond": "^1.5"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -55,8 +57,7 @@
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi",
-            "@php artisan filament:upgrade"
+            "@php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
