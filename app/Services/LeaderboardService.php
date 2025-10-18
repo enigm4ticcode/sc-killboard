@@ -14,10 +14,13 @@ class LeaderboardService
 
     protected int $numOfPositions;
 
-    public function __construct(string $cacheKey, int $numOfPositions)
+    protected int $timeSpanDays;
+
+    public function __construct(string $cacheKey, int $numOfPositions, int $timeSpanDays)
     {
         $this->cacheKey = $cacheKey;
         $this->numOfPositions = $numOfPositions;
+        $this->timeSpanDays = $timeSpanDays;
     }
 
     public function getLeaderboards(): array
@@ -46,7 +49,7 @@ class LeaderboardService
     {
         return Kill::query()
             ->select('killer_id', DB::raw('count(*) as kill_count'))
-            ->where('destroyed_at', '>=', Carbon::now()->subWeek()->startOfWeek())
+            ->where('destroyed_at', '>=', Carbon::now()->subDays($this->timeSpanDays)->startOfDay())
             ->where('type', Kill::TYPE_VEHICLE)
             ->groupBy('killer_id')
             ->orderBy('kill_count', 'desc')
@@ -58,7 +61,7 @@ class LeaderboardService
     {
         return Kill::query()
             ->select('killer_id', DB::raw('count(*) as kill_count'))
-            ->where('destroyed_at', '>=', Carbon::now()->subWeek()->startOfWeek())
+            ->where('destroyed_at', '>=', Carbon::now()->subDays($this->timeSpanDays)->startOfDay())
             ->where('type', Kill::TYPE_FPS)
             ->groupBy('killer_id')
             ->orderBy('kill_count', 'desc')
@@ -71,7 +74,7 @@ class LeaderboardService
         return DB::table('kills')
             ->join('players', 'kills.killer_id', '=', 'players.id')
             ->join('organizations', 'players.organization_id', '=', 'organizations.id')
-            ->where('kills.destroyed_at', '>=', Carbon::now()->subWeek()->startOfDay())
+            ->where('kills.destroyed_at', '>=', Carbon::now()->subDays($this->timeSpanDays)->startOfDay())
             ->groupBy('organizations.id', 'organizations.name', 'organizations.icon', 'organizations.spectrum_id')
             ->select(
                 'organizations.name as organization_name',
@@ -90,7 +93,7 @@ class LeaderboardService
     {
         return Kill::query()
             ->select('victim_id', DB::raw('count(*) as death_count'))
-            ->where('destroyed_at', '>=', Carbon::now()->subWeek()->startOfWeek())
+            ->where('destroyed_at', '>=', Carbon::now()->subDays($this->timeSpanDays)->startOfDay())
             ->where('type', Kill::TYPE_VEHICLE)
             ->groupBy('victim_id')
             ->orderBy('death_count', 'desc')
@@ -102,7 +105,7 @@ class LeaderboardService
     {
         return Kill::query()
             ->select('victim_id', DB::raw('count(*) as death_count'))
-            ->where('destroyed_at', '>=', Carbon::now()->subWeek()->startOfWeek())
+            ->where('destroyed_at', '>=', Carbon::now()->subDays($this->timeSpanDays)->startOfDay())
             ->where('type', Kill::TYPE_FPS)
             ->groupBy('victim_id')
             ->orderBy('death_count', 'desc')
@@ -114,7 +117,7 @@ class LeaderboardService
     {
         return Kill::query()
             ->select('weapon_id', DB::raw('count(*) as weapon_kill_count'))
-            ->where('destroyed_at', '>=', Carbon::now()->subWeek()->startOfWeek())
+            ->where('destroyed_at', '>=', Carbon::now()->subDays($this->timeSpanDays)->startOfDay())
             ->groupBy('weapon_id')
             ->orderBy('weapon_kill_count', 'desc')
             ->take($this->numOfPositions)
@@ -126,7 +129,7 @@ class LeaderboardService
         return DB::table('kills')
             ->join('players', 'kills.victim_id', '=', 'players.id')
             ->join('organizations', 'players.organization_id', '=', 'organizations.id')
-            ->where('kills.destroyed_at', '>=', Carbon::now()->subWeek()->startOfDay())
+            ->where('kills.destroyed_at', '>=', Carbon::now()->subDays($this->timeSpanDays)->startOfDay())
             ->groupBy('organizations.id', 'organizations.name', 'organizations.icon', 'organizations.spectrum_id')
             ->select(
                 'organizations.name as organization_name',

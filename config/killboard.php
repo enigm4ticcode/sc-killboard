@@ -14,6 +14,7 @@ return [
         'leaderboards-cache-key' => env('LEADERBOARDS_CACHE_KEY', 'leaderboards'),
     ],
     'leaderboards' => [
-        'number-of-positions' => env('LEADERBOARDS_NUMBER_POSITIONS', 10),
+        'timespan-days' => env('LEADERBOARDS_TIMESPAN_DAYS', 7),
+        'number-of-positions' => env('LEADERBOARDS_NUMBER_POSITIONS', 5),
     ],
 ];

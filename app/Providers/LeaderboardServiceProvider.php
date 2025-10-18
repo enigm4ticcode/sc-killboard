@@ -16,6 +16,7 @@ class LeaderboardServiceProvider extends ServiceProvider
             return new LeaderboardService(
                 config('killboard.cache.leaderboards-cache-key'),
                 config('killboard.leaderboards.number-of-positions'),
+                config('killboard.leaderboards.timespan-days'),
             );
         });
     }

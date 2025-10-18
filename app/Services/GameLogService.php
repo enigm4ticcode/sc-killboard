@@ -263,6 +263,12 @@ class GameLogService
             return true;
         }
 
+        $playerExists = Player::query()->where('name', $playerName)->exists();
+
+        if ($playerExists) {
+            return false;
+        }
+
         $response = Http::withUrlParameters([
             'endpoint' => 'https://robertsspaceindustries.com/en/citizens',
             'playerName' => $playerName,
