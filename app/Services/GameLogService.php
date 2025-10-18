@@ -23,6 +23,8 @@ class GameLogService
 
     protected string $isoTimestampPattern;
 
+    protected array $arenaCommanderZonePrefixes;
+
     protected VehicleService $vehicleService;
 
     public function __construct(VehicleService $vehicleService, array $config)
@@ -30,6 +32,7 @@ class GameLogService
         $this->vehicleService = $vehicleService;
         $this->actorKillString = Str::upper($config['actor_kill_string']);
         $this->isoTimestampPattern = $config['iso_timestamp_pattern'];
+        $this->arenaCommanderZonePrefixes = $config['arena_commander_zone_prefixes'];
     }
 
     public function processGameLog(string $path): int
@@ -54,10 +57,14 @@ class GameLogService
                 $killerGameId = (int) Str::remove('[', Str::remove(']', $explodedLine[13]));
                 $killWeapon = Str::slug(Str::beforeLast($explodedLine[15], '_'));
                 $killer = Str::remove("'", $explodedLine[12]);
+                $victimZone = Str::trim(Str::beforeLast($explodedLine[9], '_'), "'\" ");
 
                 // Omit NPC kills and environment deaths
-                if ($victim !== $killer && ! $this->isNpc($victim) && ! $this->isNpc($killer)) {
-                    $victimZone = Str::trim(Str::beforeLast($explodedLine[9], '_'), "'\" ");
+                if ($victim !== $killer
+                    && ! $this->isNpc($victim)
+                    && ! $this->isNpc($killer)
+                    && Str::startsWith($victimZone, $this->arenaCommanderZonePrefixes)
+                ) {
                     $killType = Kill::TYPE_FPS;
                     $vehicle = $this->vehicleService->getVehicleByClass($victimZone);
 
