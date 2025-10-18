@@ -32,5 +32,5 @@
             @endforelse
             </tbody>
         </table>
-    </div>w
+    </div>
 </div>

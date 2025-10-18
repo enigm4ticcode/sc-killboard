@@ -5,6 +5,7 @@ namespace App\Livewire\Service;
 use App\Services\GameLogService;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Masmerise\Toaster\Toaster;
@@ -31,6 +32,12 @@ class UploadLog extends Component
         return true;
     }
 
+    #[On('refreshSelf')]
+    public function resetSelf(): void
+    {
+        $this->reset('file');
+    }
+
     public function render(): View
     {
         return view('livewire.upload-log');
@@ -51,7 +58,7 @@ class UploadLog extends Component
 
         if (! $storedPath || ! Storage::disk($disk)->exists($storedPath)) {
             Toaster::error('Upload failed.');
-            $this->reset('file');
+            $this->dispatch('refreshSelf');
 
             return;
         }
@@ -59,13 +66,13 @@ class UploadLog extends Component
         $totalKills = $gameLogService->processGameLog($storedPath);
 
         if ($totalKills > 0) {
-            Toaster::success("Log file uploaded successfully. Processed $totalKills Kills.");
+            Toaster::success("Log file processed successfully. Processed $totalKills Kills.");
             $this->dispatch('killboard-updated');
         } else {
-            Toaster::info("Log file uploaded successfully. Processed $totalKills Kills.");
+            Toaster::info("Log file was processed successfully, however, no kills were found in it.");
         }
 
         Storage::disk($disk)->delete($storedPath);
-        $this->reset('file');
+        $this->dispatch('refreshSelf');
     }
 }
