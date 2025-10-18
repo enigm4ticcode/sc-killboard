@@ -69,7 +69,7 @@ class UploadLog extends Component
             Toaster::success("Log file processed successfully. Processed $totalKills Kills.");
             $this->dispatch('killboard-updated');
         } else {
-            Toaster::info("Log file was processed successfully, however, no kills were found in it.");
+            Toaster::info('Log file was processed successfully, however, no kills were found in it.');
         }
 
         Storage::disk($disk)->delete($storedPath);

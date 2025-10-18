@@ -63,7 +63,7 @@ class GameLogService
                 if ($victim !== $killer
                     && ! $this->isNpc($victim)
                     && ! $this->isNpc($killer)
-                    && Str::startsWith($victimZone, $this->arenaCommanderZonePrefixes)
+                    && ! Str::startsWith($victimZone, $this->arenaCommanderZonePrefixes)
                 ) {
                     $killType = Kill::TYPE_FPS;
                     $vehicle = $this->vehicleService->getVehicleByClass($victimZone);
