@@ -1,6 +1,6 @@
 <div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm dark:border-white/10 dark:bg-gray-900">
     <div class="border-b border-gray-200 bg-gray-50 px-4 py-3 text-sm font-medium text-gray-700 dark:border-white/10 dark:bg-gray-800 dark:text-gray-200">
-        Displaying Last {{ config('killboard.home_page.most_recent_kills_days') }} Days of Data
+        Displaying Last {{ config('killboard.home_page.most_recent_kills_days') }} Days of Kills
     </div>
     <div class="bg-white dark:bg-gray-900 px-4 py-3 sm:px-6">
         {{ $kills->links() }}

@@ -1,6 +1,6 @@
 <div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm dark:border-white/10 dark:bg-gray-900">
     <div class="border-b border-gray-200 bg-gray-50 px-4 py-3 text-sm font-medium text-gray-700 dark:border-white/10 dark:bg-gray-800 dark:text-gray-200">
-        Top Ship Victims (Last {{ config('killboard.leaderboards.timespan-days') }} Days)
+        Top {{ config('killboard.leaderboards.number-of-positions') }} Ship Victims (Last {{ config('killboard.leaderboards.timespan-days') }} Days)
     </div>
     <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200 dark:divide-white/10">

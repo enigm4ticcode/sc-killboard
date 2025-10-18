@@ -15,6 +15,6 @@ return [
     ],
     'leaderboards' => [
         'timespan-days' => env('LEADERBOARDS_TIMESPAN_DAYS', 7),
-        'number-of-positions' => env('LEADERBOARDS_NUMBER_POSITIONS', 5),
+        'number-of-positions' => env('LEADERBOARDS_NUMBER_OF_TOP_POSITIONS', 5),
     ],
 ];
