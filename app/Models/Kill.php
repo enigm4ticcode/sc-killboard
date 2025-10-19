@@ -24,6 +24,7 @@ class Kill extends Model
         'victim_id',
         'killer_id',
         'type',
+        'location',
     ];
 
     public function victim(): BelongsTo

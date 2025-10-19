@@ -25,6 +25,7 @@ return new class extends Migration
             $table->enum('type', [\App\Models\Kill::TYPE_VEHICLE, \App\Models\Kill::TYPE_FPS])
                 ->default(\App\Models\Kill::TYPE_VEHICLE)
                 ->index();
+            $table->string('location')->index();
             $table->timestamps();
         });
     }

@@ -63,8 +63,15 @@ class UploadLog extends Component
             return;
         }
 
-        $totalKills = $gameLogService->processGameLog($storedPath);
+        $result = $gameLogService->processGameLog($storedPath);
 
+        if ($result['has_arena_commander_kills']) {
+            Toaster::error('Arena Commander log detected. Kills were not recorded.');
+
+            return;
+        }
+
+        $totalKills = $result['total_kills'];
         if ($totalKills > 0) {
             Toaster::success("Log file processed successfully. Processed $totalKills Kills.");
             $this->dispatch('killboard-updated');
