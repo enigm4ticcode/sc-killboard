@@ -139,7 +139,7 @@ class GameLogService
             return $out;
         }
 
-        LazyCollection::make($foundEntries)->each(function ($batch) use ($cacheKey) {
+        foreach ($foundEntries as $batch) {
             $timestamp = $batch['timestamp'];
             $killType = $batch['killType'];
             $location = $batch['location'];
@@ -219,7 +219,7 @@ class GameLogService
 
                 Cache::increment($cacheKey);
             }
-        });
+        }
 
         $out['total_kills'] = (int) Cache::pull($cacheKey);
 
