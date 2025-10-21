@@ -11,6 +11,15 @@
                     <div class="text-lg font-bold">
                         <a href="https://robertsspaceindustries.com/orgs/{{ $organization->spectrum_id }}" target="_blank">{{ $organization->name }}</a>
                     </div>
+                    <div class="text-md font-semibold py-2">
+                        <div class="relative w-full bg-red-600 dark:bg-red-400 rounded-full h-8 overflow-hidden" role="progressbar" aria-valuenow="{{ $efficiency }}" aria-valuemin="0" aria-valuemax="100">
+                            <div class="bg-green-600 dark:bg-green-400 h-full transition-all duration-500" style="width: {{ $efficiency }}%;">
+                            </div>
+                            <span class="absolute inset-0 flex items-center justify-center text-white font-bold">
+                                 {{ $efficiency }}%
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
             <h1 class="text-3xl font-bold text-indigo-700 dark:text-indigo-400 p-2">

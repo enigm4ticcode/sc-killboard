@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Kill;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Number;
 use Illuminate\View\View;
 use Livewire\Component;
 use App\Models\Organization as OrgModel;
@@ -13,6 +14,7 @@ class Organization extends Component
 {
     public OrgModel $organization;
     public Collection $data;
+    public float $efficiency;
 
     public function mount(string|null $name): void
     {
@@ -22,6 +24,7 @@ class Organization extends Component
         $kills = $this->organization->kills()->where('destroyed_at', '>=', $dateTime)->get();
         $losses = $this->organization->losses()->where('destroyed_at', '>=', $dateTime)->get();
         $this->data = $kills->merge($losses)->sortByDesc('destroyed_at');
+        $this->efficiency = Number::format(((int)$kills->count() / (int)$this->data->count()) * 100, 2);
     }
 
     public function render(): View
