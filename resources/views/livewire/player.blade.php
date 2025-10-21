@@ -1,7 +1,7 @@
 <div class="container mx-auto px-2 py-2 text-gray-800 dark:text-gray-200 shadow-xl dark:shadow-2xl rounded-lg mt-8 mb-0">
     <div class="flex flex-col md:flex-row h-full">
         <div class="py-4 h-full min-w-full overflow-x-auto min-w-0">
-            <div class="flex items-center space-x-4 p-8 min-w-full mx-auto bg-white dark:bg-gray-800 shadow-lg rounded-lg">
+            <div class="flex items-center space-x-4 p-8 min-w-full mx-auto bg-white dark:bg-gray-800 shadow-lg rounded-lg opacity-75">
                 <div class="shrink-0">
                     <a href="https://robertsspaceindustries.com/citizens/{{ $player->name }}" target="_blank">
                         <img class="h-[100px] w-[100px] rounded-full object-cover" src="{{ $player->avatar }}" alt="{{ $player->name }}'s avatar">
