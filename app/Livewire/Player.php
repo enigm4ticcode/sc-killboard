@@ -13,7 +13,7 @@ class Player extends Component
     public PlayerModel $player;
     public Collection $data;
 
-    public function mount(string $name = null): void
+    public function mount(string|null $name): void
     {
         $this->player = PlayerModel::query()->where('name', $name)->firstOrFail();
         $days = config('killboard.home_page.most_recent_kills_days');

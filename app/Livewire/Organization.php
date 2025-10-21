@@ -14,7 +14,7 @@ class Organization extends Component
     public OrgModel $organization;
     public Collection $data;
 
-    public function mount(string $name = null): void
+    public function mount(string|null $name): void
     {
         $this->organization = OrgModel::query()->where('spectrum_id', $name)->firstOrFail();
         $days = config('killboard.home_page.most_recent_kills_days');
