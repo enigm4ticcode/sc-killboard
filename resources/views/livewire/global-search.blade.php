@@ -4,8 +4,8 @@
         wire:model.live.debounce.300ms="query"
         wire:keydown.escape="showDropdown = false"
         wire:focus="showDropdown = true"
-        placeholder="Search for players or orgs..."
-        class="form-input w-full rounded-md shadow-sm bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200"
+        placeholder="Search players or orgs..."
+        class="form-input w-full rounded-md shadow-sm p-2 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200"
     />
 
     @if($showDropdown && !empty($query))
@@ -15,9 +15,9 @@
             @else
                 @foreach(['players', 'organizations'] as $type)
                     @if(count($results[$type]) > 0)
-                        <div class="p-2 font-semibold text-gray-700 border-b">{{ ucfirst($type) }}</div>
+                        <div class="p-2 font-semibold text-gray-200 text-gray-500 border-b">{{ ucfirst($type) }}</div>
                         @foreach($results[$type] as $result)
-                            <a href="{{ $result->url }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            <a href="{{ $result->url }}" class="block px-4 py-2 text-sm text-gray-800 dark:text-gray-200 hover:bg-gray-100">
                                 {{ $result->name }} ({{ $result->type }})
                             </a>
                         @endforeach

@@ -26,22 +26,22 @@ class GlobalSearch extends Component
         $organizations = Organization::search($this->query)->get();
 
         $this->results = [
-            'posts' => $players->map(function (Player $player) {
+            'players' => $players->map(function (Player $player) {
                 return (object) [
                     'id' => $player->id,
                     'name' => $player->name,
                     'avatar' => $player->avatar,
-                    'type' => 'Player',
+                    'type' => 'player',
                     'url' => route('player.show', ['name' => $player->name]),
                 ];
             }),
-            'products' => $organizations->map(function (Organization $organization) {
+            'organizations' => $organizations->map(function (Organization $organization) {
                 return (object) [
                     'id' => $organization->id,
                     'name' => $organization->name,
                     'spectrum_id' => $organization->spectrum_id,
                     'icon' => $organization->icon,
-                    'type' => 'Organization',
+                    'type' => 'organization',
                     'url' => route('organization.show', ['name' => $organization->spectrum_id]),
                 ];
             }),
