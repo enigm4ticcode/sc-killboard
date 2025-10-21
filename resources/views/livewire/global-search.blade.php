@@ -5,13 +5,13 @@
         wire:keydown.escape="showDropdown = false"
         wire:focus="showDropdown = true"
         placeholder="Search for players or orgs..."
-        class="form-input w-full rounded-md shadow-sm"
+        class="form-input w-full rounded-md shadow-sm bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200"
     />
 
     @if($showDropdown && !empty($query))
-        <div class="absolute z-10 mt-1 w-full bg-white rounded-md shadow-lg">
+        <div class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-800 rounded-md shadow-lg">
             @if(empty($results['players']) && empty($results['organizations']))
-                <div class="p-4 text-gray-500">No results found for "{{ $query }}"</div>
+                <div class="p-4 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-900">No results found for "{{ $query }}"</div>
             @else
                 @foreach(['players', 'organizations'] as $type)
                     @if(count($results[$type]) > 0)
