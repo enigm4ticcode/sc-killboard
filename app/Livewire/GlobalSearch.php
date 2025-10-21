@@ -32,7 +32,7 @@ class GlobalSearch extends Component
                     'name' => $player->name,
                     'avatar' => $player->avatar,
                     'type' => 'Player',
-                    'url' => route('player.show', $player), // Define your routes accordingly
+                    'url' => route('player.show', ['name' => $player->name]),
                 ];
             }),
             'products' => $organizations->map(function (Organization $organization) {
@@ -42,7 +42,7 @@ class GlobalSearch extends Component
                     'spectrum_id' => $organization->spectrum_id,
                     'icon' => $organization->icon,
                     'type' => 'Product',
-                    'url' => route('organization.show', $organization), // Define your routes accordingly
+                    'url' => route('organization.show', ['name' => $organization->spectrum_id]),
                 ];
             }),
         ];
