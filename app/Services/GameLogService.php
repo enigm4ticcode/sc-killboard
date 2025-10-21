@@ -12,9 +12,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\LazyCollection;
 use Illuminate\Support\Str;
-use Masmerise\Toaster\Toaster;
 use PHPHtmlParser\Dom;
 
 class GameLogService
@@ -51,7 +49,7 @@ class GameLogService
         $this->linesToRead = $config['lines_to_read'];
     }
 
-    public function processGameLog(string $path):  array
+    public function processGameLog(string $path): array
     {
         $out = [
             'total_kills' => 0,
@@ -65,7 +63,7 @@ class GameLogService
 
         $foundEntries = [];
         $previousLine = null;
-        $handle = fopen($filePath, "r");
+        $handle = fopen($filePath, 'r');
 
         if ($handle) {
             while (($currentLine = fgets($handle)) !== false) {
@@ -284,7 +282,6 @@ class GameLogService
             'name' => Organization::ORG_NONE,
             'spectrum_id' => Organization::ORG_NONE,
         ];
-
 
         try {
             $response = Http::withUrlParameters([
