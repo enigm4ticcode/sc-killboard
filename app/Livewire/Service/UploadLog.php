@@ -46,18 +46,15 @@ class UploadLog extends Component
     public function save(GameLogService $gameLogService): void
     {
         $this->validate();
-        $disk = config('filesystems.default', 'local');
         $original = $this->file->getClientOriginalName();
         $safe = preg_replace('/[^A-Za-z0-9._-]/', '_', $original);
         $name = uniqid('log_', true).'-'.$safe;
-        $storedPath = $this->file->storeAs('uploads/logs', $name, $disk);
+        $storedPath = $this->file->storeAs('uploads/logs', $name);
 
-        if (! $storedPath || ! Storage::disk($disk)->exists($storedPath)) {
-            $this->reset('file');
-        }
-
-        if (! $storedPath || ! Storage::disk($disk)->exists($storedPath)) {
+        if (! $storedPath || ! Storage::exists($storedPath)) {
+            Storage::delete($storedPath);
             Toaster::error('Upload failed.');
+            $this->reset('file');
             $this->dispatch('refreshSelf');
 
             return;
@@ -79,7 +76,7 @@ class UploadLog extends Component
             Toaster::info('Log file was processed successfully, however, no kills were found in it.');
         }
 
-        Storage::disk($disk)->delete($storedPath);
+        Storage::delete($storedPath);
         $this->dispatch('refreshSelf');
     }
 }

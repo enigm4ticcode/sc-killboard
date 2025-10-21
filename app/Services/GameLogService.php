@@ -49,14 +49,13 @@ class GameLogService
         $this->linesToRead = $config['lines_to_read'];
     }
 
-    public function processGameLog(string $path): array
+    public function processGameLog(string $filePath): array
     {
         $out = [
             'total_kills' => 0,
             'has_arena_commander_kills' => false,
         ];
 
-        $filePath = Storage::path($path);
         $uuid = Str::uuid7()->toString();
         $cacheKey = "total_kills_$uuid";
         Cache::put($cacheKey, 0);
@@ -64,71 +63,75 @@ class GameLogService
         $foundEntries = [];
         $previousLine = null;
 
-        if (Storage::exists($path)) {
-            $contents = Storage::get($filePath);
+        if (Storage::exists($filePath)) {
+            $handle = Storage::readStream($filePath);
 
-            foreach ($contents as $currentLine) {
-                $trimmedCurrent = trim($currentLine);
+            if ($handle) {
+                while (($currentLine = fgets($handle)) !== false) {
+                    $trimmedCurrent = trim($currentLine);
 
-                if (Str::contains(Str::upper($currentLine), self::JOIN_MATCH_STRING)) {
-                    $out['has_arena_commander_kills'] = true;
+                    if (Str::contains(Str::upper($currentLine), self::JOIN_MATCH_STRING)) {
+                        $out['has_arena_commander_kills'] = true;
 
-                    break;
-                }
+                        break;
+                    }
 
-                if (Str::contains(Str::upper($trimmedCurrent), $this->actorKillString)) {
-                    $explodedKillString = explode(' ', $trimmedCurrent);
-                    $damageType = Str::upper(Str::trim($explodedKillString[21], "'\" "));
+                    if (Str::contains(Str::upper($trimmedCurrent), $this->actorKillString)) {
+                        $explodedKillString = explode(' ', $trimmedCurrent);
+                        $damageType = Str::upper(Str::trim($explodedKillString[21], "'\" "));
 
-                    if (Str::contains($damageType, $this->validPvpDamageTypes)) {
-                        $explodedLine = explode(' ', $trimmedCurrent);
-                        $timestamp = Carbon::parse(Str::match($this->isoTimestampPattern, $explodedLine[0]));
-                        $victim = Str::remove("'", $explodedLine[5]);
-                        $victimGameId = (int) Str::remove('[', Str::remove(']', $explodedLine[6]));
-                        $killerGameId = (int) Str::remove('[', Str::remove(']', $explodedLine[13]));
-                        $killWeapon = Str::slug(Str::beforeLast($explodedLine[15], '_'));
-                        $killer = Str::remove("'", $explodedLine[12]);
-                        $victimZoneRaw = Str::trim($explodedLine[9], "'\" ");
-                        $victimZone = Str::trim(Str::beforeLast($victimZoneRaw, '_'), "'\" ");
+                        if (Str::contains($damageType, $this->validPvpDamageTypes)) {
+                            $explodedLine = explode(' ', $trimmedCurrent);
+                            $timestamp = Carbon::parse(Str::match($this->isoTimestampPattern, $explodedLine[0]));
+                            $victim = Str::remove("'", $explodedLine[5]);
+                            $victimGameId = (int)Str::remove('[', Str::remove(']', $explodedLine[6]));
+                            $killerGameId = (int)Str::remove('[', Str::remove(']', $explodedLine[13]));
+                            $killWeapon = Str::slug(Str::beforeLast($explodedLine[15], '_'));
+                            $killer = Str::remove("'", $explodedLine[12]);
+                            $victimZoneRaw = Str::trim($explodedLine[9], "'\" ");
+                            $victimZone = Str::trim(Str::beforeLast($victimZoneRaw, '_'), "'\" ");
 
-                        if ($victim !== $killer && ! $this->isNpc($victim) && ! $this->isNpc($killer)) {
-                            $entry = [
-                                'timestamp' => $timestamp,
-                                'victim' => $victim,
-                                'killer' => $killer,
-                                'location' => $victimZone,
-                                'victimGameId' => $victimGameId,
-                                'killerGameId' => $killerGameId,
-                                'killWeapon' => $killWeapon,
-                                'vehicle' => null,
-                                'killType' => $damageType === self::DAMAGE_TYPE_FPS ? Kill::TYPE_FPS : Kill::TYPE_VEHICLE,
-                            ];
+                            if ($victim !== $killer && !$this->isNpc($victim) && !$this->isNpc($killer)) {
+                                $entry = [
+                                    'timestamp' => $timestamp,
+                                    'victim' => $victim,
+                                    'killer' => $killer,
+                                    'location' => $victimZone,
+                                    'victimGameId' => $victimGameId,
+                                    'killerGameId' => $killerGameId,
+                                    'killWeapon' => $killWeapon,
+                                    'vehicle' => null,
+                                    'killType' => $damageType === self::DAMAGE_TYPE_FPS ? Kill::TYPE_FPS : Kill::TYPE_VEHICLE,
+                                ];
 
-                            if ($previousLine !== null
-                                && $damageType !== self::DAMAGE_TYPE_FPS
-                                && Str::contains(Str::upper($previousLine), $this->vehicleDestructionString)
-                            ) {
-                                $explodedDestructionString = explode(' ', $previousLine);
-                                $deathZoneRaw = Str::trim($explodedDestructionString[6], "'\" ");
-                                $deathLocation = Str::trim($explodedDestructionString[10], "'\" ");
-                                $isCombat = Str::upper(Str::trim($explodedDestructionString[41], "'\" ")) === self::COMBAT;
+                                if ($previousLine !== null
+                                    && $damageType !== self::DAMAGE_TYPE_FPS
+                                    && Str::contains(Str::upper($previousLine), $this->vehicleDestructionString)
+                                ) {
+                                    $explodedDestructionString = explode(' ', $previousLine);
+                                    $deathZoneRaw = Str::trim($explodedDestructionString[6], "'\" ");
+                                    $deathLocation = Str::trim($explodedDestructionString[10], "'\" ");
+                                    $isCombat = Str::upper(Str::trim($explodedDestructionString[41], "'\" ")) === self::COMBAT;
 
-                                if ($isCombat && $deathZoneRaw === $victimZoneRaw) {
-                                    $entry['location'] = $deathLocation;
-                                    $entry['vehicle'] = $this->vehicleService->getVehicleByClass($victimZone);
+                                    if ($isCombat && $deathZoneRaw === $victimZoneRaw) {
+                                        $entry['location'] = $deathLocation;
+                                        $entry['vehicle'] = $this->vehicleService->getVehicleByClass($victimZone);
+                                    }
                                 }
-                            }
 
-                            if (($entry['killType'] === Kill::TYPE_VEHICLE && ($entry['vehicle'] !== null))
-                                || $entry['killType'] === Kill::TYPE_FPS
-                            ) {
-                                $foundEntries[] = $entry;
+                                if (($entry['killType'] === Kill::TYPE_VEHICLE && ($entry['vehicle'] !== null))
+                                    || $entry['killType'] === Kill::TYPE_FPS
+                                ) {
+                                    $foundEntries[] = $entry;
+                                }
                             }
                         }
                     }
+
+                    $previousLine = $currentLine;
                 }
 
-                $previousLine = $currentLine;
+                fclose($handle);
             }
         }
 
