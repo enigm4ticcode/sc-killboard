@@ -10,7 +10,9 @@ use Livewire\Component;
 class GlobalSearch extends Component
 {
     public $query = '';
+
     public $results = [];
+
     public $showDropdown = false;
 
     public function updatedQuery(): void

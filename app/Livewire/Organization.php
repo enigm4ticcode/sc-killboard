@@ -2,21 +2,22 @@
 
 namespace App\Livewire;
 
-use App\Models\Kill;
+use App\Models\Organization as OrgModel;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Number;
 use Illuminate\View\View;
 use Livewire\Component;
-use App\Models\Organization as OrgModel;
 
 class Organization extends Component
 {
     public OrgModel $organization;
+
     public Collection $data;
+
     public float $efficiency;
 
-    public function mount(string|null $name): void
+    public function mount(?string $name): void
     {
         $this->organization = OrgModel::query()->where('spectrum_id', $name)->firstOrFail();
         $days = config('killboard.home_page.most_recent_kills_days');

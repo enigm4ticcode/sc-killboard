@@ -2,20 +2,22 @@
 
 namespace App\Livewire;
 
+use App\Models\Player as PlayerModel;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Number;
 use Illuminate\View\View;
 use Livewire\Component;
-use App\Models\Player as PlayerModel;
 
 class Player extends Component
 {
     public PlayerModel $player;
+
     public Collection $data;
+
     public float $efficiency;
 
-    public function mount(string|null $name): void
+    public function mount(?string $name): void
     {
         $this->player = PlayerModel::query()->where('name', $name)->firstOrFail();
         $days = config('killboard.home_page.most_recent_kills_days');

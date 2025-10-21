@@ -13,7 +13,9 @@ class GenericKillFeed extends Component
     use WithPagination;
 
     public int $id;
+
     public Collection $data;
+
     public string $type;
 
     public function mount(int $id, Collection $data, string $type = 'individual'): void
@@ -27,6 +29,7 @@ class GenericKillFeed extends Component
     {
         $perPage = config('killboard.pagination.kills_per_page');
         $data = new LengthAwarePaginator($this->data, $this->data->count(), $perPage);
+
         return view('livewire.generic-kill-feed', ['feed' => $data]);
     }
 }

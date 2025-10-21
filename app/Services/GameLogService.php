@@ -84,14 +84,14 @@ class GameLogService
                             $explodedLine = explode(' ', $trimmedCurrent);
                             $timestamp = Carbon::parse(Str::match($this->isoTimestampPattern, $explodedLine[0]));
                             $victim = Str::remove("'", $explodedLine[5]);
-                            $victimGameId = (int)Str::remove('[', Str::remove(']', $explodedLine[6]));
-                            $killerGameId = (int)Str::remove('[', Str::remove(']', $explodedLine[13]));
+                            $victimGameId = (int) Str::remove('[', Str::remove(']', $explodedLine[6]));
+                            $killerGameId = (int) Str::remove('[', Str::remove(']', $explodedLine[13]));
                             $killWeapon = Str::slug(Str::beforeLast($explodedLine[15], '_'));
                             $killer = Str::remove("'", $explodedLine[12]);
                             $victimZoneRaw = Str::trim($explodedLine[9], "'\" ");
                             $victimZone = Str::trim(Str::beforeLast($victimZoneRaw, '_'), "'\" ");
 
-                            if ($victim !== $killer && !$this->isNpc($victim) && !$this->isNpc($killer)) {
+                            if ($victim !== $killer && ! $this->isNpc($victim) && ! $this->isNpc($killer)) {
                                 $entry = [
                                     'timestamp' => $timestamp,
                                     'victim' => $victim,
