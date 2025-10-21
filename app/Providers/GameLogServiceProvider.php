@@ -13,7 +13,7 @@ class GameLogServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(GameLogService::class, function ($app) {
+        $this->app->singleton(GameLogService::class, function () {
             return new GameLogService(
                 app(VehicleService::class),
                 config('gamelog'),

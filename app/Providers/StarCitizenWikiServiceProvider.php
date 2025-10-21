@@ -12,7 +12,7 @@ class StarCitizenWikiServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(StarCitizenWikiService::class, function ($app) {
+        $this->app->singleton(StarCitizenWikiService::class, function () {
             return new StarCitizenWikiService(config('wiki'));
         });
     }

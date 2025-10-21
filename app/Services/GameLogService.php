@@ -63,10 +63,11 @@ class GameLogService
 
         $foundEntries = [];
         $previousLine = null;
-        $handle = fopen($filePath, 'r');
 
-        if ($handle) {
-            while (($currentLine = fgets($handle)) !== false) {
+        if (Storage::exists($path)) {
+            $contents = Storage::get($filePath);
+
+            foreach ($contents as $currentLine) {
                 $trimmedCurrent = trim($currentLine);
 
                 if (Str::contains(Str::upper($currentLine), self::JOIN_MATCH_STRING)) {
@@ -129,8 +130,6 @@ class GameLogService
 
                 $previousLine = $currentLine;
             }
-
-            fclose($handle);
         }
 
         if ($out['has_arena_commander_kills']) {

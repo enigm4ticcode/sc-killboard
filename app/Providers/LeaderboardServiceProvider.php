@@ -12,7 +12,7 @@ class LeaderboardServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(LeaderboardService::class, function ($app) {
+        $this->app->singleton(LeaderboardService::class, function () {
             return new LeaderboardService(
                 config('killboard.cache.leaderboards-cache-key'),
                 config('killboard.leaderboards.number-of-positions'),
