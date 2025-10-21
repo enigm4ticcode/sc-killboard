@@ -19,6 +19,6 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })->withSchedule(function (Schedule $schedule): void {
         $schedule->command(GetAllVehiclesCommand::class)->weekly()->thursdays()->at('23:00');
-        $schedule->command('sail artisan scout:import-queue "App\Models\Player"')->daily();
-        $schedule->command('sail artisan scout:import-queue "App\Models\Organizations"')->daily();
+        $schedule->command('sail artisan scout:queue-import "App\Models\Player"')->daily();
+        $schedule->command('sail artisan scout:queue-import "App\Models\Organizations"')->daily();
     })->create();
