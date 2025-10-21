@@ -21,6 +21,13 @@
             </p>
 
             <p>Ensure you upload the **most recent** log file, which will contain your latest session data.</p>
+            <p class="font-semibold text-green-600 dark:text-green-400">
+                Sometimes, your session might be interrupted due to unforeseen circumstances (yeah, the game's full of bugs). Fret not, you can find the log files for your previous sessions here:
+            </p>
+            <p class="text-lg font-mono p-3 bg-gray-50 dark:bg-gray-900 rounded-lg shadow-inner overflow-x-auto text-yellow-600 dark:text-yellow-400">
+                C:\Program Files\Roberts Space Industries\StarCitizen\LIVE\LogBackups\
+            </p>
+            <p>Simply choose the "list" display option, then sort the directory by the file creation date and upload the logs to the killboard.</p>
         </div>
     </section>
 

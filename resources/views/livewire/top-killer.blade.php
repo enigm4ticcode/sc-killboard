@@ -17,8 +17,7 @@
                 <tr class="bg-green-200/20 dark:bg-green-900/20">
                     <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-700 dark:text-gray-200">{{ $i + 1 }}</td>
                     @if ($killer->killer->avatar !== null)
-                        @php($avatarUrl = \Illuminate\Support\Str::contains($killer->killer->avatar, 'http') ? $killer->killer->avatar : 'https://robertsspaceindustries.com/' . $killer->killer->avatar)
-                        <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><a href="https://robertsspaceindustries.com/citizens/{{ $killer->killer->name }}" target="_blank"><img width="50" height="50" alt="{{ $killer->killer->name }}" src="{{ $avatarUrl }}" /></a></td>
+                        <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><a href="https://robertsspaceindustries.com/citizens/{{ $killer->killer->name }}" target="_blank"><img width="50" height="50" alt="{{ $killer->killer->name }}" src="{{ $killer->killer->avatar }}" /></a></td>
                     @else
                         <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><img width="50" height="50" src="https://cdn.robertsspaceindustries.com/static/images/account/avatar_default_big.jpg" alt="No image" /></td>
                     @endif

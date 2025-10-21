@@ -2,7 +2,8 @@
     <div class="border-b border-gray-200 bg-gray-50 px-4 py-3 text-sm font-medium text-gray-700 dark:border-white/10 dark:bg-gray-800 dark:text-gray-200">
         Top {{ config('killboard.leaderboards.number-of-positions') }} Ship Victims (Last {{ config('killboard.leaderboards.timespan-days') }} Days)
     </div>
-    <div class="overflow-x-auto">
+    <div class="over
+    flow-x-auto">
         <table class="min-w-full divide-y divide-gray-200 dark:divide-white/10">
             <thead class="bg-gray-50 dark:bg-gray-800">
             <tr>
@@ -17,8 +18,7 @@
                 <tr class="bg-green-200/20 dark:bg-green-900/20">
                     <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-700 dark:text-gray-200">{{ $i + 1 }}</td>
                     @if ($victim->victim->avatar !== null)
-                        @php($avatarUrl = \Illuminate\Support\Str::contains($victim->victim->avatar, 'http') ? $victim->victim->avatar : 'https://robertsspaceindustries.com/' . $victim->victim->avatar)
-                        <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><a href="https://robertsspaceindustries.com/citizens/{{ $victim->victim->name }}" target="_blank"><img width="50" height="50" alt="{{ $victim->victim->name }}" src="{{ $avatarUrl }}" /></a></td>
+                        <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><a href="https://robertsspaceindustries.com/citizens/{{ $victim->victim->name }}" target="_blank"><img width="50" height="50" alt="{{ $victim->victim->name }}" src="{{ $victim->victim->avatar }}" /></a></td>
                     @else
                         <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><img width="50" height="50" src="https://cdn.robertsspaceindustries.com/static/images/account/avatar_default_big.jpg" alt="No image" /></td>
                     @endif
