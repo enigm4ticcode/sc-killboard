@@ -32,7 +32,7 @@ class Organization extends Model
     public function toSearchableArray(): array
     {
         return [
-            'id' => (int)$this->id,
+            'id' => (int) $this->id,
             'name' => $this->name,
             'spectrum_id' => $this->spectrum_id,
             'icon' => $this->icon,

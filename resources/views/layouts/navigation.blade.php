@@ -21,6 +21,7 @@
                         {{ __('How It Works') }}
                     </x-nav-link>
                 </div>
+
                 @if(Auth::user())
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                         <x-nav-link :href="route('service.upload-log')" :active="request()->routeIs('service.upload-log')">
@@ -32,6 +33,11 @@
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
+                <!-- Global Search Input -->
+                <div class="flex items-center">
+                    <livewire:global-search />
+                </div>
+
                 @if(Auth::user())
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">

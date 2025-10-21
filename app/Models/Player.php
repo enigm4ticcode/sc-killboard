@@ -28,7 +28,7 @@ class Player extends Model
     public function toSearchableArray(): array
     {
         return [
-            'id' => (int)$this->id,
+            'id' => (int) $this->id,
             'game_id' => $this->game_id,
             'name' => $this->name,
             'organization_id' => $this->organization_id,

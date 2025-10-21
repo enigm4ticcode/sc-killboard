@@ -1,8 +1,8 @@
-@php use App\Models\Kill;use App\Models\Organization;use Carbon\Carbon;use Illuminate\Support\Str @endphp
+@php use App\Models\Kill;use App\Models\Organization;use Carbon\Carbon; @endphp
 <div>
     <div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm dark:border-white/10 dark:bg-gray-900">
         <div class="px-4 py-2 sm:px-6 border-b border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-gray-800">
-            {{ $kills->links() }}
+            {{ $feed->links() }}
         </div>
 
         <table class="min-w-full divide-y divide-gray-200 dark:divide-white/10">
@@ -35,11 +35,15 @@
             </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 bg-white dark:divide-white/10 dark:bg-gray-900">
-            @forelse ($kills as $kill)
+            @forelse ($feed as $kill)
                 @php($victimOrg = $kill->victim->organization)
                 @php($killerOrg = $kill->killer->organization)
                 @php($killType = $kill->type)
-                <tr class="{{ $killType !== Kill::TYPE_VEHICLE ? 'bg-indigo-100/20 dark:bg-indigo-900/20' : 'bg-green-200/20 dark:bg-green-900/20' }}">
+                @if ($type === 'organization')
+                    <tr class="{{ $id === $victimOrg->id ? 'bg-red-100/20 dark:bg-red-900/20' : 'bg-green-200/20 dark:bg-green-900/20' }}">
+                @else
+                    <tr class="{{ $id === $kill->victim->id ? 'bg-red-100/20 dark:bg-red-900/20' : 'bg-green-200/20 dark:bg-green-900/20' }}">
+                @endif
                     <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ Carbon::parse($kill->destroyed_at)->format('D, M j Y H:i') }}</td>
                     <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><b><a
                                 href="{{ route('player.show', ['name' => $kill->victim->name]) }}"
@@ -77,7 +81,7 @@
         </table>
 
         <div class="border-t border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-gray-800 rounded-b-lg px-4 py-3 sm:px-6">
-            {{ $kills->links() }}
+            {{ $feed->links() }}
         </div>
     </div>
 </div>

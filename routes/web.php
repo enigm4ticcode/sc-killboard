@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use App\Livewire\HomePage;
 use App\Livewire\HowTo;
 use App\Livewire\Legal;
+use App\Livewire\Organization;
+use App\Livewire\Player;
 use App\Livewire\Service\UploadLog;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +21,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', HomePage::class)->name('home');
+Route::get('/players/{name}', Player::class)->name('player.show');
+Route::get('/organizations/{name}', Organization::class)->name('organization.show');
 Route::get('/how-it-works', HowTo::class)->name('how-it-works');
 Route::get('/legal', Legal::class)->name('legal');
 

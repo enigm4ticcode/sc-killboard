@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Services\LeaderboardService;
 use Illuminate\Support\Collection;
+use Illuminate\View\View;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -30,7 +31,7 @@ class TopFpsVictims extends Component
         $this->victims = $this->leaderboardService->getLeaderboards()['top_fps_victims'];
     }
 
-    public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\View\View
+    public function render(): View
     {
         return view('livewire.top-fps-victims');
     }

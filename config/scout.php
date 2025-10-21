@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Organization;
+use App\Models\Player;
+
 return [
 
     /*
@@ -143,11 +146,13 @@ return [
         'host' => env('MEILISEARCH_HOST', 'http://localhost:7700'),
         'key' => env('MEILISEARCH_KEY'),
         'index-settings' => [
-            'players' => [
-                'filterableAttributes'=> ['name'],
+            Player::class => [
+                'searchableAttributes'=> ['id', 'name'],
+                'filterableAttributes'=> ['id', 'name'],
             ],
-            'organizations' => [
-                'filterableAttributes'=> ['name', 'spectrum_id'],
+            Organization::class => [
+                'searchableAttributes'=> ['id', 'name', 'spectrum_id'],
+                'filterableAttributes'=> ['id', 'name', 'spectrum_id'],
             ]
         ],
     ],
