@@ -2,7 +2,7 @@
     <div class="flex flex-col md:flex-row h-full">
         <div class="py-4 h-full min-w-full overflow-x-auto min-w-0">
             <div class="flex items-center space-x-4 p-8 min-w-full mx-auto bg-white dark:bg-gray-800 shadow-lg rounded-lg">
-                <div class="flex-shrink-0">
+                <div class="shrink-0">
                     <a href="https://robertsspaceindustries.com/orgs/{{ $organization->spectrum_id }}" target="_blank">
                         <img class="h-[100px] w-[100px] rounded-full object-cover" src="{{ $organization->icon }}" alt="{{ $organization->name }}'s logo">
                     </a>
