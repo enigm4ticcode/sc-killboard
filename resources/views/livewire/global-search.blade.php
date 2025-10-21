@@ -18,7 +18,7 @@
                         <div class="p-2 font-semibold text-gray-700 border-b">{{ ucfirst($type) }}</div>
                         @foreach($results[$type] as $result)
                             <a href="{{ $result->url }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                {{ $result->title }} ({{ $result->type }})
+                                {{ $result->name }} ({{ $result->type }})
                             </a>
                         @endforeach
                     @endif

@@ -38,10 +38,10 @@ class GlobalSearch extends Component
             'products' => $organizations->map(function (Organization $organization) {
                 return (object) [
                     'id' => $organization->id,
-                    'title' => $organization->name,
+                    'name' => $organization->name,
                     'spectrum_id' => $organization->spectrum_id,
                     'icon' => $organization->icon,
-                    'type' => 'Product',
+                    'type' => 'Organization',
                     'url' => route('organization.show', ['name' => $organization->spectrum_id]),
                 ];
             }),
