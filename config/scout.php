@@ -148,11 +148,11 @@ return [
         'index-settings' => [
             Player::class => [
                 'searchableAttributes'=> ['id', 'name'],
-                'filterableAttributes'=> ['id', 'name'],
+                'filterableAttributes'=> ['name'],
             ],
             Organization::class => [
                 'searchableAttributes'=> ['id', 'name', 'spectrum_id'],
-                'filterableAttributes'=> ['id', 'name', 'spectrum_id'],
+                'filterableAttributes'=> ['name', 'spectrum_id'],
             ]
         ],
     ],
