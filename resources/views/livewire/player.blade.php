@@ -11,8 +11,11 @@
                     <div class="text-lg font-bold">
                         <a href="https://robertsspaceindustries.com/citizens/{{ $player->name }}" target="_blank">{{ $player->name }}</a>
                     </div>
-                    <div class="text-lg fond-semibold">
+                    <div class="text-lg fond-bold">
                         <a href="https://robertsspaceindustries.com/orgs/{{ $player->organization->spectrum_id }}" target="_blank">{{ $player->organization->name }}</a>
+                    </div>
+                    <div class="text-md font-semibold">
+                        Kills: {{ $totalKills }} / Losses: {{ $totalLosses }}
                     </div>
                     <div class="text-md font-semibold py-2">
                         <div class="relative w-full bg-red-600 dark:bg-red-400 rounded-full h-8 overflow-hidden" role="progressbar" aria-valuenow="{{ $efficiency }}" aria-valuemin="0" aria-valuemax="100">

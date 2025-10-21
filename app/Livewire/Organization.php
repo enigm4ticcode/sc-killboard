@@ -15,6 +15,10 @@ class Organization extends Component
 
     public Collection $data;
 
+    public int $totalKills;
+
+    public int $totalLosses;
+
     public float $efficiency;
 
     public function mount(?string $name): void
@@ -25,9 +29,9 @@ class Organization extends Component
         $kills = $this->organization->kills()->where('destroyed_at', '>=', $dateTime)->get();
         $losses = $this->organization->losses()->where('destroyed_at', '>=', $dateTime)->get();
         $this->data = $kills->merge($losses)->sortByDesc('destroyed_at');
-        $totalKills = $this->organization->kills()->count();
-        $totalLosses = $this->organization->losses()->count();
-        $this->efficiency = Number::format(($totalKills / ($totalKills + $totalLosses)) * 100, 2);
+        $this->totalKills = $this->organization->kills()->count();
+        $this->totalLosses = $this->organization->losses()->count();
+        $this->efficiency = Number::format(($this->totalKills / ($this->totalKills + $this->totalLosses)) * 100, 2);
     }
 
     public function render(): View

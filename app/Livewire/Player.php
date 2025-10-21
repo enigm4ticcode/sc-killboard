@@ -15,6 +15,10 @@ class Player extends Component
 
     public Collection $data;
 
+    public int $totalKills;
+
+    public int $totalLosses;
+
     public float $efficiency;
 
     public function mount(?string $name): void
@@ -24,10 +28,10 @@ class Player extends Component
         $dateTime = Carbon::now()->subDays($days)->startOfDay();
         $kills = $this->player->kills()->where('destroyed_at', '>=', $dateTime)->get();
         $losses = $this->player->losses()->where('destroyed_at', '>=', $dateTime)->get();
-        $totalKills = $this->player->kills()->count();
-        $totalLosses = $this->player->losses()->count();
+        $this->totalKills = $this->player->kills()->count();
+        $this->totalLosses = $this->player->losses()->count();
         $this->data = $kills->merge($losses)->sortByDesc('destroyed_at');
-        $this->efficiency = Number::format(($totalKills / ($totalKills + $totalLosses)) * 100, 2);
+        $this->efficiency = Number::format(($this->totalKills / ($this->totalKills + $this->totalLosses)) * 100, 2);
     }
 
     public function render(): View
