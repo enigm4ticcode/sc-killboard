@@ -5,3 +5,31 @@
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
 @source '../**/*.js';
+
+.bg-container {
+    /* Ensures background covers the whole page and is fixed */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+.bg-container {
+    background-image: url('/img/bgs/background-mobile.jpg');
+}
+
+.text-shadow-md {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+@media (min-width: 640px) {
+    .bg-container {
+        background-image: url('/img/bgs/background-tablet.jpg');
+    }
+}
+
+@media (min-width: 1024px) {
+    .bg-container {
+        background-image: url('/img/bgs/background-pc.jpg');
+    }
+}
