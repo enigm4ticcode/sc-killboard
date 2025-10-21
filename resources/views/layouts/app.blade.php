@@ -38,9 +38,9 @@
             <main class="min-w-full">
                 {{ $slot }}
             </main>
-            <x-toaster-hub />
         </div>
         @include('layouts.footer')
+        <x-toaster-hub />
         @livewireScripts
     </body>
 </html>
