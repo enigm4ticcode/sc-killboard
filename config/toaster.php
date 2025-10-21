@@ -23,7 +23,7 @@ return [
      *
      * Supported: true | false
      */
-    'closeable' => true,
+    'closeable' => false,
 
     /**
      * The on-screen duration of each toast.
@@ -45,7 +45,7 @@ return [
      *
      * Supported: true | false
      */
-    'replace' => true,
+    'replace' => false,
 
     /**
      * Prevent the display of duplicate toast messages.
