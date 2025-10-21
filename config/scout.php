@@ -147,12 +147,12 @@ return [
         'key' => env('MEILISEARCH_KEY'),
         'index-settings' => [
             Player::class => [
-                'searchableAttributes'=> ['id', 'name'],
-                'filterableAttributes'=> ['name'],
+                'filterableAttributes'=> ['id'],
+                'sortableAttributes'=> ['name'],
             ],
             Organization::class => [
-                'searchableAttributes'=> ['id', 'name', 'spectrum_id'],
-                'filterableAttributes'=> ['name', 'spectrum_id'],
+                'filterableAttributes'=> ['id'],
+                'sortableAttributes'=> ['name', 'spectrum_id'],
             ]
         ],
     ],
