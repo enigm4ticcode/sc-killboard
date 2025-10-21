@@ -22,8 +22,10 @@ class Player extends Component
         $dateTime = Carbon::now()->subDays($days)->startOfDay();
         $kills = $this->player->kills()->where('destroyed_at', '>=', $dateTime)->get();
         $losses = $this->player->losses()->where('destroyed_at', '>=', $dateTime)->get();
+        $totalKills = $this->player->kills()->count();
+        $totalLosses = $this->player->losses()->count();
         $this->data = $kills->merge($losses)->sortByDesc('destroyed_at');
-        $this->efficiency = Number::format(((int) $kills->count() / (int) $this->data->count()) * 100, 2);
+        $this->efficiency = Number::format(($totalKills / ($totalKills + $totalLosses)) * 100, 2);
     }
 
     public function render(): View

@@ -24,7 +24,9 @@ class Organization extends Component
         $kills = $this->organization->kills()->where('destroyed_at', '>=', $dateTime)->get();
         $losses = $this->organization->losses()->where('destroyed_at', '>=', $dateTime)->get();
         $this->data = $kills->merge($losses)->sortByDesc('destroyed_at');
-        $this->efficiency = Number::format(((int)$kills->count() / (int)$this->data->count()) * 100, 2);
+        $totalKills = $this->organization->kills()->count();
+        $totalLosses = $this->organization->losses()->count();
+        $this->efficiency = Number::format(($totalKills / ($totalKills + $totalLosses)) * 100, 2);
     }
 
     public function render(): View
