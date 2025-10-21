@@ -43,11 +43,11 @@
                     <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ Carbon::parse($kill->destroyed_at)->format('D, M j Y H:i') }}</td>
                     <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><b><a
                                 href="{{ route('player.show', ['name' => $kill->victim->name]) }}"
-                                target="_blank">{{ $kill->victim->name }}</a></b></td>
+                               >{{ $kill->victim->name }}</a></b></td>
                     @if($victimOrg->spectrum_id !== Organization::ORG_NONE && $victimOrg->spectrum_id !== Organization::ORG_REDACTED)
                         <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><a
                                 href="{{ route('organization.show', ['name' => $victimOrg->spectrum_id]) }}"
-                                target="_blank"><img width="50" height="50" src="{{ $victimOrg->icon }}"
+                               ><img width="50" height="50" src="{{ $victimOrg->icon }}"
                                                      alt="{{ $victimOrg->name }}"/></a></td>
                     @else
                         <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><img width="50" height="50" src="{{ $victimOrg->icon }}" alt="{{ $victimOrg->name }}"/>
@@ -58,9 +58,9 @@
                     @else
                         <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-900 dark:text-gray-100">FPS</td>
                     @endif
-                    <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><b><a href="{{ route('player.show', ['name' => $kill->killer->name]) }}" target="_blank">{{ $kill->killer->name }}</a></b></td>
+                    <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><b><a href="{{ route('player.show', ['name' => $kill->killer->name]) }}">{{ $kill->killer->name }}</a></b></td>
                     @if($killerOrg->spectrum_id !== Organization::ORG_NONE && $killerOrg->spectrum_id !== Organization::ORG_REDACTED)
-                        <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><a href="{{ route('organization.show', ['name' => $killerOrg->spectrum_id]) }}" target="_blank"><img width="50" height="50" src="{{ $killerOrg->icon }}" alt="{{ $killerOrg->name }}"/></a></td>
+                        <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><a href="{{ route('organization.show', ['name' => $killerOrg->spectrum_id]) }}"><img width="50" height="50" src="{{ $killerOrg->icon }}" alt="{{ $killerOrg->name }}"/></a></td>
                     @else
                         <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-300"><img width="50" height="50" src="{{ $killerOrg->icon }}" alt="None"/>
                         </td>

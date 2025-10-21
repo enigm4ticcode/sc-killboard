@@ -12,7 +12,7 @@
                         <a href="https://robertsspaceindustries.com/citizens/{{ $player->name }}" target="_blank">{{ $player->name }}</a>
                     </div>
                     <div class="text-lg fond-semibold">
-                        <a href="https://robertsspaceindustries.com/citizens/{{ $player->organization->spectrum_id }}" target="_blank">{{ $player->organization->name }}</a>
+                        <a href="https://robertsspaceindustries.com/orgs/{{ $player->organization->spectrum_id }}" target="_blank">{{ $player->organization->name }}</a>
                     </div>
                 </div>
             </div>
