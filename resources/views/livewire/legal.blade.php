@@ -2,7 +2,7 @@
     <h1 class="text-4xl font-extrabold text-indigo-700 dark:text-indigo-400 mb-2">Legal Information</h1>
     <p class="text-gray-500 dark:text-gray-400 mb-10">Last Updated: {{ date('F j, Y') }}</p>
 
-    <div id="privacy-policy" class="space-y-8">
+    <section id="privacy-policy" class="space-y-8">
         <h2 class="text-3xl font-bold border-b-2 pb-2 text-gray-700 dark:text-gray-300 dark:border-indigo-700">1. Privacy Policy</h2>
         <p class="text-lg">
             This Privacy Policy explains how **Star Citizen Killboard** ("we," "us," or "our") collects, uses, and protects the personal data of users ("you") who access and use our website. We are committed to complying with applicable data protection laws, including **GDPR (EU/UK)** and relevant **U.S. state laws**.
@@ -59,11 +59,11 @@
         <p>
             You have rights under GDPR, UK GDPR, and U.S. State Laws (including access, correction, erasure, restriction of processing, and objection). To exercise any of these rights, please contact us at **zaedra.eve [at] gmail.com**.
         </p>
-    </div>
+    </section>
 
     <hr class="my-10 border-t-2 border-indigo-200 dark:border-indigo-900">
 
-    <div id="cookie-policy" class="space-y-8">
+    <section id="cookie-policy" class="space-y-8">
         <h2 class="text-3xl font-bold border-b-2 pb-2 text-gray-700 dark:text-gray-300 dark:border-indigo-700">2. Cookie Policy</h2>
 
         <p class="text-lg">
@@ -95,11 +95,11 @@
         <p>
             You can usually manage your cookie preferences through your browser settings. You may block or delete cookies, but this may negatively impact your ability to log in and use the website's features.
         </p>
-    </div>
+    </section>
 
     <hr class="my-10 border-t-2 border-indigo-200 dark:border-indigo-900">
 
-    <div id="legal-disclaimer" class="space-y-8">
+    <section id="legal-disclaimer" class="space-y-8">
         <h2 class="text-3xl font-bold border-b-2 pb-2 text-gray-700 dark:text-gray-300 dark:border-indigo-700">3. Legal Disclaimer (Star Citizen Fansite)</h2>
 
         <div class="p-6 bg-yellow-50 dark:bg-yellow-900 border-l-4 border-yellow-400 dark:border-yellow-600 rounded-lg">
@@ -121,6 +121,5 @@
                 All game content and assets are the property of their respective owners and are used here under the principles of Fair Use and/or the terms of the Cloud Imperium Games Fan Kit Agreement to support and promote the community and enjoyment of the Star Citizen universe.
             </p>
         </div>
-    </div>
-
+    </section>
 </div>
