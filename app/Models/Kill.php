@@ -46,4 +46,14 @@ class Kill extends Model
     {
         return $this->belongsTo(Weapon::class, 'weapon_id');
     }
+
+    public function logUpload(): BelongsTo
+    {
+        return $this->belongsTo(LogUpload::class, 'log_id');
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

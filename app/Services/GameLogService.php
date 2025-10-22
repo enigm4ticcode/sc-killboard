@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Kill;
+use App\Models\LogUpload;
 use App\Models\Organization;
 use App\Models\Player;
 use App\Models\Weapon;
@@ -49,7 +50,7 @@ class GameLogService
         $this->linesToRead = $config['lines_to_read'];
     }
 
-    public function processGameLog(string $filePath): array
+    public function processGameLog(string $filePath, LogUpload $logUpload): array
     {
         $out = [
             'total_kills' => 0,
@@ -207,7 +208,7 @@ class GameLogService
                     $victimModel->organization()->dissociate()->save();
                 }
 
-                Kill::query()->firstOrCreate([
+                $kill = Kill::query()->firstOrCreate([
                     'destroyed_at' => $timestamp,
                     'ship_id' => $killType === Kill::TYPE_VEHICLE ? $vehicle->id : null,
                     'weapon_id' => $killWeaponModel->id,
@@ -217,6 +218,7 @@ class GameLogService
                     'location' => $location,
                 ]);
 
+                $kill->logUpload()->associate($logUpload)->save();
                 Cache::increment($cacheKey);
             }
         }

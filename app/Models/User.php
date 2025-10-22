@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Jakyeru\Larascord\Traits\InteractsWithDiscord;
@@ -24,6 +25,7 @@ class User extends Authenticatable
         'email',
         'avatar',
         'verified',
+        'rsi_verified',
         'banner',
         'banner_color',
         'accent_color',
@@ -56,6 +58,7 @@ class User extends Authenticatable
         'email' => 'string',
         'avatar' => 'string',
         'verified' => 'boolean',
+        'rsi_verified' => 'boolean',
         'banner' => 'string',
         'banner_color' => 'string',
         'accent_color' => 'string',
@@ -65,4 +68,14 @@ class User extends Authenticatable
         'public_flags' => 'integer',
         'roles' => 'json',
     ];
+
+    public function logUploads(): HasMany
+    {
+        return $this->hasMany(LogUpload::class);
+    }
+
+    public function submittedKills(): HasMany
+    {
+        return $this->hasMany(Kill::class);
+    }
 }

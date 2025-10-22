@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Service;
 
+use App\Models\LogUpload;
 use App\Services\GameLogService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
@@ -60,7 +62,15 @@ class UploadLog extends Component
             return;
         }
 
-        $result = $gameLogService->processGameLog($storedPath);
+        $logUpload = new LogUpload([
+            'filename' => $safe,
+            'path' => $storedPath
+        ]);
+
+        $logUpload->user()->associate(Auth::user());
+        $logUpload->save();
+
+        $result = $gameLogService->processGameLog($storedPath, $logUpload);
 
         if ($result['has_arena_commander_kills']) {
             Toaster::error('Arena Commander log detected. Kills were not recorded.');
