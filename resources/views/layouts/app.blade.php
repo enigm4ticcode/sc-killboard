@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="description" content="Track kills, deaths, and player efficiency for Star Citizen. View global leaderboards and stats for your organization on the premier Star Citizen killboard.">
+    <meta name="description" content="Track kills, deaths, and player efficiency for Star Citizen. View global leaderboards and stats for yourself or your organization on the premier Star Citizen killboard.">
     <meta name="keywords" content="Star Citizen killboard, Star Citizen stats, SC kill death tracker, Star Citizen player efficiency, SC leaderboards, Star Citizen combat stats, organization stats, Star Citizen PvP">
     <title>
         @hasSection('title')
