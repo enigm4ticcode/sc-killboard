@@ -17,7 +17,7 @@ class UploadLog extends Component
 {
     use WithFilePond;
 
-    #[Validate('required|file|mimetypes:text/plain|extensions:log')]
+    #[Validate('required|file|mimetypes:text/plain|extensions:log|max:100000')]
     public $file;
 
     public function rules(): array
