@@ -8,9 +8,9 @@ use PHPHtmlParser\Dom;
 
 class RsiAccountVerificationService
 {
-    protected string|null $baseUrl;
+    protected ?string $baseUrl;
 
-    protected string|null $pattern;
+    protected ?string $pattern;
 
     public function __construct(array $config)
     {
@@ -33,7 +33,7 @@ class RsiAccountVerificationService
         }
 
         if ($response !== null && $response->ok()) {
-            $dom = new Dom();
+            $dom = new Dom;
             $biographyText = '';
 
             try {

@@ -64,7 +64,7 @@ class UploadLog extends Component
 
         $logUpload = new LogUpload([
             'filename' => $safe,
-            'path' => $storedPath
+            'path' => $storedPath,
         ]);
 
         $logUpload->user()->associate(Auth::user());
