@@ -23,11 +23,19 @@
                 </div>
 
                 @if(Auth::user())
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-nav-link :href="route('service.upload-log')" :active="request()->routeIs('service.upload-log')">
-                            {{ __('Upload Game Log') }}
-                        </x-nav-link>
-                    </div>
+                    @if(Auth::user()->rsi_verified)
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-nav-link :href="route('service.upload-log')" :active="request()->routeIs('service.upload-log')">
+                                {{ __('Upload Game Log') }}
+                            </x-nav-link>
+                        </div>
+                    @else
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-nav-link :href="route('service.verify')" :active="request()->routeIs('service.verify')">
+                                {{ __('Verify Account') }}
+                            </x-nav-link>
+                        </div>
+                    @endif
                 @endif
             </div>
 
@@ -65,9 +73,15 @@
                             <x-dropdown-link :href="route('how-it-works')">
                                 {{ __('How It Works') }}
                             </x-dropdown-link>
-                            <x-dropdown-link :href="route('service.upload-log')">
-                                {{ __('Upload Game Log') }}
-                            </x-dropdown-link>
+                            @if(Auth::user()->rsi_verified)
+                                <x-dropdown-link :href="route('service.upload-log')">
+                                    {{ __('Upload Game Log') }}
+                                </x-dropdown-link>
+                            @else
+                                <x-dropdown-link :href="route('service.verify')">
+                                    {{ __('Verify Account') }}
+                                </x-dropdown-link>
+                            @endif
 
                             <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}">
@@ -148,6 +162,11 @@
                     <x-responsive-nav-link :href="route('how-it-works')">
                         {{ __('How It Works') }}
                     </x-responsive-nav-link>
+                    @if(Auth::user()->rsi_verified)
+                        <x-responsive-nav-link :href="route('service.verify')">
+                            {{ __('Verify Account') }}
+                        </x-responsive-nav-link>
+                    @endif
 
                     <!-- Authentication -->
                     <form method="POST" action="{{ route('logout') }}">
@@ -162,6 +181,9 @@
                 </div>
             @else
                 <div class="mt-3 space-y-1">
+                    <x-responsive-nav-link :href="route('how-it-works')">
+                        {{ __('How It Works') }}
+                    </x-responsive-nav-link>
                     <x-responsive-nav-link :href="route('login')">
                         {{ __('Login with Discord') }}
                     </x-responsive-nav-link>

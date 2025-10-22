@@ -17,4 +17,8 @@ return [
         'timespan-days' => env('LEADERBOARDS_TIMESPAN_DAYS', 7),
         'number-of-positions' => env('LEADERBOARDS_NUMBER_OF_TOP_POSITIONS', 5),
     ],
+    'rsi_verification' => [
+        'base_url' => env('RSI_VERIFICATION_BASE_URL', 'https://robertsspaceindustries.com/citizens'),
+        'pattern' => env('RSI_VERIFICATION_PATTERN', '/\[sc-killboard:\s*([a-zA-Z0-9]+)\]/'),
+    ],
 ];

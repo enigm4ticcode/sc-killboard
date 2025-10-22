@@ -6,6 +6,7 @@ use App\Livewire\HowTo;
 use App\Livewire\Legal;
 use App\Livewire\Organization;
 use App\Livewire\Player;
+use App\Livewire\RsiVerification;
 use App\Livewire\Service\UploadLog;
 use Illuminate\Support\Facades\Route;
 
@@ -26,10 +27,16 @@ Route::get('/organizations/{name}', Organization::class)->name('organization.sho
 Route::get('/how-it-works', HowTo::class)->name('how-it-works');
 Route::get('/legal', Legal::class)->name('legal');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 
     Route::group(['prefix' => 'services'], function () {
-        Route::get('upload-log', UploadLog::class)->name('service.upload-log');
+        Route::get('verification', RsiVerification::class)
+            ->name('service.verify')
+            ->middleware('rsi-not-verified');
+
+        Route::get('upload-log', UploadLog::class)
+            ->name('service.upload-log')
+            ->middleware('rsi-verified');
     });
 });

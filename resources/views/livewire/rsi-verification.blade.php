@@ -1,0 +1,106 @@
+<div class="flex min-w-full min-h-screen items-center justify-center p-4 sm:p-6">
+    <form class="w-full max-w-md p-6 sm:p-8 bg-white dark:bg-gray-800 rounded-xl shadow-2xl space-y-6" wire:submit.prevent="save">
+
+        <h1 class="text-3xl font-bold tracking-tight text-indigo-600 dark:text-indigo-400">
+            {{ __('Verify RSI Account') }}
+        </h1>
+
+        <div class="space-y-4">
+            <p class="text-gray-600 dark:text-gray-400">
+                1. Edit your <a href="https://robertsspaceindustries.com/account/profile" target="_blank" class="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium underline">Roberts Space Industries Profile</a> and paste the following code <strong class="font-semibold">EXACTLY</strong> as written into the "Short Bio" section, then save your profile:
+            </p>
+
+            <div id="code" class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900 border border-dashed border-gray-300 dark:border-gray-600 rounded-lg shadow-inner">
+                <pre id="verificationCode" class="text-lg font-mono text-yellow-600 text-shadow-md overflow-x-auto whitespace-pre-wrap break-all mr-4">[sc-killboard: {{ $verificationKey }}]</pre>
+
+                <div class="flex items-center space-x-2">
+                    <span id="successMessage" class="hidden text-sm font-semibold text-green-600 dark:text-green-400 transition-opacity duration-300">
+                        Copied!
+                    </span>
+
+                    <button type="button" onclick="copyCode(event)" class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition duration-150 ease-in-out cursor-pointer flex-shrink-0" title="Copy code to clipboard">
+                        <svg id="copyButtonIcon" class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
+
+                        <svg id="successIcon" class="hidden h-5 w-5 text-green-600 dark:text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="space-y-4">
+            <p class="text-gray-600 dark:text-gray-400">
+                2. Enter your RSI Player Name exactly as it appears on RSI.com in the box below:
+            </p>
+            <div id="playerName" class="space-y-2">
+                <x-input-label for="playerNameInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Your Player Name:</x-input-label>
+                <x-text-input id="playerNameInput" name="playerName" value="{{ $playerName }}" wire:model="playerName" class="mt-1 block w-full rounded-lg border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3"></x-text-input>
+            </div>
+        </div>
+
+        <div>
+            <p class="text-gray-600 dark:text-gray-400">
+                3. Click the Verify Account button below.
+            </p>
+        </div>
+
+        <button type="submit" class="w-full flex items-center justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:ring-offset-white dark:focus:ring-offset-gray-800 transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed" wire:loading.attr="disabled" wire:target="save">
+            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" wire:loading wire:target="save">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+            </svg>
+            <span wire:loading.remove wire:target="save">
+                {{ __('Verify Account') }}
+            </span>
+            <span wire:loading wire:target="save">
+                {{ __('Verifying...') }}
+            </span>
+        </button>
+    </form>
+
+    <script>
+        function copyCode(event) {
+            event.preventDefault(); // Prevent potential form submission
+            const codeElement = document.getElementById('verificationCode');
+            const codeText = codeElement.textContent || codeElement.innerText; // Get the text content
+            const copyIcon = document.getElementById('copyButtonIcon');
+            const successIcon = document.getElementById('successIcon');
+            const successMessage = document.getElementById('successMessage');
+
+            function showSuccess() {
+                copyIcon.classList.add('hidden');
+                successIcon.classList.remove('hidden');
+                successMessage.classList.remove('hidden');
+
+                setTimeout(() => {
+                    successMessage.classList.add('hidden');
+                    successIcon.classList.add('hidden');
+                    copyIcon.classList.remove('hidden');
+                }, 2500); // Revert after 2.5 seconds
+            }
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(codeText).then(() => {
+                    showSuccess(); // Add a visual cue that it was copied
+                }).catch(err => {
+                    //
+                });
+            } else {
+                const range = document.createRange();
+                range.selectNode(codeElement);
+                window.getSelection().removeAllRanges();
+                window.getSelection().addRange(range);
+                try {
+                    document.execCommand('copy');
+                    showSuccess();
+                } catch (err) {
+                    //
+                }
+                window.getSelection().removeAllRanges();
+            }
+        }
+    </script>
+</div>
