@@ -1,4 +1,4 @@
-<div class="flex min-w-full mx-auto min-h-screen justify-center items-center p-6 rounded-lg shadow-xl">
+<section class="flex min-w-full mx-auto min-h-screen justify-center items-center p-6 rounded-lg shadow-xl">
     <form class="w-full max-w-md p-6 bg-white rounded-lg shadow-xl bg-gray-100 dark:bg-gray-900/40" wire:submit="save">
         <h1 class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">
             {{ __('Upload Game Log') }}
@@ -19,4 +19,4 @@
         </button>
     </form>
     @filepondScripts
-</div>
+</section>

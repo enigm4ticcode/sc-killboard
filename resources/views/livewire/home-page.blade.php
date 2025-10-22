@@ -5,11 +5,11 @@
         </h1>
     </header>
     <div class="flex flex-col md:flex-row h-full">
-        <div class="flex-1 min-w-xs md:min-w-md py-4 h-full overflow-x-auto shadow">
+        <section class="flex-1 min-w-xs md:min-w-md py-4 h-full overflow-x-auto shadow">
             <livewire:main-kill-feed />
-        </div>
+        </section>
 
-        <div class="p-4 h-full mx-auto">
+        <section class="p-4 h-full mx-auto">
             <div class="space-y-4 w-full max-w-xs max-w-sm">
                 <livewire:top-killer />
                 <livewire:top-fps-killers />
@@ -19,6 +19,6 @@
                 <livewire:top-fps-victims />
                 <livewire:victim-orgs />
             </div>
-        </div>
+        </section>
     </div>
 </div>
