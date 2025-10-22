@@ -52,10 +52,22 @@
 
     <section class="mb-8">
         <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-3 flex items-center">
-            <span class="text-indigo-500 dark:text-indigo-400 mr-3 text-3xl font-extrabold">3.</span> Access the Upload Tool
+            <span class="text-indigo-500 dark:text-indigo-400 mr-3 text-3xl font-extrabold">3.</span> Verify your RSI Account
         </h2>
         <div class="space-y-4 text-gray-700 dark:text-gray-300">
-            <p>After successfully logging in, the **"Upload Game Log"** link will appear in your main navigation bar. Click this link to go to the submission form.</p>
+            <p>After successfully logging in, the **"Account Verification"** link will appear in your main navigation bar. Click this link and follow instructions on the page to verify your RSI account.</p>
+            <p class="text-sm italic text-gray-500 dark:text-gray-400">
+                Tip: This page may also be accessible via a link in your user profile dropdown.
+            </p>
+        </div>
+    </section>
+
+    <section class="mb-8">
+        <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-3 flex items-center">
+            <span class="text-indigo-500 dark:text-indigo-400 mr-3 text-3xl font-extrabold">4.</span> Access the Upload Tool
+        </h2>
+        <div class="space-y-4 text-gray-700 dark:text-gray-300">
+            <p>After successfully verifying your RSI account, the **"Upload Game Log"** link will appear in your main navigation bar. Click this link to go to the game log submission form.</p>
             <p class="text-sm italic text-gray-500 dark:text-gray-400">
                 Tip: This page may also be accessible via a link in your user profile dropdown.
             </p>
@@ -66,7 +78,7 @@
 
     <section>
         <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-3 flex items-center">
-            <span class="text-indigo-500 dark:text-indigo-400 mr-3 text-3xl font-extrabold">4.</span> Submit Your Log
+            <span class="text-indigo-500 dark:text-indigo-400 mr-3 text-3xl font-extrabold">5.</span> Submit Your Log
         </h2>
         <div class="space-y-4 text-gray-700 dark:text-gray-300">
             <p>On the upload page, you will find a file input field. Follow these final steps:</p>
