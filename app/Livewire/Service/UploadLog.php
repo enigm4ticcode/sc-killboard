@@ -23,7 +23,7 @@ class UploadLog extends Component
     public function rules(): array
     {
         return [
-            'file' => 'required|file|mimetypes:text/plain|extensions:log',
+            'file' => 'required|file|mimetypes:text/plain|extensions:log|max:100000',
         ];
     }
 
