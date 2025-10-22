@@ -8,7 +8,7 @@
     <meta name="keywords" content="Star Citizen killboard, Star Citizen stats, SC kill death tracker, Star Citizen player efficiency, SC leaderboards, Star Citizen combat stats, organization stats, Star Citizen PvP">
     <title>
         @hasSection('title')
-            @yield('title') - {{ config('app.name') }}
+            @yield('title') - {{ config('app.name', 'Star Citizen Killboard') }} | Kills, Deaths, and Leaderboards
         @else
             {{ config('app.name', 'Star Citizen Killboard') }} | Kills, Deaths, and Leaderboards
         @endif
