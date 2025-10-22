@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->boolean('rsi_verified')->default(false)->after('verified');
-            $table->string('rsi_verification_key')->nullable()->after('rsi_verified');
-            $table->timestamp('rsi_verified_at')->nullable()->after('rsi_verification_key');
+            $table->string('rsi_verification_key')->nullable()->after('verified');
+            $table->timestamp('rsi_verified_at')->nullable()->after('verified');
         });
     }
 
