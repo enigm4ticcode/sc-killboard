@@ -37,6 +37,12 @@
                         </div>
                     @endif
                 @endif
+
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link href="https://robertsspaceindustries.com">
+                        {{ __('RSI - Official Website') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->
@@ -82,6 +88,12 @@
                                     {{ __('Verify Account') }}
                                 </x-dropdown-link>
                             @endif
+                            <x-dropdown-link :href="route('api-documentation')">
+                                {{ __('API Documentation') }}
+                            </x-dropdown-link>
+                            <x-dropdown-link href="https://robertsspaceindustries.com">
+                                {{ __('RSI - Official Website') }}
+                            </x-dropdown-link>
 
                             <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}">
@@ -119,6 +131,12 @@
                         <x-slot name="content">
                             <x-dropdown-link :href="route('how-it-works')">
                                 {{ __('How It Works') }}
+                            </x-dropdown-link>
+                            <x-dropdown-link :href="route('api-documentation')">
+                                {{ __('API Documentation') }}
+                            </x-dropdown-link>
+                            <x-dropdown-link href="https://robertsspaceindustries.com">
+                                {{ __('RSI - Official Website') }}
                             </x-dropdown-link>
                             <x-dropdown-link :href="route('login')">
                                 {{ __('Login with Discord') }}
@@ -167,6 +185,9 @@
                             {{ __('Verify Account') }}
                         </x-responsive-nav-link>
                     @endif
+                    <x-responsive-nav-link href="https://robertsspaceindustries.com">
+                        {{ __('RSI - Official Website') }}
+                    </x-responsive-nav-link>
 
                     <!-- Authentication -->
                     <form method="POST" action="{{ route('logout') }}">

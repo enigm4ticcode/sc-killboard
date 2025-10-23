@@ -1,7 +1,9 @@
 <footer class="bg-gray-800 text-white w-full p-4">
     <div class="w-full mx-auto flex flex-col md:flex-row items-center justify-between">
         <div class="flex items-center space-x-4 mb-4 md:mb-0">
-            <img src="{{ asset('img/logos/made_by_the_community.png') }}" alt="{{ __('Made by the Star Citizen Community') }}" class="w-12 h-auto rounded-full object-cover">
+            <a href="https://robertsspaceindustries.com">
+                <img src="{{ asset('img/logos/made_by_the_community.png') }}" alt="{{ __('Made by the Star Citizen Community') }}" class="w-12 h-auto rounded-full object-cover">
+            </a>
             <p class="text-sm px-2">
                 Brought to you by <a href="https://robertsspaceindustries.com/citizens/ENIGM4" target="_blank">ENIGM4</a>
             </p>
