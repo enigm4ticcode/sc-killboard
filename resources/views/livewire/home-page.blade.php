@@ -1,6 +1,6 @@
 <div class="container mx-auto p-2 text-gray-800 dark:text-gray-200 rounded-lg mt-8 mb-0">
     <header>
-        <h1 class="text-3xl font-bold text-indigo-700 dark:text-indigo-400 p-2 text-shadow-md">
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-indigo-700 dark:text-indigo-400 p-2 text-shadow-md">
             Most Recent Kills (Last {{ config('killboard.home_page.most_recent_kills_days')  }} Days)
         </h1>
     </header>

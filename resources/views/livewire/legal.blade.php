@@ -1,5 +1,5 @@
 <div id="legal-info-wrapper" class="container mx-auto px-4 py-12 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 shadow-xl dark:shadow-2xl rounded-lg mt-8 mb-8">
-    <h1 class="text-4xl font-extrabold text-indigo-700 dark:text-indigo-400 mb-2">Legal Information</h1>
+    <h1 class="text-4xl font-extrabold text-indigo-700 dark:text-indigo-400 mb-2 text-shadow-md">Legal Information</h1>
     <p class="text-gray-500 dark:text-gray-400 mb-10">Last Updated: {{ date('F j, Y') }}</p>
 
     <section id="privacy-policy" class="space-y-8">

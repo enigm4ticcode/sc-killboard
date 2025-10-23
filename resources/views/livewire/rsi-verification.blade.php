@@ -1,7 +1,7 @@
 <div class="flex min-w-full min-h-screen items-center justify-center p-4 sm:p-6">
     <form class="w-full max-w-md p-6 sm:p-8 bg-white dark:bg-gray-800 rounded-xl shadow-2xl space-y-6" wire:submit.prevent="save">
 
-        <h1 class="text-3xl font-bold tracking-tight text-indigo-600 dark:text-indigo-400">
+        <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-indigo-600 dark:text-indigo-400 text-shadow-md">
             {{ __('Verify RSI Account') }}
         </h1>
 
