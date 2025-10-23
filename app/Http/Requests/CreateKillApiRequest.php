@@ -21,8 +21,8 @@ class CreateKillApiRequest extends FormRequest
             'location' => ['required', 'string', 'min:4'],
             'killer' => ['required', 'string', 'min:3'],
             'victim' => ['required', 'string', 'min:3'],
-            'vehicle' => ['required', 'string', 'min:4'],
-            'weapon' => ['sometimes', 'string', 'min:3'],
+            'weapon' => ['required', 'string', 'min:3'],
+            'vehicle' => ['sometimes', 'string', 'min:4'],
         ];
     }
 }

@@ -83,8 +83,8 @@
                     ['location', 'String', 'Yes', '`required`, `string`, `min:4`'],
                     ['killer', 'String', 'Yes', '`required`, `string`, `min:3`'],
                     ['victim', 'String', 'Yes', '`required`, `string`, `min:3`'],
-                    ['vehicle', 'String', 'Yes', '`required`, `string`, `min:4`'],
-                    ['weapon', 'String', 'No', '`sometimes`, `string`, `min:3`'],
+                    ['weapon', 'String', 'Yes', '`required`, `string`, `min:3`'],
+                    ['vehicle', 'String', 'No', '`sometimes`, `string`, `min:4`'],
                 ] as $param)
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap"><code>{{ $param[0] }}</code></td>
@@ -116,8 +116,8 @@
             <span class="text-blue-400">"location"</span>: <span class="text-yellow-400">"OOC_Stanton_3a"</span>,
             <span class="text-blue-400">"killer"</span>: <span class="text-yellow-400">"ENIGM4"</span>,
             <span class="text-blue-400">"victim"</span>: <span class="text-yellow-400">"Carebear_69420"</span>,
-            <span class="text-blue-400">"vehicle"</span>: <span class="text-yellow-400">"DRAK_Corsair"</span>,
-            <span class="text-blue-400">"weapon"</span>: <span class="text-yellow-400">"MXOX_Neutronrepeater_S3"</span>
+            <span class="text-blue-400">"weapon"</span>: <span class="text-yellow-400">"MXOX_Neutronrepeater_S3"</span>,
+            <span class="text-blue-400">"vehicle"</span>: <span class="text-yellow-400">"DRAK_Corsair"</span>
         <span class="text-pink-400">}</span></code></pre>
     </section>
 
