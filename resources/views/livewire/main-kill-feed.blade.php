@@ -1,5 +1,5 @@
 @php use App\Models\Kill;use App\Models\Organization;use Carbon\Carbon;use Illuminate\Support\Str @endphp
-<div class="overflow-hidden rounded-lg border border-gray-200 bg-white dark:border-white/10 dark:bg-gray-900">
+<div wire:poll class="overflow-hidden rounded-lg border border-gray-200 bg-white dark:border-white/10 dark:bg-gray-900">
 
     <div class="px-4 py-2 sm:px-6 border-b border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-gray-800">
         {{ $kills->links() }}

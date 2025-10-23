@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Kill;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -17,7 +18,7 @@ class CreateKillApiRequest extends FormRequest
         return [
             'username' => ['required', 'string', 'exists:users,username'],
             'timestamp' => ['required', 'string', 'date_format:Y-m-d\TH:i:s.u\Z'],
-            'kill_type' => ['required', 'string', 'min:2', Rule::in(['vehicle', 'fps'])],
+            'kill_type' => ['required', 'string', 'min:2', Rule::in([Kill::TYPE_VEHICLE, Kill::TYPE_FPS])],
             'location' => ['required', 'string', 'min:4'],
             'killer' => ['required', 'string', 'min:3'],
             'victim' => ['required', 'string', 'min:3'],

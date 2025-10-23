@@ -2,8 +2,11 @@
 
 namespace App\Livewire;
 
-use App\Models\Kill;
+use App\Services\RecentKillsService;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
+use Illuminate\View\View;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -11,23 +14,21 @@ class MainKillFeed extends Component
 {
     use WithPagination;
 
-    protected $listeners = ['killboard-updated' => '$refresh'];
+    public Collection $data;
 
-    public function render(): \Illuminate\View\View
+    public function render(RecentKillsService $recentKillsService): View
     {
-        return view('livewire.main-kill-feed', ['kills' => $this->loadData()]);
+        $kills = $this->loadData($recentKillsService);
+        $paginated = new LengthAwarePaginator($kills, count($kills), config('killboard.pagination.kills_per_page'));
+
+        return view('livewire.main-kill-feed', ['kills' => $paginated]);
     }
 
-    private function loadData(): LengthAwarePaginator
+    #[On('killboard-updated')]
+    public function loadData(RecentKillsService $recentKillsService): Collection
     {
-        $mostRecentKillsDays = config('killboard.home_page.most_recent_kills_days');
-        $killsPerPage = config('killboard.pagination.kills_per_page');
-        $now = now();
-        $startOfFeed = $now->copy()->subDays($mostRecentKillsDays)->startOfDay();
+        $this->data = $recentKillsService->getRecentKills();
 
-        return Kill::query()
-            ->whereBetween('destroyed_at', [$startOfFeed, $now])
-            ->orderByDesc('destroyed_at')
-            ->paginate($killsPerPage);
+        return $this->data;
     }
 }

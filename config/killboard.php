@@ -5,6 +5,7 @@ return [
         'kills_per_page' => env('PAGINATION_KILLS_PER_PAGE', 30),
     ],
     'home_page' => [
+        'cache_key' => env('HOME_PAGE_CACHE_KEY', 'home_page_kills'),
         'most_recent_kills_days' => env('MOST_RECENT_KILLS_DAYS', 3),
     ],
     'cache' => [

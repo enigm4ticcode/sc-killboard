@@ -6,6 +6,7 @@ use App\Models\Kill;
 use App\Models\LogUpload;
 use App\Models\Organization;
 use App\Models\Player;
+use App\Models\Ship;
 use App\Models\User;
 use App\Models\Weapon;
 use Carbon\Carbon;
@@ -183,7 +184,7 @@ class GameLogService
         string $killer,
         string $victim,
         string $killWeapon,
-        ?string $vehicle = null,
+        ?Ship $vehicle = null,
         ?string $victimGameId = null,
         ?string $killerGameId = null,
         ?User $user = null,

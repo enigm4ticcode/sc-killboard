@@ -4,16 +4,21 @@ namespace App\Observers;
 
 use App\Models\Kill;
 use App\Services\LeaderboardService;
+use App\Services\RecentKillsService;
 
 class KillObserver
 {
-    public function __construct(protected LeaderboardService $leaderboardService) {}
+    public function __construct(
+        protected RecentKillsService $recentKillsService,
+        protected LeaderboardService $leaderboardService,
+    ) {}
 
     /**
      * Handle the Kill "created" event.
      */
     public function created(Kill $kill): void
     {
+        $this->recentKillsService->refreshCache();
         $this->leaderboardService->refreshLeaderboards();
     }
 
@@ -22,6 +27,7 @@ class KillObserver
      */
     public function updated(Kill $kill): void
     {
+        $this->recentKillsService->refreshCache();
         $this->leaderboardService->refreshLeaderboards();
     }
 
@@ -30,6 +36,7 @@ class KillObserver
      */
     public function deleted(Kill $kill): void
     {
+        $this->recentKillsService->refreshCache();
         $this->leaderboardService->refreshLeaderboards();
     }
 
@@ -38,6 +45,7 @@ class KillObserver
      */
     public function restored(Kill $kill): void
     {
+        $this->recentKillsService->refreshCache();
         $this->leaderboardService->refreshLeaderboards();
     }
 
@@ -46,6 +54,7 @@ class KillObserver
      */
     public function forceDeleted(Kill $kill): void
     {
+        $this->recentKillsService->refreshCache();
         $this->leaderboardService->refreshLeaderboards();
     }
 }

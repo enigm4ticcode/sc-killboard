@@ -3,6 +3,9 @@
         <h1 class="text-3xl sm:text-4xl font-extrabold text-indigo-700 dark:text-indigo-400 p-2 text-shadow-md">
             Most Recent Kills (Last {{ config('killboard.home_page.most_recent_kills_days')  }} Days)
         </h1>
+        <p class="text-gray-600 dark:text-gray-400 text-sm px-2">
+            (Updated Live)
+        </p>
     </header>
     <div class="flex flex-col md:flex-row h-full">
         <section class="flex-1 min-w-xs md:min-w-md py-4 h-full overflow-x-auto">
