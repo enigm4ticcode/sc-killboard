@@ -5,9 +5,20 @@
         {{ __('API Key Management') }}
     </h1>
 
+
     <div class="space-y-4">
         <p class="text-gray-600 dark:text-gray-400">
-            Here you can find (or regenerate) your API key for use with the killboard API.
+            Username:
+        </p>
+
+        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900 border border-dashed border-gray-300 dark:border-gray-600 rounded-lg shadow-inner">
+            <pre class="text-md font-mono text-yellow-600 text-shadow-md overflow-x-auto whitespace-pre-wrap break-all mr-4">{{ Auth::user()->username }}</pre>
+        </div>
+    </div>
+
+    <div class="space-y-4">
+        <p class="text-gray-600 dark:text-gray-400">
+            Here you can find (or regenerate) your API key for use with the killboard API:
         </p>
 
         <div id="code" class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900 border border-dashed border-gray-300 dark:border-gray-600 rounded-lg shadow-inner">
