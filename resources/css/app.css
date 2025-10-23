@@ -15,7 +15,7 @@
 }
 
 .bg-container {
-    background-image: url('/img/bgs/background-mobile.jpg');
+    background-image: url('/resources/images/background-mobile.jpg');
 }
 
 .text-shadow-md {
@@ -24,13 +24,13 @@
 
 @media (min-width: 640px) {
     .bg-container {
-        background-image: url('/img/bgs/background-tablet.jpg');
+        background-image: url('/resources/images/background-tablet.jpg');
     }
 }
 
 @media (min-width: 1024px) {
     .bg-container {
-        background-image: url('/img/bgs/background-pc.jpg');
+        background-image: url('/resources/images/background-pc.jpg');
     }
 }
 
