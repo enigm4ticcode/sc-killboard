@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use Jakyeru\Larascord\Traits\InteractsWithDiscord;
 
 class User extends Authenticatable
@@ -35,6 +36,7 @@ class User extends Authenticatable
         'premium_type',
         'public_flags',
         'roles',
+        'api_key',
     ];
 
     /**
@@ -69,6 +71,7 @@ class User extends Authenticatable
         'premium_type' => 'integer',
         'public_flags' => 'integer',
         'roles' => 'json',
+        'api_key' => 'string',
     ];
 
     public function logUploads(): HasMany
@@ -79,5 +82,13 @@ class User extends Authenticatable
     public function submittedKills(): HasMany
     {
         return $this->hasMany(Kill::class);
+    }
+
+    public function generateApiKey(): string
+    {
+        $this->api_key = Str::random(64);
+        $this->save();
+
+        return $this->api_key;
     }
 }

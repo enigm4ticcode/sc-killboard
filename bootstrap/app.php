@@ -1,6 +1,7 @@
 <?php
 
 use App\Console\Commands\GetAllVehiclesCommand;
+use App\Http\Middleware\ApiKey;
 use App\Http\Middleware\RsiNotVerified;
 use App\Http\Middleware\RsiVerified;
 use Illuminate\Console\Scheduling\Schedule;
@@ -18,6 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'rsi-verified' => RsiVerified::class,
             'rsi-not-verified' => RsiNotVerified::class,
+            'api-key' => ApiKey::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

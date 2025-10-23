@@ -16,6 +16,9 @@
             <a href="{{ route('legal') }}#privacy-policy" class="text-sm hover:text-gray-300 transition duration-150">
                 {{ __('Privacy Policy') }}
             </a>
+            <a href="{{ route('api-documentation') }}" class="text-sm hover:text-gray-300 transition duration-150">
+                {{ __('API Documentation') }}
+            </a>
         </div>
     </div>
 </footer>

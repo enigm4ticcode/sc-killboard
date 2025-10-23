@@ -1,6 +1,6 @@
 function copyCode(event) {
     event.preventDefault(); // Prevent potential form submission
-    const codeElement = document.getElementById('verificationCode');
+    const codeElement = document.getElementById('copyTarget');
     const codeText = codeElement.textContent || codeElement.innerText; // Get the text content
     const copyIcon = document.getElementById('copyButtonIcon');
     const successIcon = document.getElementById('successIcon');

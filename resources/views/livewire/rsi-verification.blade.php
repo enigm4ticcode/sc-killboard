@@ -11,7 +11,7 @@
             </p>
 
             <div id="code" class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900 border border-dashed border-gray-300 dark:border-gray-600 rounded-lg shadow-inner">
-                <pre id="verificationCode" class="text-md font-mono text-yellow-600 text-shadow-md overflow-x-auto whitespace-pre-wrap break-all mr-4">[sc-killboard: {{ $verificationKey }}]</pre>
+                <pre id="copyTarget" class="text-md font-mono text-yellow-600 text-shadow-md overflow-x-auto whitespace-pre-wrap break-all mr-4">[sc-killboard: {{ $verificationKey }}]</pre>
 
                 <div class="flex items-center space-x-2">
                     <span id="successMessage" class="hidden text-sm font-semibold text-green-600 dark:text-green-400 transition-opacity duration-300">

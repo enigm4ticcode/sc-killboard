@@ -33,3 +33,7 @@
         background-image: url('/img/bgs/background-pc.jpg');
     }
 }
+
+[x-cloak] {
+    display: none !important;
+}

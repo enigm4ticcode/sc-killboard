@@ -23,9 +23,10 @@ class RsiVerification extends Component
         $user = Auth::user();
         $this->playerName = Auth::user()->global_name ?? Auth::user()->disriminator;
         if (! $user->rsi_verification_key) {
-            $this->verificationKey = Str::random(10);
-            $user->rsi_verification_key = $this->verificationKey;
+            $verificationKey = Str::random(10);
+            $user->rsi_verification_key = $verificationKey;
             $user->save();
+            $this->verificationKey = $verificationKey;
         } else {
             $this->verificationKey = $user->rsi_verification_key;
         }

@@ -52,7 +52,7 @@
 
         <h3 class="text-xl font-semibold mt-8 mb-3 text-indigo-600 dark:text-indigo-300">1.3. Data Retention and Security</h3>
         <p>
-            We retain your personal data only for as long as your account remains active. If you delete your account, your data will be permanently deleted from our primary servers **immediately**. We use standard technical and organizational measures to secure your data.
+            We retain your personal data only for as long as your account remains active. If you request to delete your account, your data will be permanently deleted from our primary servers **within 30 days**. We use standard technical and organizational measures to secure your data.
         </p>
 
         <h3 class="text-xl font-semibold mt-8 mb-3 text-indigo-600 dark:text-indigo-300">1.4. Your Data Rights</h3>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Livewire\ApiDocumentation;
 use App\Livewire\HomePage;
 use App\Livewire\HowTo;
 use App\Livewire\Legal;
@@ -25,6 +26,7 @@ Route::get('/', HomePage::class)->name('home');
 Route::get('/players/{name}', Player::class)->name('player.show');
 Route::get('/organizations/{name}', Organization::class)->name('organization.show');
 Route::get('/how-it-works', HowTo::class)->name('how-it-works');
+Route::get('/api-documentation', ApiDocumentation::class)->name('api-documentation');
 Route::get('/legal', Legal::class)->name('legal');
 
 Route::middleware(['auth'])->group(function () {
