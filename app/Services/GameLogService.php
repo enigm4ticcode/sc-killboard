@@ -10,7 +10,6 @@ use App\Models\User;
 use App\Models\Weapon;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -184,11 +183,11 @@ class GameLogService
         string $killer,
         string $victim,
         string $killWeapon,
-        string $vehicle = null,
-        string $victimGameId = null,
-        string $killerGameId = null,
-        User $user = null,
-        LogUpload $logUpload = null,
+        ?string $vehicle = null,
+        ?string $victimGameId = null,
+        ?string $killerGameId = null,
+        ?User $user = null,
+        ?LogUpload $logUpload = null,
     ): ?Kill {
         $timestamp = Carbon::parse($timeStamp);
 
