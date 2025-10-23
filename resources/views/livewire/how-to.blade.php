@@ -1,6 +1,6 @@
 <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 shadow-2xl rounded-xl p-6 sm:p-10 transition-colors duration-300 mt-8 mb-8">
     <header class="pb-6 border-b border-gray-200 dark:border-gray-700 mb-6">
-        <h1 class="text-3xl sm:text-3xl font-extrabold text-indigo-600 dark:text-indigo-400 mb-2 text-shadow-md">
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-indigo-600 dark:text-indigo-400 mb-2 text-shadow-md">
             How It Works: A Star Citizen Killboard Guide
         </h1>
         <p class="text-gray-600 dark:text-gray-400 text-lg">
