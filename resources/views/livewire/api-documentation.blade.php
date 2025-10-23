@@ -109,8 +109,7 @@
     <section class="mb-10">
         <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4">Example Request Body</h3>
         <pre class="bg-gray-900 text-gray-200 p-5 rounded-lg overflow-x-auto shadow-inner">
-        <code class="language-json">
-        <span class="text-pink-400">{</span>
+        <code class="language-json"><span class="text-pink-400">{</span>
             <span class="text-blue-400">"username"</span>: <span class="text-yellow-400">"discord_username"</span>,
             <span class="text-blue-400">"timestamp"</span>: <span class="text-yellow-400">"2025-10-23T10:30:00.123456Z"</span>,
             <span class="text-blue-400">"kill_type"</span>: <span class="text-yellow-400">"vehicle"</span>,
