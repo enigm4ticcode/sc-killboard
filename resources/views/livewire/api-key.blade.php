@@ -1,6 +1,5 @@
 @php use Illuminate\Support\Facades\Auth; @endphp
 <form class="min-w-full p-4 bg-white dark:bg-gray-800 rounded-xl shadow-2xl space-y-6" wire:submit.prevent="save">
-
     <h1 class="text-3xl font-bold tracking-tight text-indigo-600 dark:text-indigo-400">
         {{ __('API Key Management') }}
     </h1>
