@@ -162,7 +162,7 @@
                     <x-responsive-nav-link :href="route('how-it-works')">
                         {{ __('How It Works') }}
                     </x-responsive-nav-link>
-                    @if(Auth::user()->rsi_verified)
+                    @if(! Auth::user()->rsi_verified)
                         <x-responsive-nav-link :href="route('service.verify')">
                             {{ __('Verify Account') }}
                         </x-responsive-nav-link>
