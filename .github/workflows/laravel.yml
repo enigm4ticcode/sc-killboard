@@ -122,6 +122,9 @@ jobs:
           php artisan key:generate
           php artisan migrate
 
+      - name: Run Linter / Pint
+        run: vendor/bin/pint --test
+
       - name: Execute tests (Unit and Feature tests) via PestPHP
         env:
           DB_CONNECTION: mysql
