@@ -307,6 +307,10 @@ class GameLogService
 
                         if (! empty($img)) {
                             $avatar = $img->getAttribute('src');
+
+                            if (! empty($avatar)) {
+                                $avatar = Str::trim($avatar);
+                            }
                         }
                     }
                 }
