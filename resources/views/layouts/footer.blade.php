@@ -10,7 +10,7 @@
         </div>
         <div class="flex space-x-8">
             <a href="{{ route('legal') }}#legal-disclaimer" class="text-sm hover:text-gray-300 transition duration-150">
-                {{ __('Legal Disclaimer') }}
+                {{ __('Legal') }}
             </a>
             <a href="{{ route('legal') }}#cookie-policy" class="text-sm hover:text-gray-300 transition duration-150">
                 {{ __('Cookie Policy') }}
@@ -19,7 +19,10 @@
                 {{ __('Privacy Policy') }}
             </a>
             <a href="{{ route('api-documentation') }}" class="text-sm hover:text-gray-300 transition duration-150">
-                {{ __('API Documentation') }}
+                {{ __('API Docs') }}
+            </a>
+            <a href="https://github.com/enigm4ticcode/sc-killboard" target="_blank" class="text-sm hover:text-gray-300 transition duration-150">
+                {{ __('GitHub') }}
             </a>
         </div>
     </div>
