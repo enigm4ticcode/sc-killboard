@@ -39,7 +39,7 @@ class Player extends Model
     protected function avatar(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => Str::contains($value, 'http')
+            get: fn (?string $value) => ! empty($value) && Str::contains($value, 'http')
                 ? $value
                 : "https://robertsspaceindustries.com/$value"
         );
