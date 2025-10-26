@@ -26,7 +26,7 @@
                         </td>
                     @else
                         <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-300 text-center align-middle">
-                            <img width="50" height="50" src="https://cdn.robertsspaceindustries.com/static/images/account/avatar_default_big.jpg" alt="No image" class="mx-auto align-middle" />
+                            <img width="50" height="50" src="https://cdn.robertsspaceindustries.com/static/images/account/avatar_default_big.jpg" alt="{{ $killer->killer->name }}" class="mx-auto align-middle" />
                         </td>
                     @endif
                     <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-300 align-middle whitespace-nowrap">

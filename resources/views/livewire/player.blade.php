@@ -4,7 +4,7 @@
             <div class="flex items-center space-x-4 p-8 min-w-full mx-auto bg-white dark:bg-gray-800 shadow-lg rounded-lg opacity-75">
                 <div class="shrink-0">
                     <a href="https://robertsspaceindustries.com/citizens/{{ $player->name }}" target="_blank">
-                        <img class="h-[100px] w-[100px] rounded-full object-cover" src="{{ $player->avatar }}" alt="{{ $player->name }}'s avatar">
+                        <img class="h-[100px] w-[100px] rounded-full object-cover" src="{{ ! empty($player->avatar) ? $player->avatar : 'https://cdn.robertsspaceindustries.com/static/images/account/avatar_default_big.jpg' }}" alt="{{ $player->name }}'s avatar">
                     </a>
                 </div>
                 <div class="flex flex-col justify-center">
