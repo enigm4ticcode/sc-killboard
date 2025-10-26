@@ -18,7 +18,7 @@
             @forelse ($killers as $i => $killer)
                 <tr class="bg-green-200/20 dark:bg-green-900/20">
                     <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-200 text-center align-middle whitespace-nowrap font-mono">{{ $i + 1 }}</td>
-                    @if ($killer->killer->avatar !== null)
+                    @if (! empty($killer->killer->avatar))
                         <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-300 text-center align-middle">
                             <a href="{{ route('player.show', ['name' => $killer->killer->name]) }}">
                                 <img width="50" height="50" alt="{{ $killer->killer->name }}" src="{{ $killer->killer->avatar }}" class="mx-auto align-middle" />
