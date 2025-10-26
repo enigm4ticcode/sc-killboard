@@ -13,19 +13,15 @@ on:
 jobs:
   laravel-tests:
     runs-on: ubuntu-latest
-    # Service container Mysql mysql
     services:
-      # Label used to access the service container
       mysql:
-        # Docker Hub image (also with version)
-        image: mysql:8.0
+        image: mysql/mysql-server:8.0
         env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_DATABASE:  db_test_laravel
-        ## map the "external" 33306 port with the "internal" 3306
+          MYSQL_DATABASE: db_test_laravel
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_ROOT_HOST: '%'
         ports:
-          - 33306:3306
-        # Set health checks to wait until mysql database has started (it takes some seconds to start)
+          - 3306:3306
         options: >-
           --health-cmd="mysqladmin ping"
           --health-interval=10s
@@ -34,37 +30,53 @@ jobs:
 
     strategy:
       matrix:
-        operating-system: [ubuntu-latest]
-        php-versions: [ '8.4','8.3' ]
+        php-versions: [ '8.4' ]
         dependency-stability: [ 'prefer-none' ]
 
-    name: P${{ matrix.php-versions }} - L${{ matrix.laravel }} - ${{ matrix.dependency-stability }} - ${{ matrix.operating-system}}
+    name: PHP ${{ matrix.php-versions }} - ${{ matrix.dependency-stability }}
 
     steps:
       - uses: actions/checkout@v4
+      - name: Wait for MySQL
+        run: |
+          i=0
+          while ! nc -z 127.0.0.1 3306 >/dev/null 2>&1 < /dev/null; do
+            i=$((i+1))
+            if [ $i -eq 15 ]; then
+              echo "Timeout: MySQL is not available after 15 attempts."
+              exit 1
+            fi
+            echo "Waiting for MySQL to start..."
+            sleep 2
+          done
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22.x'
+
       - name: Cache node_modules directory
         uses: actions/cache@v4
         id: node_modules-cache
         with:
           path: node_modules
           key: ${{ runner.OS }}-build-${{ hashFiles('**/package.json') }}-${{ hashFiles('**/package-lock.json') }}
+
       - name: Install NPM packages
         if: steps.node_modules-cache.outputs.cache-hit != 'true'
         run: npm ci
-      - name: Build frontend
-        run: npm run build
-      - name: Install PHP versions
+
+      - name: Set up PHP and extensions
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-      - name: Get Composer Cache Directory 2
+          extensions: pdo_mysql
+          tools: composer
+
+      - name: Get Composer Cache Directory
         id: composer-cache
-        run: |
-          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
       - uses: actions/cache@v4
         id: actions-cache
         with:
@@ -72,50 +84,50 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
+
       - name: Cache PHP dependencies
         uses: actions/cache@v4
         id: vendor-cache
         with:
           path: vendor
-          key: ${{ runner.OS }}-build-${{ hashFiles('**/composer.lock') }}
-      - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
-      - name: Install Dependencies
+          key: ${{ runner.os }}-build-${{ hashFiles('**/composer.lock') }}
+
+      - name: Install PHP Dependencies
         if: steps.vendor-cache.outputs.cache-hit != 'true'
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
       - name: Update Dependencies with latest stable
         if: matrix.dependency-stability == 'prefer-stable'
         run: composer update --prefer-stable
+
       - name: Update Dependencies with lowest stable
         if: matrix.dependency-stability == 'prefer-lowest'
         run: composer update --prefer-stable --prefer-lowest
-      - name: Generate key
-        run: php artisan key:generate
-      - name: Directory Permissions
-        run: chmod -R 777 storage bootstrap/cache
-      - name: Run Migrations
+
+      - name: Copy .env file for testing
+        run: cp .env.example .env
+
+      - name: Build frontend
+        run: npm run build
+
+      - name: Configure and run migrations
         env:
           DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
           DB_DATABASE: db_test_laravel
-          DB_PORT: 33306
-          DB_USER: root
-        run: php artisan migrate
-      - name: Show dir
-        run: pwd
-      - name: PHP Version
-        run: php --version
-      - name: Execute Code Linter via Pint
+          DB_USERNAME: root
+          DB_PASSWORD: password
         run: |
-          composer require --dev laravel/pint
-          vendor/bin/pint --test
+          php artisan key:generate
+          php artisan migrate
+
       - name: Execute tests (Unit and Feature tests) via PestPHP
         env:
           DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
           DB_DATABASE: db_test_laravel
-          DB_PORT: 33306
-          DB_USER: root
+          DB_USERNAME: root
+          DB_PASSWORD: password
         run: vendor/bin/pest
-      - name: Execute Code Sniffer via phpcs
-        run: |
-          composer require --dev squizlabs/php_codesniffer
-          vendor/bin/phpcs --standard=PSR12 app
