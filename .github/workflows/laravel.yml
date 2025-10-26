@@ -66,9 +66,6 @@ jobs:
         if: steps.node_modules-cache.outputs.cache-hit != 'true'
         run: npm ci
 
-      - name: Build frontend
-        run: npm run build
-
       - name: Set up PHP and extensions
         uses: shivammathur/setup-php@v2
         with:
@@ -109,6 +106,9 @@ jobs:
 
       - name: Copy .env file for testing
         run: cp .env.example .env
+
+      - name: Build frontend
+        run: npm run build
 
       - name: Configure and run migrations
         env:
