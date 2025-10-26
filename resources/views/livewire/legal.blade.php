@@ -120,6 +120,10 @@
             <p class="text-yellow-700 dark:text-yellow-200 leading-relaxed mt-3">
                 All game content and assets are the property of their respective owners and are used here under the principles of Fair Use and/or the terms of the Cloud Imperium Games Fan Kit Agreement to support and promote the community and enjoyment of the Star Citizen universe.
             </p>
+
+            <p class="text-yellow-700 dark:text-yellow-200 leading-relaxed mt-3">
+                As the source code for this website and app is public domain and available on third-party websites such as GitHub, the creators and maintainer(s) of this website are not responsible for, and cannot be held liable for any legal issues that may arise from other websites, apps or entities using this website's and app's source code.
+            </p>
         </div>
     </section>
 </div>
