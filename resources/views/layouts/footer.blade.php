@@ -19,7 +19,7 @@
                 {{ __('Privacy Policy') }}
             </a>
             <a href="{{ route('api-documentation') }}" class="text-sm hover:text-gray-300 transition duration-150">
-                {{ __('API Docs') }}
+                {{ __('API Documentation') }}
             </a>
             <a href="https://github.com/enigm4ticcode/sc-killboard" target="_blank" class="text-sm hover:text-gray-300 transition duration-150">
                 {{ __('GitHub') }}
