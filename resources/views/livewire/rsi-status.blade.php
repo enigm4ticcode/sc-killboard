@@ -4,7 +4,7 @@
     </div>
 
     <div class="px-4 py-5 sm:p-6">
-        <dl class="grid grid-cols-1 gap-x-4 gap-y-6">
+        <dl class="grid grid-cols-1 gap-x-4 gap-y-2">
             <div class="sm:col-span-1">
                 <div class="flex items-center gap-x-4">
                     <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">
