@@ -4,6 +4,7 @@ use App\Console\Commands\GetAllVehiclesCommand;
 use App\Http\Middleware\ApiKey;
 use App\Http\Middleware\RsiNotVerified;
 use App\Http\Middleware\RsiVerified;
+use App\Jobs\CheckRsiStatusJob;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -28,4 +29,5 @@ return Application::configure(basePath: dirname(__DIR__))
         $schedule->command(GetAllVehiclesCommand::class)->weekly()->thursdays()->at('23:00');
         $schedule->command('sail artisan scout:queue-import "App\Models\Player"')->daily();
         $schedule->command('sail artisan scout:queue-import "App\Models\Organizations"')->daily();
+        $schedule->job(CheckRsiStatusJob::class)->everyFiveMinutes();
     })->create();
