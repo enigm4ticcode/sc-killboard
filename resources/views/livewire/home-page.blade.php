@@ -12,7 +12,7 @@
             <livewire:main-kill-feed />
         </section>
 
-        <section class="p-4 space-y-4 h-full max-w-md">
+        <section class="p-4 space-y-4 h-full w-full md:w-xs lg:w-md flex-none">
             <livewire:rsi-status />
             <livewire:top-killer />
             <livewire:top-fps-killers />
