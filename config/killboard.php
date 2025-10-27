@@ -22,4 +22,10 @@ return [
         'base_url' => env('RSI_VERIFICATION_BASE_URL', 'https://robertsspaceindustries.com/citizens'),
         'pattern' => env('RSI_VERIFICATION_PATTERN', '/\[sc-killboard:\s*([a-zA-Z0-9]+)\]/'),
     ],
+    'rsi_status' => [
+        'base_url' => env('RSI_STATUS_BASE_URL', 'https://status.robertsspaceindustries.com'),
+        'index' => env('RSI_STATUS_INDEX', 'index.json'),
+        'cache_key' => env('RSI_STATUS_CACHE_KEY', 'rsi_status'),
+        'ttl' => env('RSI_STATUS_TTL', 300),
+    ],
 ];

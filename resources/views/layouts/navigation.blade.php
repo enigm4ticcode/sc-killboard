@@ -133,7 +133,7 @@
                                 {{ __('How It Works') }}
                             </x-dropdown-link>
                             <x-dropdown-link :href="route('api-documentation')">
-                                {{ __('API Documentation') }}
+                                {{ __('API Docs') }}
                             </x-dropdown-link>
                             <x-dropdown-link href="https://robertsspaceindustries.com">
                                 {{ __('RSI - Official Website') }}
