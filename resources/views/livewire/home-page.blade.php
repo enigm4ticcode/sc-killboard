@@ -8,20 +8,19 @@
         </p>
     </header>
     <div class="flex flex-col md:flex-row h-full">
-        <section class="flex-1 min-w-xs md:min-w-md py-4 h-full overflow-x-auto">
+        <section class="flex-1 py-4 h-full overflow-x-auto">
             <livewire:main-kill-feed />
         </section>
 
-        <section class="p-4 h-full mx-auto">
-            <div class="space-y-4 w-full max-w-xs max-w-sm">
-                <livewire:top-killer />
-                <livewire:top-fps-killers />
-                <livewire:top-orgs />
-                <livewire:top-weapon />
-                <livewire:top-victim />
-                <livewire:top-fps-victims />
-                <livewire:victim-orgs />
-            </div>
+        <section class="p-4 space-y-4 h-full max-w-md">
+            <livewire:rsi-status />
+            <livewire:top-killer />
+            <livewire:top-fps-killers />
+            <livewire:top-orgs />
+            <livewire:top-weapon />
+            <livewire:top-victim />
+            <livewire:top-fps-victims />
+            <livewire:victim-orgs />
         </section>
     </div>
 </div>
