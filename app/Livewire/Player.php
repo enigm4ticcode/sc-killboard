@@ -31,7 +31,15 @@ class Player extends Component
         $this->totalKills = $this->player->kills()->count();
         $this->totalLosses = $this->player->losses()->count();
         $this->data = $kills->merge($losses)->sortByDesc('destroyed_at');
-        $this->efficiency = Number::format(($this->totalKills / ($this->totalKills + $this->totalLosses)) * 100, 2);
+        $efficiency = ($this->totalKills + $this->totalLosses) > 0
+            ? ($this->totalKills / ($this->totalKills + $this->totalLosses)) * 100
+            : 0.0;
+
+        if (extension_loaded('intl')) {
+            $this->efficiency = Number::format($efficiency, 2);
+        } else {
+            $this->efficiency = number_format($efficiency, 2);
+        }
     }
 
     public function render(): View

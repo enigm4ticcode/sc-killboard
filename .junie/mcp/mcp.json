@@ -1,12 +1,11 @@
 {
-    "mcpServers": {
-        "laravel-boost": {
-            "command": "wsl.exe",
-            "args": [
-                "/home/eubd/sc_killboard/vendor/bin/sail",
-                "artisan",
-                "boost:mcp"
-            ]
-        }
+  "mcpServers": {
+    "laravel-boost": {
+      "command": "./vendor/bin/sail",
+      "args": [
+        "artisan",
+        "boost:mcp"
+      ]
     }
+  }
 }
