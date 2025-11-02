@@ -15,7 +15,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
-          extensions: mbstring, pdo_mysql, dom, fileinfo, gd, imagick
+          extensions: mbstring, pdo_mysql, pdo_sqlite, sqlite3, dom, fileinfo, gd, imagick
           ini-values: post_max_size=512M, upload_max_filesize=512M
           tools: composer:v2
 
@@ -26,11 +26,13 @@ jobs:
         run: |
           cp .env.example .env
           php artisan key:generate
-          touch database/database.sqlite
-          php artisan migrate --env=testing --force
 
       - name: Run Pint Linter
         run: ./vendor/bin/pint --test
 
       - name: Run Pest Tests
+        env:
+          APP_ENV: testing
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ':memory:'
         run: php artisan test
