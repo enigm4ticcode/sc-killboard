@@ -12,7 +12,11 @@
                         <a href="https://robertsspaceindustries.com/citizens/{{ $player->name }}" target="_blank">{{ $player->name }}</a>
                     </div>
                     <div class="text-lg fond-bold">
-                        <a href="https://robertsspaceindustries.com/orgs/{{ $player->organization->spectrum_id }}" target="_blank">{{ $player->organization->name }}</a>
+                        @if($player->organization)
+                            <a href="https://robertsspaceindustries.com/orgs/{{ $player->organization->spectrum_id }}" target="_blank">{{ $player->organization->name }}</a>
+                        @else
+                            <span class="text-gray-500">None</span>
+                        @endif
                     </div>
                     <div class="text-md font-semibold">
                         Kills: {{ $totalKills }} / Losses: {{ $totalLosses }}

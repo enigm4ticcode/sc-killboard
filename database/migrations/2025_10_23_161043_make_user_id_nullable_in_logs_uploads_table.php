@@ -11,13 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('log_uploads', function (Blueprint $table) {
-            $table->dropForeign('log_uploads_user_id_foreign');
+        $isSqlite = Schema::getConnection()->getDriverName() === 'sqlite';
+
+        Schema::table('log_uploads', function (Blueprint $table) use ($isSqlite): void {
+            if (! $isSqlite) {
+                $table->dropForeign('log_uploads_user_id_foreign');
+            }
+
             $table->unsignedBigInteger('user_id')->nullable()->change();
         });
 
-        Schema::table('kills', function (Blueprint $table) {
-            $table->dropForeign('user_id_foreign');
+        Schema::table('kills', function (Blueprint $table) use ($isSqlite): void {
+            if (! $isSqlite) {
+                $table->dropForeign('user_id_foreign');
+            }
         });
     }
 

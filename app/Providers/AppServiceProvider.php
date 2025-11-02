@@ -14,7 +14,21 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        if ($this->app->environment('testing')) {
+            config()->set('cache.default', 'array');
+            config()->set('cache.limiter', 'array');
+            config()->set('cache.stores.redis.driver', 'array');
+
+            // Ensure nothing tries to use Redis during tests
+            config()->set('database.redis', []);
+            config()->set('queue.default', 'sync');
+            config()->set('session.driver', 'array');
+            config()->set('scout.connection', null);
+            config()->set('scout.queue.connection', 'sync');
+            config()->set('scout.queue.queue', 'sync');
+            // Disable Scout syncing entirely in tests
+            config()->set('scout.driver', 'null');
+        }
     }
 
     /**

@@ -13,7 +13,23 @@
 
 pest()->extend(Tests\TestCase::class)
     ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
-    ->in('Feature');
+    ->in('Feature', 'Unit');
+
+beforeEach(function (): void {
+    // Ensure non-Redis throttle / cache in tests
+    config()->set('cache.default', 'array');
+    config()->set('cache.limiter', 'array');
+    config()->set('cache.stores.redis.driver', 'array');
+
+    // Ensure no Redis usage anywhere
+    config()->set('database.redis', []);
+    config()->set('broadcast.default', 'log');
+    config()->set('queue.default', 'sync');
+    config()->set('session.driver', 'array');
+
+    // Ensure compiled views are fresh so Blade changes are picked up during tests
+    \Illuminate\Support\Facades\Artisan::call('view:clear');
+});
 
 /*
 |--------------------------------------------------------------------------

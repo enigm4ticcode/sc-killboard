@@ -17,7 +17,7 @@ return [
 
     'default' => env('CACHE_STORE', 'database'),
 
-    'limiter' => 'redis',
+    'limiter' => env('CACHE_LIMITER', 'redis'),
 
     /*
     |--------------------------------------------------------------------------
