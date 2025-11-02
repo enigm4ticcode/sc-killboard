@@ -31,7 +31,16 @@ class Organization extends Component
         $this->data = $kills->merge($losses)->sortByDesc('destroyed_at');
         $this->totalKills = $this->organization->kills()->count();
         $this->totalLosses = $this->organization->losses()->count();
-        $this->efficiency = Number::format(($this->totalKills / ($this->totalKills + $this->totalLosses)) * 100, 2);
+
+        $efficiency = ($this->totalKills + $this->totalLosses) > 0
+            ? ($this->totalKills / ($this->totalKills + $this->totalLosses)) * 100
+            : 0.0;
+
+        if (extension_loaded('intl')) {
+            $this->efficiency = Number::format($efficiency, 2);
+        } else {
+            $this->efficiency = number_format($efficiency, 2);
+        }
     }
 
     public function render(): View
