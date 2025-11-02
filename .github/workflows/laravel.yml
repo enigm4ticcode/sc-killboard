@@ -22,12 +22,15 @@ jobs:
       - name: Install Composer Dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
 
-      - name: Prepare Laravel Application
+      - name: Prepare Application
         run: |
-          cp .env.ci .env # Or create a .env file with appropriate settings
+          cp .env.example .env
           php artisan key:generate
           touch database/database.sqlite
-          php artisan migrate --env=testing --force # Run migrations for testing database
+          php artisan migrate --env=testing --force
 
-      - name: Run Tests
-        run: php artisan test # Or vendor/bin/phpunit
+      - name: Run Pint Linter
+        run: ./vendor/bin/pint --test
+
+      - name: Run Pest Tests
+        run: php artisan test

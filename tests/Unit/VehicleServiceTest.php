@@ -15,10 +15,19 @@ it('returns vehicle from cache/database when slug matches', function (): void {
         'version' => '1.0',
     ]);
 
-    $wiki = new class() extends StarCitizenWikiService {
+    $wiki = new class extends StarCitizenWikiService
+    {
         public function __construct() {}
-        public function search(string $query): array { return ['data' => []]; }
-        public function getVehicleById(string $uuid): array { return ['data' => []]; }
+
+        public function search(string $query): array
+        {
+            return ['data' => []];
+        }
+
+        public function getVehicleById(string $uuid): array
+        {
+            return ['data' => []];
+        }
     };
 
     $service = new VehicleService($wiki, 'all-vehicles');
@@ -32,10 +41,17 @@ it('returns vehicle from cache/database when slug matches', function (): void {
 it('falls back to wiki search and creates vehicle when not in cache', function (): void {
     Cache::forget('all-vehicles');
 
-    $wiki = new class() extends StarCitizenWikiService {
+    $wiki = new class extends StarCitizenWikiService
+    {
         public function __construct() {}
-        public function search(string $query): array { return ['data' => [['uuid' => 'veh-123']]]; }
-        public function getVehicleById(string $uuid): array {
+
+        public function search(string $query): array
+        {
+            return ['data' => [['uuid' => 'veh-123']]];
+        }
+
+        public function getVehicleById(string $uuid): array
+        {
             return [
                 'data' => [
                     'uuid' => $uuid,
@@ -57,7 +73,10 @@ it('falls back to wiki search and creates vehicle when not in cache', function (
 });
 
 it('updateOrCreateVehicle maps fields correctly', function (): void {
-    $wiki = new class() extends StarCitizenWikiService { public function __construct() {} };
+    $wiki = new class extends StarCitizenWikiService
+    {
+        public function __construct() {}
+    };
 
     $service = new VehicleService($wiki, 'all-vehicles');
 

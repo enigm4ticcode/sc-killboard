@@ -14,8 +14,9 @@ class DummyVehicleService extends VehicleService
     public function __construct() {}
 }
 
-function makeGameLogService(): GameLogService {
-    $vehicleService = new DummyVehicleService();
+function makeGameLogService(): GameLogService
+{
+    $vehicleService = new DummyVehicleService;
 
     $config = [
         'actor_kill_string' => 'Actor Death',

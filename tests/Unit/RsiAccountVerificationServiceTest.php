@@ -4,7 +4,7 @@ use App\Services\RsiAccountVerificationService;
 use Illuminate\Support\Facades\Http;
 
 it('verifies biography key when present', function (): void {
-    $html = <<<HTML
+    $html = <<<'HTML'
     <div class="entry bio"><div class="value">Hello [sc-killboard: abc123]</div></div>
     HTML;
 
