@@ -19,7 +19,13 @@ class MainKillFeed extends Component
     public function render(RecentKillsService $recentKillsService): View
     {
         $kills = $this->loadData($recentKillsService);
-        $paginated = new LengthAwarePaginator($kills, count($kills), config('killboard.pagination.kills_per_page'));
+        $perPage = config('killboard.pagination.kills_per_page');
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $offset = ($currentPage * $perPage) - $perPage;
+        $currentItems = $kills->slice($offset, $perPage);
+        $paginated = new LengthAwarePaginator($currentItems, count($kills), $perPage, $currentPage, [
+            'path' => LengthAwarePaginator::resolveCurrentPath(),
+        ]);
 
         return view('livewire.main-kill-feed', ['kills' => $paginated]);
     }
