@@ -58,8 +58,14 @@ return [
     'avg' => 'Сер',
     'kills' => 'Вбивства',
     'deaths' => 'Смерті',
+    'losses' => 'Поразки',
+    'efficiency' => 'Ефективність',
     'avatar' => 'Аватар',
     'no_data_yet' => 'Поки немає даних.',
+    'none' => 'Немає',
+    'date_time_utc' => 'Дата / Час (UTC)',
+    'player_activity' => 'Активність :name (Останні :days днів)',
+    'organization_activity' => 'Активність :name (Останні :days днів)',
 
     // Footer
     'made_by_community' => 'Створено спільнотою Star Citizen',
