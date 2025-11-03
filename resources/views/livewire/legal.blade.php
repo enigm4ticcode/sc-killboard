@@ -1,128 +1,130 @@
-<div id="legal-info-wrapper" class="container mx-auto px-4 py-12 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 shadow-xl dark:shadow-2xl rounded-lg mt-8 mb-8">
-    <h1 class="text-4xl font-extrabold text-indigo-700 dark:text-indigo-400 mb-2 text-shadow-md">Legal Information</h1>
-    <p class="text-gray-500 dark:text-gray-400 mb-10">Last Updated: {{ date('F j, Y') }}</p>
+<div id="legal-info-wrapper" class="card p-4 sm:p-6 lg:p-8 mx-4 sm:mx-0" style="color: rgb(var(--fg));">
+    <header class="pb-6 mb-6 border-b" style="border-color: rgb(var(--card-border));">
+        <h1 class="text-3xl sm:text-4xl font-extrabold mb-2" style="color: rgb(var(--accent));">{{ __('app.legal_information') }}</h1>
+        <p class="text-base" style="color: rgb(var(--muted));">{{ __('app.last_updated', ['date' => date('F j, Y')]) }}</p>
+    </header>
 
     <section id="privacy-policy" class="space-y-8">
-        <h2 class="text-3xl font-bold border-b-2 pb-2 text-gray-700 dark:text-gray-300 dark:border-indigo-700">1. Privacy Policy</h2>
+        <h2 class="text-3xl font-bold border-b-2 pb-2" style="color: rgb(var(--fg)); border-color: rgb(var(--accent));">1. {{ __('app.privacy_policy') }}</h2>
         <p class="text-lg">
-            This Privacy Policy explains how **Star Citizen Killboard** ("we," "us," or "our") collects, uses, and protects the personal data of users ("you") who access and use our website. We are committed to complying with applicable data protection laws, including **GDPR (EU/UK)** and relevant **U.S. state laws**.
+            {{ __('app.privacy_policy_intro') }}
         </p>
 
-        <h3 class="text-xl font-semibold mt-6 mb-3 text-indigo-600 dark:text-indigo-300">1.1. Data Controller</h3>
-        <p>The entity responsible for the processing of your personal data is:</p>
+        <h3 class="text-xl font-semibold mt-6 mb-3" style="color: rgb(var(--accent));">1.1. {{ __('app.data_controller') }}</h3>
+        <p>{{ __('app.data_controller_text') }}</p>
         <ul class="list-disc list-inside ml-4 space-y-1">
             <li>**Name/Company:** Star Citizen Killboard</li>
             <li>**Contact Email for Privacy:** zaedra.eve [at] gmail.com</li>
         </ul>
 
-        <h3 class="text-xl font-semibold mt-6 mb-3 text-indigo-600 dark:text-indigo-300">1.2. Data Collected and Purpose</h3>
-        <p>We collect a minimal amount of data strictly for authentication and account management via **Discord OAuth2 Login**.</p>
+        <h3 class="text-xl font-semibold mt-6 mb-3" style="color: rgb(var(--accent));">1.2. {{ __('app.data_collected_and_purpose') }}</h3>
+        <p>{{ __('app.data_collected_intro') }}</p>
 
         <div class="overflow-x-auto rounded-lg shadow-md">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-indigo-50 dark:bg-indigo-900">
+            <table class="min-w-full divide-y" style="divide-color: rgb(var(--card-border));">
+                <thead style="background-color: rgb(var(--table-header));">
                 <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Data Category</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Purpose</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Legal Basis (GDPR/UK)</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style="color: rgb(var(--muted));">{{ __('app.data_category') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style="color: rgb(var(--muted));">{{ __('app.purpose') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style="color: rgb(var(--muted));">{{ __('app.legal_basis') }}</th>
                 </tr>
                 </thead>
-                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-700 dark:divide-gray-600">
-                <tr>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">Discord Nickname</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">Identification and display within the fansite community.</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">Contract & Legitimate Interest (Service Provision)</td>
+                <tbody class="divide-y" style="background-color: rgb(var(--card)); divide-color: rgb(var(--card-border));">
+                <tr class="transition-colors" onmouseover="this.style.backgroundColor='rgb(var(--table-hover))'" onmouseout="this.style.backgroundColor='rgb(var(--card))'">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium" style="color: rgb(var(--fg));">{{ __('app.discord_nickname') }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm" style="color: rgb(var(--muted));">{{ __('app.identification_purpose') }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm" style="color: rgb(var(--muted));">{{ __('app.contract_legitimate_interest') }}</td>
                 </tr>
-                <tr>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">Discord Global Name</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">Identification and display within the fansite community.</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">Contract & Legitimate Interest (Service Provision)</td>
+                <tr class="transition-colors" onmouseover="this.style.backgroundColor='rgb(var(--table-hover))'" onmouseout="this.style.backgroundColor='rgb(var(--card))'">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium" style="color: rgb(var(--fg));">{{ __('app.discord_global_name') }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm" style="color: rgb(var(--muted));">{{ __('app.identification_purpose') }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm" style="color: rgb(var(--muted));">{{ __('app.contract_legitimate_interest') }}</td>
                 </tr>
-                <tr>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">Email Address</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">Account recovery, security, and essential communication.</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">Contract (Providing service)</td>
+                <tr class="transition-colors" onmouseover="this.style.backgroundColor='rgb(var(--table-hover))'" onmouseout="this.style.backgroundColor='rgb(var(--card))'">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium" style="color: rgb(var(--fg));">{{ __('app.email_address') }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm" style="color: rgb(var(--muted));">{{ __('app.email_purpose') }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm" style="color: rgb(var(--muted));">{{ __('app.contract_providing_service') }}</td>
                 </tr>
                 </tbody>
             </table>
         </div>
-        <p class="pt-2 text-sm text-gray-500 dark:text-gray-400 italic">
-            **We do not collect sensitive personal data. We do not sell your personal data.**
+        <p class="pt-2 text-sm italic" style="color: rgb(var(--muted));">
+            {{ __('app.no_sensitive_data_note') }}
         </p>
 
-        <h3 class="text-xl font-semibold mt-8 mb-3 text-indigo-600 dark:text-indigo-300">1.3. Data Retention and Security</h3>
+        <h3 class="text-xl font-semibold mt-8 mb-3" style="color: rgb(var(--accent));">1.3. {{ __('app.data_retention_security') }}</h3>
         <p>
-            We retain your personal data only for as long as your account remains active. If you request to delete your account, your data will be permanently deleted from our primary servers **within 30 days**. We use standard technical and organizational measures to secure your data.
+            {{ __('app.data_retention_text') }}
         </p>
 
-        <h3 class="text-xl font-semibold mt-8 mb-3 text-indigo-600 dark:text-indigo-300">1.4. Your Data Rights</h3>
+        <h3 class="text-xl font-semibold mt-8 mb-3" style="color: rgb(var(--accent));">1.4. {{ __('app.your_data_rights') }}</h3>
         <p>
-            You have rights under GDPR, UK GDPR, and U.S. State Laws (including access, correction, erasure, restriction of processing, and objection). To exercise any of these rights, please contact us at **zaedra.eve [at] gmail.com**.
+            {{ __('app.data_rights_text') }}
         </p>
     </section>
 
-    <hr class="my-10 border-t-2 border-indigo-200 dark:border-indigo-900">
+    <hr class="my-10 border-t-2" style="border-color: rgb(var(--accent));">
 
     <section id="cookie-policy" class="space-y-8">
-        <h2 class="text-3xl font-bold border-b-2 pb-2 text-gray-700 dark:text-gray-300 dark:border-indigo-700">2. Cookie Policy</h2>
+        <h2 class="text-3xl font-bold border-b-2 pb-2" style="color: rgb(var(--fg)); border-color: rgb(var(--accent));">2. {{ __('app.cookie_policy') }}</h2>
 
         <p class="text-lg">
-            This website uses small files called **cookies** to function effectively. By continuing to use our website, you consent to the use of cookies as described below.
+            {{ __('app.cookie_policy_intro') }}
         </p>
 
-        <h3 class="text-xl font-semibold mt-6 mb-3 text-indigo-600 dark:text-indigo-300">2.1. What are Cookies?</h3>
+        <h3 class="text-xl font-semibold mt-6 mb-3" style="color: rgb(var(--accent));">2.1. {{ __('app.what_are_cookies') }}</h3>
         <p>
-            A cookie is a small text file placed on your device (computer, phone, or tablet) when you visit a website. It helps the site remember information about your visit, which can make the site easier to use and more useful to you.
+            {{ __('app.what_are_cookies_text') }}
         </p>
 
-        <h3 class="text-xl font-semibold mt-6 mb-3 text-indigo-600 dark:text-indigo-300">2.2. Cookies We Use</h3>
-        <p>We primarily use **Strictly Necessary Cookies** related to your Discord login and general site functionality:</p>
+        <h3 class="text-xl font-semibold mt-6 mb-3" style="color: rgb(var(--accent));">2.2. {{ __('app.cookies_we_use') }}</h3>
+        <p>{{ __('app.cookies_we_use_intro') }}</p>
         <ul class="list-disc list-inside ml-4 space-y-1">
-            <li>**Session Cookies:** Essential for maintaining your logged-in session after you authenticate via Discord. These are temporary and expire when you close your browser.</li>
-            <li>**Preference Cookies:** May remember minor display choices (e.g., dark mode preference, if applicable).</li>
-            <li>**Security Cookies:** Used to ensure the security of the website and prevent fraudulent login attempts.</li>
+            <li>{{ __('app.session_cookies') }}</li>
+            <li>{{ __('app.preference_cookies') }}</li>
+            <li>{{ __('app.security_cookies') }}</li>
         </ul>
 
-        <h3 class="text-xl font-semibold mt-6 mb-3 text-indigo-600 dark:text-indigo-300">2.3. Compliance Note (EU/UK Users)</h3>
+        <h3 class="text-xl font-semibold mt-6 mb-3" style="color: rgb(var(--accent));">2.3. {{ __('app.compliance_note') }}</h3>
         <p>
-            Under GDPR and UK GDPR, the cookies described above are generally classified as **"Strictly Necessary"** for the provision of the service explicitly requested by the user (i.e., logging in and using the website). Therefore, we do not require explicit consent via a banner to use them.
+            {{ __('app.compliance_note_text') }}
         </p>
-        <p class="mt-4 p-3 bg-red-100 dark:bg-red-900 border border-red-300 dark:border-red-700 rounded-md text-sm dark:text-red-100">
-            **Important:** If we introduce any other types of cookies (e.g., third-party analytics, advertising, or marketing cookies), we will deploy a compliant **Cookie Consent Management Platform (CMP)** to obtain explicit, informed consent from EU/UK users before those cookies are loaded.
+        <p class="mt-4 p-3 border-l-4 rounded-md text-sm" style="background-color: rgb(var(--danger)); border-color: rgb(var(--danger)); color: rgb(var(--accent-fg));">
+            {{ __('app.compliance_important') }}
         </p>
 
-        <h3 class="text-xl font-semibold mt-6 mb-3 text-indigo-600 dark:text-indigo-300">2.4. Managing Cookies</h3>
+        <h3 class="text-xl font-semibold mt-6 mb-3" style="color: rgb(var(--accent));">2.4. {{ __('app.managing_cookies') }}</h3>
         <p>
-            You can usually manage your cookie preferences through your browser settings. You may block or delete cookies, but this may negatively impact your ability to log in and use the website's features.
+            {{ __('app.managing_cookies_text') }}
         </p>
     </section>
 
-    <hr class="my-10 border-t-2 border-indigo-200 dark:border-indigo-900">
+    <hr class="my-10 border-t-2" style="border-color: rgb(var(--accent));">
 
     <section id="legal-disclaimer" class="space-y-8">
-        <h2 class="text-3xl font-bold border-b-2 pb-2 text-gray-700 dark:text-gray-300 dark:border-indigo-700">3. Legal Disclaimer (Star Citizen Fansite)</h2>
+        <h2 class="text-3xl font-bold border-b-2 pb-2" style="color: rgb(var(--fg)); border-color: rgb(var(--accent));">3. {{ __('app.legal_disclaimer') }}</h2>
 
-        <div class="p-6 bg-yellow-50 dark:bg-yellow-900 border-l-4 border-yellow-400 dark:border-yellow-600 rounded-lg">
-            <h3 class="text-2xl font-bold text-yellow-800 dark:text-yellow-200 mb-4">Official Notice</h3>
+        <div class="p-6 border-l-4 rounded-lg" style="background-color: rgb(var(--warning)); border-color: rgb(var(--warning)); color: rgb(var(--accent-fg));">
+            <h3 class="text-2xl font-bold mb-4">{{ __('app.official_notice') }}</h3>
 
-            <p class="text-yellow-700 dark:text-yellow-200 leading-relaxed">
-                This website is a **Star Citizen Fansite**.
+            <p class="leading-relaxed">
+                {{ __('app.fansite_notice_1') }}
             </p>
 
-            <p class="text-yellow-700 dark:text-yellow-200 leading-relaxed mt-3">
-                This site is **not endorsed by or affiliated with** the **Cloud Imperium** or **Roberts Space Industries** group of companies.
+            <p class="leading-relaxed mt-3">
+                {{ __('app.fansite_notice_2') }}
             </p>
 
-            <p class="text-yellow-700 dark:text-yellow-200 leading-relaxed mt-3">
-                All content, materials, names, and intellectual property related to **Star Citizen®** and **Squadron 42®** are trademarks and/or copyrights of **Cloud Imperium Rights LLC** and **Cloud Imperium Rights Ltd.** All rights reserved.
+            <p class="leading-relaxed mt-3">
+                {{ __('app.fansite_notice_3') }}
             </p>
 
-            <p class="text-yellow-700 dark:text-yellow-200 leading-relaxed mt-3">
-                All game content and assets are the property of their respective owners and are used here under the principles of Fair Use and/or the terms of the Cloud Imperium Games Fan Kit Agreement to support and promote the community and enjoyment of the Star Citizen universe.
+            <p class="leading-relaxed mt-3">
+                {{ __('app.fansite_notice_4') }}
             </p>
 
-            <p class="text-yellow-700 dark:text-yellow-200 leading-relaxed mt-3">
-                As the source code for this website and app is public domain and available on third-party websites such as GitHub, the creators and maintainer(s) of this website are not responsible for, and cannot be held liable for any legal issues that may arise from other websites, apps or entities using this website's and app's source code.
+            <p class="leading-relaxed mt-3">
+                {{ __('app.fansite_notice_5') }}
             </p>
         </div>
     </section>

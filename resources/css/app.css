@@ -6,6 +6,65 @@
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
+/*
+ |--------------------------------------------------------------------------
+ | Theme variables (light / dark)
+ |--------------------------------------------------------------------------
+ */
+:root {
+    /* Light mode - enhanced palette */
+    --bg: 249 250 251; /* gray-50 - softer white */
+    --fg: 17 24 39; /* gray-900 */
+    --muted: 107 114 128; /* gray-500 */
+    --card: 255 255 255;
+    --card-border: 243 244 246; /* gray-100 - lighter separators */
+    --table-hover: 252 252 253; /* very light gray - subtle hover */
+    --table-header: 252 252 253; /* near white - subtle header */
+    --dropdown-hover: 248 250 252; /* slate-50 - very subtle dropdown hover */
+    --accent: 14 165 233; /* sky-500 - more vibrant */
+    --accent-hover: 2 132 199; /* sky-600 */
+    --accent-fg: 255 255 255; /* white for better contrast */
+    --success: 34 197 94; /* green-500 */
+    --warning: 234 179 8; /* yellow-500 */
+    --danger: 239 68 68; /* red-500 */
+}
+
+.dark {
+    /* Dark mode - enhanced palette */
+    --bg: 15 23 42; /* slate-900 - deeper dark */
+    --fg: 248 250 252; /* slate-50 - brighter text */
+    --muted: 148 163 184; /* slate-400 */
+    --card: 30 41 59; /* slate-800 */
+    --card-border: 15 23 42; /* slate-900 - much darker borders for better row separation */
+    --table-hover: 23 34 51; /* slate-850 - darker hover state */
+    --table-header: 23 34 51; /* slate-850 - subtle darker header */
+    --dropdown-hover: 39 52 72; /* slate-750 - subtle dropdown hover */
+    --accent: 56 189 248; /* sky-400 - bright in dark */
+    --accent-hover: 125 211 252; /* sky-300 */
+    --accent-fg: 15 23 42; /* slate-900 for contrast */
+    --success: 74 222 128; /* green-400 */
+    --warning: 250 204 21; /* yellow-400 */
+    --danger: 248 113 113; /* red-400 */
+}
+
+/*
+ |--------------------------------------------------------------------------
+ | Base styles & typography
+ |--------------------------------------------------------------------------
+ */
+html {
+    color-scheme: light dark;
+    scroll-behavior: smooth;
+}
+
+body {
+    @apply antialiased;
+    color: rgb(var(--fg));
+    background-color: rgb(var(--bg));
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 .bg-container {
     /* Ensures background covers the whole page and is fixed */
     background-size: cover;
@@ -14,26 +73,137 @@
     background-repeat: no-repeat;
 }
 
-.bg-container {
-    background-image: url('/resources/images/background-mobile.jpg');
+/* Use relative paths so Vite processes assets for production */
+.bg-container { background-image: url('../images/background-mobile.jpg'); }
+
+.text-shadow-md { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); }
+
+/* Tablet */
+@media (min-width: 640px) {
+    .bg-container { background-image: url('../images/background-tablet.jpg'); }
 }
 
-.text-shadow-md {
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+/* Desktop */
+@media (min-width: 1024px) {
+    .bg-container { background-image: url('../images/background-pc.jpg'); }
+}
+
+/*
+ |--------------------------------------------------------------------------
+ | Utility: glass and card
+ |--------------------------------------------------------------------------
+ */
+.glass {
+    background-color: rgb(var(--card) / 0.75);
+    border: 1px solid rgb(var(--card-border) / 0.5);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    backdrop-filter: blur(12px) saturate(180%);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    transition: all 0.3s ease;
+}
+
+.glass:hover {
+    background-color: rgb(var(--card) / 0.85);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+/* Opaque surface (no transparency, no backdrop blur) */
+.surface {
+    background-color: rgb(var(--card));
+    border-bottom: 1px solid rgb(var(--card-border));
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.card {
+    @apply rounded-none sm:rounded-xl;
+    background-color: rgb(var(--card) / 0.9);
+    border: 1px solid rgb(var(--card-border) / 0.6);
+    border-left: 0;
+    border-right: 0;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @media (min-width: 640px) {
-    .bg-container {
-        background-image: url('/resources/images/background-tablet.jpg');
+    .card {
+        border: 1px solid rgb(var(--card-border) / 0.6);
     }
 }
 
-@media (min-width: 1024px) {
-    .bg-container {
-        background-image: url('/resources/images/background-pc.jpg');
+.card:hover {
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.15), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+@media (min-width: 640px) {
+    .card:hover {
+        transform: translateY(-2px);
     }
 }
 
-[x-cloak] {
-    display: none !important;
+.container-prose {
+    @apply max-w-[1920px] mx-auto px-0 sm:px-4 md:px-6 lg:px-8 xl:px-12;
+}
+
+/*
+ |--------------------------------------------------------------------------
+ | Forms & buttons
+ |--------------------------------------------------------------------------
+ */
+.btn-primary {
+    @apply inline-flex items-center justify-center px-5 py-2.5 rounded-lg font-medium transition-all duration-200;
+    color: rgb(var(--accent-fg));
+    background-color: rgb(var(--accent));
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+.btn-primary:hover {
+    background-color: rgb(var(--accent-hover));
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    transform: translateY(-1px);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.btn-primary:focus-visible {
+    @apply outline-none ring-2 ring-offset-2;
+    ring-color: rgb(var(--accent) / 0.5);
+    ring-offset-color: rgb(var(--bg));
+}
+
+.input {
+    @apply w-full rounded-lg border px-4 py-2.5 outline-none transition-all duration-200;
+    border-color: rgb(var(--card-border));
+    background-color: rgb(var(--card));
+    color: rgb(var(--fg));
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.input:hover {
+    border-color: rgb(var(--muted));
+}
+
+.input:focus {
+    @apply ring-2;
+    ring-color: rgb(var(--accent) / 0.3);
+    border-color: rgb(var(--accent));
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+}
+
+.input::placeholder {
+    color: rgb(var(--muted));
+}
+
+/*
+ |--------------------------------------------------------------------------
+ | Accessibility & motion
+ |--------------------------------------------------------------------------
+ */
+[x-cloak] { display: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }

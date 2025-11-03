@@ -1,42 +1,41 @@
-<div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm dark:border-white/10 dark:bg-gray-900">
-
-    <div class="border-b border-gray-200 bg-gray-50 px-4 py-3 text-sm font-medium text-gray-700 dark:border-white/10 dark:bg-gray-800 dark:text-gray-200">
-        Top {{ config('killboard.leaderboards.number-of-positions') }} Pilot Victims (Last {{ config('killboard.leaderboards.timespan-days') }} Days)
+<div class="card !rounded-xl overflow-hidden">
+    <div class="border-b px-3 py-2 text-xs font-semibold" style="border-color: rgb(var(--card-border)); background-color: rgb(var(--table-header)); color: rgb(var(--fg));">
+        ☠️ {{ __('app.top_victims', ['count' => config('killboard.leaderboards.number-of-positions'), 'days' => config('killboard.leaderboards.timespan-days')]) }}
     </div>
 
     <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200 dark:divide-white/10">
-            <thead class="bg-gray-50 dark:bg-gray-800">
+        <table class="min-w-full divide-y" style="divide-color: rgb(var(--card-border));">
+            <thead style="background-color: rgb(var(--table-header));">
             <tr>
-                <th scope="col" class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300 align-middle">Rank</th>
-                <th scope="col" class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300 align-middle">Avatar</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300 align-middle">Name</th>
-                <th scope="col" class="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300 align-middle">Deaths</th>
+                <th scope="col" class="px-2 py-2 text-center text-[10px] font-semibold uppercase tracking-wider align-middle" style="color: rgb(var(--muted));">#</th>
+                <th scope="col" class="px-2 py-2 text-center text-[10px] font-semibold uppercase tracking-wider align-middle" style="color: rgb(var(--muted));">{{ __('app.avatar') }}</th>
+                <th scope="col" class="px-2 py-2 text-left text-[10px] font-semibold uppercase tracking-wider align-middle" style="color: rgb(var(--muted));">{{ __('app.name') }}</th>
+                <th scope="col" class="px-2 py-2 text-right text-[10px] font-semibold uppercase tracking-wider align-middle" style="color: rgb(var(--muted));">{{ __('app.deaths') }}</th>
             </tr>
             </thead>
-            <tbody class="divide-y divide-gray-200 bg-white dark:divide-white/10 dark:bg-gray-900">
+            <tbody class="divide-y" style="divide-color: rgb(var(--card-border)); background-color: rgb(var(--card));">
             @forelse ($victims as $i => $victim)
-                <tr class="bg-green-200/20 dark:bg-green-900/20">
-                    <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-200 text-center align-middle whitespace-nowrap font-mono">{{ $i + 1 }}</td>
+                <tr class="transition-colors" style="background-color: rgba(239, 68, 68, 0.08);" onmouseover="this.style.backgroundColor='rgb(var(--table-hover))'" onmouseout="this.style.backgroundColor='rgba(239, 68, 68, 0.08)'">
+                    <td class="px-2 py-2 text-xs text-center align-middle whitespace-nowrap font-bold" style="color: rgb(var(--accent));">{{ $i + 1 }}</td>
                     @if (! empty($victim->victim->avatar))
-                        <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-300 text-center align-middle">
-                            <a href="{{ route('player.show', ['name' => $victim->victim->name]) }}">
-                                <img width="50" height="50" alt="{{ $victim->victim->name }}" src="{{ $victim->victim->avatar }}" class="mx-auto align-middle" />
+                        <td class="px-2 py-2 text-xs text-center align-middle">
+                            <a href="{{ route('player.show', ['name' => $victim->victim->name]) }}" class="inline-block transition-transform hover:scale-110">
+                                <img width="40" height="40" alt="{{ $victim->victim->name }}" src="{{ $victim->victim->avatar }}" class="mx-auto align-middle rounded-full shadow-sm" />
                             </a>
                         </td>
                     @else
-                        <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-300 text-center align-middle">
-                            <img width="50" height="50" src="https://cdn.robertsspaceindustries.com/static/images/account/avatar_default_big.jpg" alt="{{ $victim->victim->name }}" class="mx-auto align-middle" />
+                        <td class="px-2 py-2 text-xs text-center align-middle">
+                            <img width="40" height="40" src="https://cdn.robertsspaceindustries.com/static/images/account/avatar_default_big.jpg" alt="{{ $victim->victim->name }}" class="mx-auto align-middle rounded-full shadow-sm" />
                         </td>
                     @endif
-                    <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-300 align-middle whitespace-nowrap">
-                        <b><a href="{{ route('player.show', ['name' => $victim->victim->name]) }}">{{ $victim->victim->name }}</a></b>
+                    <td class="px-2 py-2 text-xs align-middle whitespace-nowrap">
+                        <a href="{{ route('player.show', ['name' => $victim->victim->name]) }}" class="font-semibold hover:underline transition-colors truncate block max-w-[120px]" style="color: rgb(var(--fg));">{{ $victim->victim->name }}</a>
                     </td>
-                    <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-200 text-right align-middle whitespace-nowrap font-mono">{{ $victim->death_count }}</td>
+                    <td class="px-2 py-2 text-xs text-right align-middle whitespace-nowrap font-mono font-semibold" style="color: rgb(var(--fg));">{{ $victim->death_count }}</td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="4" class="px-6 py-10 text-center text-sm text-gray-500 dark:text-gray-400 align-middle">No data yet.</td>
+                    <td colspan="4" class="px-3 py-6 text-center text-xs align-middle" style="color: rgb(var(--muted));">{{ __('app.no_data_yet') }}</td>
                 </tr>
             @endforelse
             </tbody>
