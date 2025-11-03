@@ -1,95 +1,114 @@
 @php use App\Models\Kill;use App\Models\Organization;use Carbon\Carbon; @endphp
-<div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm dark:border-white/10 dark:bg-gray-900">
+<div class="overflow-hidden rounded-xl border shadow-lg transition-all duration-300" style="background-color: rgb(var(--card)); border-color: rgb(var(--card-border));">
 
-    <div class="px-4 py-2 sm:px-6 border-b border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-gray-800">
+    <div class="px-2 sm:px-4 md:px-6 py-3 border-b" style="border-color: rgb(var(--card-border)); background-color: rgb(var(--card));">
         {{ $feed->links() }}
     </div>
 
     <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200 dark:divide-white/10">
-            <thead class="bg-gray-50 dark:bg-gray-800">
+        <table class="min-w-full divide-y" style="divide-color: rgb(var(--card-border));">
+            <thead style="background-color: rgb(var(--table-header));">
             <tr>
                 <th scope="col"
-                    class="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300 align-middle">
-                    {{ __('Date / Time (UTC)') }}
+                    class="px-2 py-3 lg:px-6 lg:py-4 text-right text-xs lg:text-sm font-semibold uppercase tracking-wider align-middle"
+                    style="color: rgb(var(--muted));">
+                    {{ __('app.time_utc') }}
                 </th>
                 <th scope="col"
-                    class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300 align-middle">
-                    {{ __('Victim') }}
+                    class="px-2 py-3 lg:px-6 lg:py-4 text-left text-xs lg:text-sm font-semibold uppercase tracking-wider align-middle"
+                    style="color: rgb(var(--muted));">
+                    {{ __('app.victim') }}
                 </th>
                 <th scope="col"
-                    class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300 align-middle">
-                    {{ __('Organization') }}
+                    class="px-2 py-3 lg:px-6 lg:py-4 text-center text-xs lg:text-sm font-semibold uppercase tracking-wider align-middle"
+                    style="color: rgb(var(--muted));">
+                    {{ __('app.organization') }}
                 </th>
                 <th scope="col"
-                    class="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300 align-middle">
-                    {{ __('Vehicle / FPS') }}
+                    class="px-2 py-3 lg:px-6 lg:py-4 text-right text-xs lg:text-sm font-semibold uppercase tracking-wider align-middle"
+                    style="color: rgb(var(--muted));">
+                    {{ __('app.vehicle_fps') }}
                 </th>
                 <th scope="col"
-                    class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300 align-middle">
-                    {{ __('Final Blow') }}
+                    class="px-2 py-3 lg:px-6 lg:py-4 text-left text-xs lg:text-sm font-semibold uppercase tracking-wider align-middle"
+                    style="color: rgb(var(--muted));">
+                    {{ __('app.final_blow') }}
                 </th>
                 <th scope="col"
-                    class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300 align-middle">
-                    {{ __('Organization') }}
+                    class="px-2 py-3 lg:px-6 lg:py-4 text-center text-xs lg:text-sm font-semibold uppercase tracking-wider align-middle"
+                    style="color: rgb(var(--muted));">
+                    {{ __('app.organization') }}
                 </th>
             </tr>
             </thead>
-            <tbody class="divide-y divide-gray-200 dark:divide-white/10">
+            <tbody class="divide-y" style="divide-color: rgb(var(--card-border)); background-color: rgb(var(--card));">
+            @php($currentDate = null)
             @forelse ($feed as $kill)
                 @php($victimOrg = $kill->victim->organization)
                 @php($killerOrg = $kill->killer->organization)
                 @php($killType = $kill->type)
-                @if ($type === 'organization')
-                    <tr class="{{ $id === $victimOrg->id ? 'bg-red-100/20 dark:bg-red-900/20' : 'bg-green-200/20 dark:bg-green-900/20' }}">
-                @else
-                    <tr class="{{ $id === $kill->victim->id ? 'bg-red-100/20 dark:bg-red-900/20' : 'bg-green-200/20 dark:bg-green-900/20' }}">
-                        @endif
-                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100 text-right font-mono align-middle whitespace-nowrap">
-                            {{ Carbon::parse($kill->destroyed_at)->format('D, M j Y H:i') }}
+                @php($killDate = Carbon::parse($kill->destroyed_at)->format('Y-m-d'))
+                @php($displayDate = Carbon::parse($kill->destroyed_at)->format('l, F j, Y'))
+
+                @if($currentDate !== $killDate)
+                    @php($currentDate = $killDate)
+                    <tr style="background-color: rgb(var(--bg));">
+                        <td colspan="6" class="px-4 py-3 text-sm font-bold border-t border-b" style="color: rgb(var(--accent)); border-color: rgb(var(--card-border));">
+                            📅 {{ $displayDate }}
                         </td>
-                        <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-300 align-middle whitespace-nowrap">
-                            <b><a href="{{ route('player.show', ['name' => $kill->victim->name]) }}">{{ $kill->victim->name }}</a></b>
+                    </tr>
+                @endif
+
+                @if ($type === 'organization')
+                    <tr class="transition-colors" style="background-color: {{ $id === $victimOrg->id ? 'rgba(239, 68, 68, 0.08)' : 'rgba(34, 197, 94, 0.08)' }};" onmouseover="this.style.backgroundColor='rgb(var(--table-hover))'" onmouseout="this.style.backgroundColor='{{ $id === $victimOrg->id ? 'rgba(239, 68, 68, 0.08)' : 'rgba(34, 197, 94, 0.08)' }}'">
+                @else
+                    <tr class="transition-colors" style="background-color: {{ $id === $kill->victim->id ? 'rgba(239, 68, 68, 0.08)' : 'rgba(34, 197, 94, 0.08)' }};" onmouseover="this.style.backgroundColor='rgb(var(--table-hover))'" onmouseout="this.style.backgroundColor='{{ $id === $kill->victim->id ? 'rgba(239, 68, 68, 0.08)' : 'rgba(34, 197, 94, 0.08)' }}'">
+                @endif
+                        <td class="px-2 py-3 lg:px-6 lg:py-5 text-sm lg:text-base text-right font-mono align-middle whitespace-nowrap" style="color: rgb(var(--fg));">
+                            {{ Carbon::parse($kill->destroyed_at)->format('H:i:s') }}
+                        </td>
+                        <td class="px-2 py-3 lg:px-6 lg:py-5 text-sm lg:text-base align-middle whitespace-nowrap">
+                            <b><a href="{{ route('player.show', ['name' => $kill->victim->name]) }}" class="hover:underline transition-colors" style="color: rgb(var(--accent));">{{ $kill->victim->name }}</a></b>
                         </td>
                         @if($victimOrg->spectrum_id !== Organization::ORG_NONE && $victimOrg->spectrum_id !== Organization::ORG_REDACTED)
-                            <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-300 text-center align-middle">
-                                <a href="{{ route('organization.show', ['name' => $victimOrg->spectrum_id]) }}">
-                                    <img width="50" height="50" src="{{ $victimOrg->icon }}" alt="{{ $victimOrg->name }}" class="mx-auto align-middle"/>
+                            <td class="px-2 py-3 lg:px-6 lg:py-5 text-sm lg:text-base text-center align-middle">
+                                <a href="{{ route('organization.show', ['name' => $victimOrg->spectrum_id]) }}" class="inline-block transition-transform hover:scale-110">
+                                    <img width="50" height="50" src="{{ $victimOrg->icon }}" alt="{{ $victimOrg->name }}" class="mx-auto align-middle w-12 h-12 lg:w-16 lg:h-16 rounded-lg shadow-sm"/>
                                 </a>
                             </td>
                         @else
-                            <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-300 text-center align-middle">
-                                <img width="50" height="50" src="{{ $victimOrg->icon }}" alt="{{ $victimOrg->name }}" class="mx-auto align-middle"/>
+                            <td class="px-2 py-3 lg:px-6 lg:py-5 text-sm lg:text-base text-center align-middle">
+                                <img width="50" height="50" src="{{ $victimOrg->icon }}" alt="{{ $victimOrg->name }}" class="mx-auto align-middle w-12 h-12 lg:w-16 lg:h-16 rounded-lg shadow-sm"/>
                             </td>
                         @endif
                         @if($killType === Kill::TYPE_VEHICLE)
-                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100 text-right align-middle whitespace-nowrap">
+                            <td class="px-2 py-3 lg:px-6 lg:py-5 text-sm lg:text-base text-right align-middle whitespace-nowrap font-medium" style="color: rgb(var(--fg));">
                                 {{ $kill->ship->name }}
                             </td>
                         @else
-                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100 text-right align-middle whitespace-nowrap">
+                            <td class="px-2 py-3 lg:px-6 lg:py-5 text-sm lg:text-base text-right align-middle whitespace-nowrap font-medium" style="color: rgb(var(--fg));">
                                 FPS
                             </td>
                         @endif
-                        <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-300 align-middle whitespace-nowrap">
-                            <b><a href="{{ route('player.show', ['name' => $kill->killer->name]) }}">{{ $kill->killer->name }}</a></b>
+                        <td class="px-2 py-3 lg:px-6 lg:py-5 text-sm lg:text-base align-middle whitespace-nowrap">
+                            <b><a href="{{ route('player.show', ['name' => $kill->killer->name]) }}" class="hover:underline transition-colors" style="color: rgb(var(--accent));">{{ $kill->killer->name }}</a></b>
                         </td>
                         @if($killerOrg->spectrum_id !== Organization::ORG_NONE && $killerOrg->spectrum_id !== Organization::ORG_REDACTED)
-                            <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-300 text-center align-middle">
-                                <a href="{{ route('organization.show', ['name' => $killerOrg->spectrum_id]) }}">
-                                    <img width="50" height="50" src="{{ $killerOrg->icon }}" alt="{{ $killerOrg->name }}" class="mx-auto align-middle"/>
+                            <td class="px-2 py-3 lg:px-6 lg:py-5 text-sm lg:text-base text-center align-middle">
+                                <a href="{{ route('organization.show', ['name' => $killerOrg->spectrum_id]) }}" class="inline-block transition-transform hover:scale-110">
+                                    <img width="50" height="50" src="{{ $killerOrg->icon }}" alt="{{ $killerOrg->name }}" class="mx-auto align-middle w-12 h-12 lg:w-16 lg:h-16 rounded-lg shadow-sm"/>
                                 </a>
                             </td>
                         @else
-                            <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-300 text-center align-middle">
-                                <img width="50" height="50" src="{{ $killerOrg->icon }}" alt="None" class="mx-auto align-middle"/>
+                            <td class="px-2 py-3 lg:px-6 lg:py-5 text-sm lg:text-base text-center align-middle">
+                                <img width="50" height="50" src="{{ $killerOrg->icon }}" alt="{{ __('app.none') }}" class="mx-auto align-middle w-12 h-12 lg:w-16 lg:h-16 rounded-lg shadow-sm"/>
                             </td>
                         @endif
                     </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="px-6 py-10 text-center text-sm text-gray-500 dark:text-gray-400 align-middle">
-                                No data yet.
+                            <td colspan="6" class="px-6 py-10 text-center text-sm align-middle" style="color: rgb(var(--muted));">
+                                {{ __('app.no_data_yet') }}
                             </td>
                         </tr>
                     @endforelse
@@ -97,7 +116,7 @@
         </table>
     </div>
 
-    <div class="border-t border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-gray-800 rounded-b-lg px-4 py-3 sm:px-6">
+    <div class="border-t rounded-b-xl px-4 py-3 sm:px-6" style="border-color: rgb(var(--card-border)); background-color: rgb(var(--card));">
         {{ $feed->links() }}
     </div>
 </div>
