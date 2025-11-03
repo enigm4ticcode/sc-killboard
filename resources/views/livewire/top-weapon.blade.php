@@ -1,28 +1,27 @@
-<div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm dark:border-white/10 dark:bg-gray-900">
-
-    <div class="border-b border-gray-200 bg-gray-50 px-4 py-3 text-sm font-medium text-gray-700 dark:border-white/10 dark:bg-gray-800 dark:text-gray-200">
-        Top {{ config('killboard.leaderboards.number-of-positions') }} Weapons Used (Last {{ config('killboard.leaderboards.timespan-days') }} Days)
+<div class="card !rounded-xl overflow-hidden">
+    <div class="border-b px-3 py-2 text-xs font-semibold" style="border-color: rgb(var(--card-border)); background-color: rgb(var(--table-header)); color: rgb(var(--fg));">
+        🔫 {{ __('app.top_weapons', ['count' => config('killboard.leaderboards.number-of-positions'), 'days' => config('killboard.leaderboards.timespan-days')]) }}
     </div>
 
     <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200 dark:divide-white/10">
-            <thead class="bg-gray-50 dark:bg-gray-800">
+        <table class="min-w-full divide-y" style="divide-color: rgb(var(--card-border));">
+            <thead style="background-color: rgb(var(--table-header));">
             <tr>
-                <th scope="col" class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300 align-middle">Rank</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300 align-middle">Weapon</th>
-                <th scope="col" class="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300 align-middle">Kills</th>
+                <th scope="col" class="px-2 py-2 text-center text-[10px] font-semibold uppercase tracking-wider align-middle" style="color: rgb(var(--muted));">#</th>
+                <th scope="col" class="px-2 py-2 text-left text-[10px] font-semibold uppercase tracking-wider align-middle" style="color: rgb(var(--muted));">{{ __('app.weapon') }}</th>
+                <th scope="col" class="px-2 py-2 text-right text-[10px] font-semibold uppercase tracking-wider align-middle" style="color: rgb(var(--muted));">{{ __('app.kills') }}</th>
             </tr>
             </thead>
-            <tbody class="divide-y divide-gray-200 bg-white dark:divide-white/10 dark:bg-gray-900">
+            <tbody class="divide-y" style="divide-color: rgb(var(--card-border)); background-color: rgb(var(--card));">
             @forelse ($weapons as $i => $weapon)
-                <tr>
-                    <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-200 text-center align-middle whitespace-nowrap font-mono">{{ $i + 1 }}</td>
-                    <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-300 align-middle whitespace-nowrap font-mono"><b>{{ $weapon->weapon->name }}</b></td>
-                    <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-200 text-right align-middle whitespace-nowrap font-mono">{{ $weapon->weapon_kill_count }}</td>
+                <tr class="transition-colors" onmouseover="this.style.backgroundColor='rgb(var(--table-hover))'" onmouseout="this.style.backgroundColor='rgb(var(--card))'">
+                    <td class="px-2 py-2 text-xs text-center align-middle whitespace-nowrap font-bold" style="color: rgb(var(--accent));">{{ $i + 1 }}</td>
+                    <td class="px-2 py-2 text-xs align-middle font-mono truncate max-w-[140px]" style="color: rgb(var(--fg));">{{ $weapon->weapon->name }}</td>
+                    <td class="px-2 py-2 text-xs text-right align-middle whitespace-nowrap font-mono font-semibold" style="color: rgb(var(--fg));">{{ $weapon->weapon_kill_count }}</td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="4" class="px-6 py-10 text-center text-sm text-gray-500 dark:text-gray-400 align-middle">No data yet.</td>
+                    <td colspan="3" class="px-3 py-6 text-center text-xs align-middle" style="color: rgb(var(--muted));">{{ __('app.no_data_yet') }}</td>
                 </tr>
             @endforelse
             </tbody>

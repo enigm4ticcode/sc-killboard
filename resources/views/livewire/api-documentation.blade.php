@@ -1,81 +1,81 @@
-<div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 shadow-2xl rounded-xl p-6 sm:p-10 transition-colors duration-300 mt-8 mb-8">
-    <header class="pb-6 border-b border-gray-200 dark:border-gray-700 mb-8">
-        <h1 class="text-3xl sm:text-4xl font-extrabold text-indigo-600 dark:text-indigo-400 mb-2 text-shadow-md">
-            API Documentation
+<div class="card p-4 sm:p-6 lg:p-8 mx-4 sm:mx-0">
+    <header class="pb-6 mb-6 border-b" style="border-color: rgb(var(--card-border));">
+        <h1 class="text-3xl sm:text-4xl font-extrabold mb-2" style="color: rgb(var(--accent));">
+            {{ __('app.api_documentation') }}
         </h1>
-        <p class="text-gray-600 dark:text-gray-400">
-            Comprehensive guide to integrating with the killboard API.
+        <p class="text-base" style="color: rgb(var(--muted));">
+            {{ __('app.api_docs_subtitle') }}
         </p>
     </header>
 
     <section class="mb-10">
-        <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-4">Submit a New Kill</h2>
-        <p class="mb-4 text-gray-700 dark:text-gray-300">This endpoint allows authorized clients to submit details about a kill event to the database.</p>
+        <h2 class="text-2xl font-bold mb-4" style="color: rgb(var(--fg));">{{ __('app.submit_new_kill') }}</h2>
+        <p class="mb-4" style="color: rgb(var(--fg));">{{ __('app.submit_kill_description') }}</p>
 
-        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg shadow-sm mb-4 border border-gray-200 dark:border-gray-700">
-            <p class="mb-2"><strong class="font-mono text-gray-900 dark:text-gray-100">Endpoint:</strong> <code class="text-indigo-600 dark:text-indigo-400">/api/v1/kills</code></p>
-            <p><strong class="font-mono text-gray-900 dark:text-gray-100">Method:</strong> <span class="text-green-600 dark:text-green-400 font-bold px-2 py-0.5 bg-green-100 dark:bg-green-900/50 rounded-full text-sm">POST</span></p>
+        <div class="p-6 rounded-lg shadow-sm mb-4 border" style="background-color: rgb(var(--bg)); border-color: rgb(var(--card-border));">
+            <p class="mb-2"><strong class="font-mono" style="color: rgb(var(--fg));">{{ __('app.endpoint') }}:</strong> <code style="color: rgb(var(--accent));">/api/v1/kills</code></p>
+            <p><strong class="font-mono" style="color: rgb(var(--fg));">{{ __('app.method') }}:</strong> <span style="color: rgb(var(--success));" class="font-bold px-2 py-0.5 rounded-full text-sm">POST</span></p>
         </div>
 
-        <p class="text-gray-700 dark:text-gray-300">
-            <strong>Authentication:</strong> Requires a valid Bearer token in the <code class="text-sm bg-gray-200 dark:bg-gray-700 px-1 rounded">Authorization</code> header. The API key can be found on
-            <a href="{{ route('profile.edit') }}" class="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">your Profile</a> page after you've verified your account via RSI.
+        <p style="color: rgb(var(--fg));">
+            <strong>{{ __('app.authentication') }}:</strong> {!! __('app.authentication_description', ['code' => '<code class="text-sm px-1 rounded" style="background-color: rgb(var(--bg));">Authorization</code>']) !!}
+            <a href="{{ route('profile.edit') }}" class="hover:underline font-medium" style="color: rgb(var(--accent));">{{ __('app.your_profile') }}</a> {{ __('app.after_verification') }}
         </p>
     </section>
 
-    <div class="border-t border-gray-200 dark:border-gray-700 my-8"></div>
+    <div class="border-t my-8" style="border-color: rgb(var(--card-border));"></div>
 
     <section class="mb-10">
-        <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4">Request Headers</h3>
-        <div class="overflow-x-auto shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead class="bg-gray-100 dark:bg-gray-700">
+        <h3 class="text-xl font-bold mb-4" style="color: rgb(var(--fg));">{{ __('app.request_headers') }}</h3>
+        <div class="overflow-x-auto shadow md:rounded-lg">
+            <table class="min-w-full divide-y" style="divide-color: rgb(var(--card-border));">
+                <thead style="background-color: rgb(var(--table-header));">
                 <tr>
-                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Header</th>
-                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Value</th>
-                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Required</th>
-                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Description</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider" style="color: rgb(var(--muted));">{{ __('app.header') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider" style="color: rgb(var(--muted));">{{ __('app.value') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider" style="color: rgb(var(--muted));">{{ __('app.required') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider" style="color: rgb(var(--muted));">{{ __('app.description') }}</th>
                 </tr>
                 </thead>
-                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700 text-gray-700 dark:text-gray-300">
-                <tr>
+                <tbody class="divide-y" style="background-color: rgb(var(--card)); divide-color: rgb(var(--card-border)); color: rgb(var(--fg));">
+                <tr class="transition-colors" onmouseover="this.style.backgroundColor='rgb(var(--table-hover))'" onmouseout="this.style.backgroundColor='rgb(var(--card))'">
                     <td class="px-6 py-4 whitespace-nowrap"><code>Authorization</code></td>
                     <td class="px-6 py-4 whitespace-nowrap"><code>Bearer &lt;api-key&gt;</code></td>
-                    <td class="px-6 py-4 whitespace-nowrap"><span class="text-green-600 dark:text-green-400 font-medium">Yes</span></td>
-                    <td class="px-6 py-4">The API key for authentication.</td>
+                    <td class="px-6 py-4 whitespace-nowrap"><span style="color: rgb(var(--success));" class="font-medium">{{ __('app.yes') }}</span></td>
+                    <td class="px-6 py-4">{{ __('app.api_key_authentication') }}</td>
                 </tr>
-                <tr>
+                <tr class="transition-colors" onmouseover="this.style.backgroundColor='rgb(var(--table-hover))'" onmouseout="this.style.backgroundColor='rgb(var(--card))'">
                     <td class="px-6 py-4 whitespace-nowrap"><code>Content-Type</code></td>
                     <td class="px-6 py-4 whitespace-nowrap"><code>application/json</code></td>
-                    <td class="px-6 py-4 whitespace-nowrap"><span class="text-green-600 dark:text-green-400 font-medium">Yes</span></td>
-                    <td class="px-6 py-4">Specifies the format of the request body.</td>
+                    <td class="px-6 py-4 whitespace-nowrap"><span style="color: rgb(var(--success));" class="font-medium">{{ __('app.yes') }}</span></td>
+                    <td class="px-6 py-4">{{ __('app.content_type_description') }}</td>
                 </tr>
-                <tr>
+                <tr class="transition-colors" onmouseover="this.style.backgroundColor='rgb(var(--table-hover))'" onmouseout="this.style.backgroundColor='rgb(var(--card))'">
                     <td class="px-6 py-4 whitespace-nowrap"><code>Accept</code></td>
                     <td class="px-6 py-4 whitespace-nowrap"><code>application/json</code></td>
-                    <td class="px-6 py-4 whitespace-nowrap"><span class="text-green-600 dark:text-green-400 font-medium">Yes</span></td>
-                    <td class="px-6 py-4">Indicates the client accepts a JSON response.</td>
+                    <td class="px-6 py-4 whitespace-nowrap"><span style="color: rgb(var(--success));" class="font-medium">{{ __('app.yes') }}</span></td>
+                    <td class="px-6 py-4">{{ __('app.accept_description') }}</td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </section>
 
-    <div class="border-t border-gray-200 dark:border-gray-700 my-8"></div>
+    <div class="border-t my-8" style="border-color: rgb(var(--card-border));"></div>
 
     <section class="mb-10">
-        <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4">Request Body Parameters</h3>
-        <div class="overflow-x-auto shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead class="bg-gray-100 dark:bg-gray-700">
+        <h3 class="text-xl font-bold mb-4" style="color: rgb(var(--fg));">{{ __('app.request_body_parameters') }}</h3>
+        <div class="overflow-x-auto shadow md:rounded-lg">
+            <table class="min-w-full divide-y" style="divide-color: rgb(var(--card-border));">
+                <thead style="background-color: rgb(var(--table-header));">
                 <tr>
-                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Parameter</th>
-                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Type</th>
-                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Required</th>
-                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Validation Rules</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider" style="color: rgb(var(--muted));">{{ __('app.parameter') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider" style="color: rgb(var(--muted));">{{ __('app.type') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider" style="color: rgb(var(--muted));">{{ __('app.required') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider" style="color: rgb(var(--muted));">{{ __('app.validation_rules') }}</th>
                 </tr>
                 </thead>
-                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700 text-gray-700 dark:text-gray-300">
+                <tbody class="divide-y" style="background-color: rgb(var(--card)); divide-color: rgb(var(--card-border)); color: rgb(var(--fg));">
                 @foreach ([
                     ['username', 'String', 'Yes', '`required`, `string`, `exists:users,username`'],
                     ['timestamp', 'String', 'Yes', '`required`, `string`, `date_format:Y-m-d\TH:i:s.u\Z`'],
@@ -86,11 +86,11 @@
                     ['weapon', 'String', 'Yes', '`required`, `string`, `min:3`'],
                     ['vehicle', 'String', 'No', '`sometimes`, `string`, `min:4`'],
                 ] as $param)
-                    <tr>
+                    <tr class="transition-colors" onmouseover="this.style.backgroundColor='rgb(var(--table-hover))'" onmouseout="this.style.backgroundColor='rgb(var(--card))'">
                         <td class="px-6 py-4 whitespace-nowrap"><code>{{ $param[0] }}</code></td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ $param[1] }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="{{ $param[2] === 'Yes' ? 'text-green-600 dark:text-green-400 font-medium' : 'text-gray-500 dark:text-gray-400' }}">{{ $param[2] }}</span>
+                            <span style="color: {{ $param[2] === 'Yes' ? 'rgb(var(--success))' : 'rgb(var(--muted))' }};" class="{{ $param[2] === 'Yes' ? 'font-medium' : '' }}">{{ $param[2] === 'Yes' ? __('app.yes') : __('app.no') }}</span>
                         </td>
                         <td class="px-6 py-4"><code>{{ $param[3] }}</code></td>
                     </tr>
@@ -99,15 +99,19 @@
             </table>
         </div>
 
-        <p class="text-gray-700 dark:text-gray-300 py-4">
-            <strong>Please note:</strong> The <code class="text-sm bg-gray-200 dark:bg-gray-700 px-1 rounded">killer</code>, <code class="text-sm bg-gray-200 dark:bg-gray-700 px-1 rounded">victim</code> and <code class="text-sm bg-gray-200 dark:bg-gray-700 px-1 rounded">vehicle</code> fields will undergo additional validation via RSI.
+        <p class="py-4" style="color: rgb(var(--fg));">
+            {!! __('app.additional_validation_note', [
+                'killer' => '<code class="text-sm px-1 rounded" style="background-color: rgb(var(--bg));">killer</code>',
+                'victim' => '<code class="text-sm px-1 rounded" style="background-color: rgb(var(--bg));">victim</code>',
+                'vehicle' => '<code class="text-sm px-1 rounded" style="background-color: rgb(var(--bg));">vehicle</code>'
+            ]) !!}
         </p>
     </section>
 
-    <div class="border-t border-gray-200 dark:border-gray-700 my-8"></div>
+    <div class="border-t my-8" style="border-color: rgb(var(--card-border));"></div>
 
     <section class="mb-10">
-        <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4">Example Request Body</h3>
+        <h3 class="text-xl font-bold mb-4" style="color: rgb(var(--fg));">{{ __('app.example_request_body') }}</h3>
         <pre class="bg-gray-900 text-gray-200 p-5 rounded-lg overflow-x-auto shadow-inner">
         <code class="language-json"><span class="text-pink-400">{</span>
             <span class="text-blue-400">"username"</span>: <span class="text-yellow-400">"discord_username"</span>,
@@ -121,15 +125,15 @@
         <span class="text-pink-400">}</span></code></pre>
     </section>
 
-    <div class="border-t border-gray-200 dark:border-gray-700 my-8"></div>
+    <div class="border-t my-8" style="border-color: rgb(var(--card-border));"></div>
 
     <section>
-        <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4">Response Codes</h3>
-        <ul class="list-disc pl-5 space-y-3 text-gray-700 dark:text-gray-300">
-            <li class="mb-1"><strong class="text-green-500"><code>201 Created</code></strong>: The kill event was successfully recorded.</li>
-            <li class="mb-1"><strong class="text-red-500"><code>401 Unauthorized</code></strong>: The <code>Authorization</code> header is missing or the API Key is invalid.</li>
-            <li class="mb-1"><strong class="text-yellow-500"><code>422 Unprocessable Entity</code></strong>: Validation failed for one or more input parameters. The response body will contain specific error messages.</li>
-            <li class="mb-1"><strong class="text-gray-500 dark:text-gray-400"><code>500 Internal Server Error</code></strong>: An unexpected server error occurred.</li>
+        <h3 class="text-xl font-bold mb-4" style="color: rgb(var(--fg));">{{ __('app.response_codes') }}</h3>
+        <ul class="list-disc pl-5 space-y-3" style="color: rgb(var(--fg));">
+            <li class="mb-1"><strong style="color: rgb(var(--success));"><code>201 Created</code></strong>: {{ __('app.response_201') }}</li>
+            <li class="mb-1"><strong style="color: rgb(var(--danger));"><code>401 Unauthorized</code></strong>: {!! __('app.response_401', ['code' => '<code>Authorization</code>']) !!}</li>
+            <li class="mb-1"><strong style="color: rgb(var(--warning));"><code>422 Unprocessable Entity</code></strong>: {{ __('app.response_422') }}</li>
+            <li class="mb-1"><strong style="color: rgb(var(--muted));"><code>500 Internal Server Error</code></strong>: {{ __('app.response_500') }}</li>
         </ul>
     </section>
 </div>
