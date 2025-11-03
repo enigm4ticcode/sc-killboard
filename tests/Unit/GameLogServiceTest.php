@@ -24,6 +24,10 @@ function makeGameLogService(): GameLogService
         'valid_pvp_damage_types' => ['VehicleDestruction', 'Bullet'],
         'iso_timestamp_pattern' => '/\<(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2}))\>/',
         'lines_to_read' => 4,
+        // Add required keys expected by the service constructor
+        'actor_death_pattern' => "/<(?<timestamp>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z)> \[Notice\] <Actor Death> CActor::Kill: '(?<victim>[^']+)' \[(?<victimId>\d+)\] in zone '(?<zone>[^']+)' killed by '(?<killer>[^']+)' \[(?<killerId>\d+)\] using '(?<weapon>[^']+)' \[Class (?<class>[^\]]+)\] with damage type '(?<damageType>[^']+)'/",
+        'vehicle_destruction_pattern' => "/<Vehicle Destruction> CVehicle::OnAdvanceDestroyLevel: Vehicle '(?<vehicle>[^']+)' \[(?<vehicleId>\d+)\] in zone '(?<zone>[^']+)'(?:.*)caused by '[^']+' \[\d+\](?:.*)with 'Combat' \[Team_CGP4\]\[(?<team>[^\]]+)\]/",
+        'ac_match_string' => 'Requesting Mode Change',
     ];
 
     return new GameLogService($vehicleService, $config);

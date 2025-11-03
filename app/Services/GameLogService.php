@@ -10,7 +10,6 @@ use App\Models\Ship;
 use App\Models\User;
 use App\Models\Weapon;
 use Carbon\Carbon;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -22,19 +21,19 @@ class GameLogService
 {
     private const UNKNOWN = 'unknown';
 
-    private const COMBAT = 'COMBAT';
+    private const COMBAT = 'Combat';
 
-    private const JOIN_MATCH_STRING = 'JOIN MATCH';
+    private const DAMAGE_TYPE_FPS = 'Bullet';
 
-    private const DAMAGE_TYPE_FPS = 'BULLET';
+    protected string $actorDeathPattern;
 
-    protected string $actorKillString;
+    protected string $acMatchString;
 
     protected string $vehicleDestructionString;
 
-    protected array $validPvpDamageTypes;
+    protected string $vehicleDestructionPattern;
 
-    protected string $isoTimestampPattern;
+    protected array $validPvpDamageTypes;
 
     protected VehicleService $vehicleService;
 
@@ -43,12 +42,11 @@ class GameLogService
     public function __construct(VehicleService $vehicleService, array $config)
     {
         $this->vehicleService = $vehicleService;
-        $this->actorKillString = Str::upper($config['actor_kill_string']);
-        $this->vehicleDestructionString = Str::upper($config['vehicle_destruction_string']);
-        $this->isoTimestampPattern = $config['iso_timestamp_pattern'];
-        $this->validPvpDamageTypes = Arr::map($config['valid_pvp_damage_types'], function (string $value, string $key) {
-            return Str::upper($value);
-        });
+        $this->actorDeathPattern = $config['actor_death_pattern'];
+        $this->vehicleDestructionPattern = $config['vehicle_destruction_pattern'];
+        $this->vehicleDestructionString = $config['vehicle_destruction_string'];
+        $this->acMatchString = $config['ac_match_string'];
+        $this->validPvpDamageTypes = $config['valid_pvp_damage_types'];
         $this->linesToRead = $config['lines_to_read'];
     }
 
@@ -73,33 +71,33 @@ class GameLogService
                 while (($currentLine = fgets($handle)) !== false) {
                     $trimmedCurrent = trim($currentLine);
 
-                    if (Str::contains(Str::upper($currentLine), self::JOIN_MATCH_STRING)) {
+                    if (Str::contains(Str::upper($trimmedCurrent), $this->acMatchString)) {
                         $out['has_arena_commander_kills'] = true;
 
                         break;
                     }
 
-                    if (Str::contains(Str::upper($trimmedCurrent), $this->actorKillString)) {
-                        $explodedKillString = explode(' ', $trimmedCurrent);
-                        $damageType = Str::upper(Str::trim($explodedKillString[21], "'\" "));
+                    $matches = [];
+                    $result = preg_match_all($this->actorDeathPattern, $trimmedCurrent, $matches);
+
+                    if ($result !== false && $result !== 0 && count($matches[0]) > 0) {
+                        $damageType = $matches['damageType'][0] ?? self::UNKNOWN;
 
                         if (Str::contains($damageType, $this->validPvpDamageTypes)) {
-                            $explodedLine = explode(' ', $trimmedCurrent);
-                            $timestamp = Carbon::parse(Str::match($this->isoTimestampPattern, $explodedLine[0]));
-                            $victim = Str::remove("'", $explodedLine[5]);
-                            $victimGameId = (int) Str::remove('[', Str::remove(']', $explodedLine[6]));
-                            $killerGameId = (int) Str::remove('[', Str::remove(']', $explodedLine[13]));
-                            $killWeapon = Str::slug(Str::beforeLast($explodedLine[15], '_'));
-                            $killer = Str::remove("'", $explodedLine[12]);
-                            $victimZoneRaw = Str::trim($explodedLine[9], "'\" ");
-                            $victimZone = Str::trim(Str::beforeLast($victimZoneRaw, '_'), "'\" ");
+                            $timestamp = Carbon::parse($matches['timestamp'][0] ?? '1970-01-01 00:00:00');
+                            $victim = $matches['victim'][0] ?? self::UNKNOWN;
+                            $victimGameId = (int) ($matches['victimID'][0] ?? 0);
+                            $killerGameId = (int) ($matches['killerId'][0] ?? 0);
+                            $killWeapon = Str::slug($matches['weapon'][0] ?? self::UNKNOWN);
+                            $killer = $matches['killer'][0] ?? self::UNKNOWN;
+                            $victimDeathZone = $matches['zone'][0] ?? self::UNKNOWN;
 
                             if ($victim !== $killer && ! $this->isNpc($victim) && ! $this->isNpc($killer)) {
                                 $entry = [
                                     'timestamp' => $timestamp,
                                     'victim' => $victim,
                                     'killer' => $killer,
-                                    'location' => $victimZone,
+                                    'location' => $victimDeathZone,
                                     'victimGameId' => $victimGameId,
                                     'killerGameId' => $killerGameId,
                                     'killWeapon' => $killWeapon,
@@ -109,23 +107,31 @@ class GameLogService
 
                                 if ($previousLine !== null
                                     && $damageType !== self::DAMAGE_TYPE_FPS
-                                    && Str::contains(Str::upper($previousLine), $this->vehicleDestructionString)
+                                    && Str::contains($previousLine, $this->vehicleDestructionString)
                                 ) {
-                                    $explodedDestructionString = explode(' ', $previousLine);
-                                    $deathZoneRaw = Str::trim($explodedDestructionString[6], "'\" ");
-                                    $deathLocation = Str::trim($explodedDestructionString[10], "'\" ");
-                                    $isCombat = Str::upper(Str::trim($explodedDestructionString[41], "'\" ")) === self::COMBAT;
+                                    $vehicleMatches = [];
+                                    $vehicleResult = preg_match_all($this->vehicleDestructionPattern, $previousLine, $vehicleMatches);
 
-                                    if ($isCombat && $deathZoneRaw === $victimZoneRaw) {
-                                        $entry['location'] = $deathLocation;
-                                        $entry['vehicle'] = $this->vehicleService->getVehicleByClass($victimZone);
+                                    if ($vehicleResult !== false
+                                        && $vehicleResult !== 0
+                                        && count($vehicleMatches[0]) > 0
+                                    ) {
+                                        $deathVehicle = $vehicleMatches['vehicle'][0] ?? self::UNKNOWN;
+                                        $deathLocation = $vehicleMatches['zone'][0] ?? self::UNKNOWN;
+                                        $isCombat = Str::contains($previousLine, self::COMBAT);
+
+                                        if ($isCombat && $deathVehicle === $victimDeathZone) {
+                                            $vehicleClass = Str::beforeLast($deathVehicle, '_');
+                                            $entry['location'] = $deathLocation;
+                                            $entry['vehicle'] = $this->vehicleService->getVehicleByClass($vehicleClass);
+                                        }
                                     }
-                                }
 
-                                if (($entry['killType'] === Kill::TYPE_VEHICLE && ($entry['vehicle'] !== null))
-                                    || $entry['killType'] === Kill::TYPE_FPS
-                                ) {
-                                    $foundEntries[] = $entry;
+                                    if (($entry['killType'] === Kill::TYPE_VEHICLE && ($entry['vehicle'] !== null))
+                                        || $entry['killType'] === Kill::TYPE_FPS
+                                    ) {
+                                        $foundEntries[] = $entry;
+                                    }
                                 }
                             }
                         }
