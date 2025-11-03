@@ -54,7 +54,6 @@ class UploadLog extends Component
         $storedPath = $this->file->storeAs('uploads/logs', $name);
 
         if (! $storedPath || ! Storage::exists($storedPath)) {
-            Storage::delete($storedPath);
             Toaster::error('Upload failed.');
             $this->reset('file');
             $this->dispatch('refreshSelf');
@@ -71,6 +70,7 @@ class UploadLog extends Component
         $logUpload->save();
 
         $result = $gameLogService->processGameLog($storedPath, $logUpload);
+        Storage::delete($storedPath);
 
         if ($result['has_arena_commander_kills']) {
             Toaster::error('Arena Commander log detected. Kills were not recorded.');
@@ -86,7 +86,6 @@ class UploadLog extends Component
             Toaster::info('Log file was processed successfully, however, no kills were found in it.');
         }
 
-        Storage::delete($storedPath);
         $this->dispatch('refreshSelf');
     }
 }
