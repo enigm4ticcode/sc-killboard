@@ -4,6 +4,7 @@ use App\Console\Commands\GetAllVehiclesCommand;
 use App\Http\Middleware\ApiKey;
 use App\Http\Middleware\RsiNotVerified;
 use App\Http\Middleware\RsiVerified;
+use App\Http\Middleware\SetLocale;
 use App\Jobs\CheckRsiStatusJob;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Application;
@@ -18,6 +19,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->web(append: [
+            SetLocale::class,
+        ]);
+
         $middleware->alias([
             'rsi-verified' => RsiVerified::class,
             'rsi-not-verified' => RsiNotVerified::class,

@@ -1,38 +1,37 @@
-<div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm dark:border-white/10 dark:bg-gray-900">
-
-    <div class="border-b border-gray-200 bg-gray-50 px-4 py-3 text-sm font-medium text-gray-700 dark:border-white/10 dark:bg-gray-800 dark:text-gray-200">
-        Top {{ config('killboard.leaderboards.number-of-positions') }} Victim Orgs (Last {{ config('killboard.leaderboards.timespan-days') }} Days)
+<div class="card !rounded-xl overflow-hidden">
+    <div class="border-b px-3 py-2 text-xs font-semibold" style="border-color: rgb(var(--card-border)); background-color: rgb(var(--table-header)); color: rgb(var(--fg));">
+        ⚰️ {{ __('app.top_victim_orgs', ['count' => config('killboard.leaderboards.number-of-positions'), 'days' => config('killboard.leaderboards.timespan-days')]) }}
     </div>
 
     <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200 dark:divide-white/10">
-            <thead class="bg-gray-50 dark:bg-gray-800">
+        <table class="min-w-full divide-y" style="divide-color: rgb(var(--card-border));">
+            <thead style="background-color: rgb(var(--table-header));">
             <tr>
-                <th scope="col" class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300 align-middle">Rank</th>
-                <th scope="col" class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300 align-middle">Logo</th>
-                <th scope="col" class="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300 align-middle">Total Deaths</th>
-                <th scope="col" class="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300 align-middle">Avg. Per Player</th>
+                <th scope="col" class="px-2 py-2 text-center text-[10px] font-semibold uppercase tracking-wider align-middle" style="color: rgb(var(--muted));">#</th>
+                <th scope="col" class="px-2 py-2 text-center text-[10px] font-semibold uppercase tracking-wider align-middle" style="color: rgb(var(--muted));">{{ __('app.logo') }}</th>
+                <th scope="col" class="px-2 py-2 text-right text-[10px] font-semibold uppercase tracking-wider align-middle" style="color: rgb(var(--muted));">{{ __('app.deaths') }}</th>
+                <th scope="col" class="px-2 py-2 text-right text-[10px] font-semibold uppercase tracking-wider align-middle" style="color: rgb(var(--muted));">{{ __('app.avg') }}</th>
             </tr>
             </thead>
-            <tbody class="divide-y divide-gray-200 bg-white dark:divide-white/10 dark:bg-gray-900">
+            <tbody class="divide-y" style="divide-color: rgb(var(--card-border)); background-color: rgb(var(--card));">
             @forelse ($orgs as $i => $org)
                 @if($org->spectrum_id !== \App\Models\Organization::ORG_NONE)
-                    <tr>
+                    <tr class="transition-colors" onmouseover="this.style.backgroundColor='rgb(var(--table-hover))'" onmouseout="this.style.backgroundColor='rgb(var(--card))'">
                         @php($iconUrl = \Illuminate\Support\Str::contains($org->organization_icon, 'http') ? $org->organization_icon : 'https://robertsspaceindustries.com/' . $org->organization_icon)
 
-                        <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-200 text-center align-middle whitespace-nowrap font-mono">{{ $i + 1 }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-300 text-center align-middle">
-                            <a href="{{ route('organization.show', ['name' => $org->spectrum_id]) }}">
-                                <img width="50" height="50" alt="{{ $org->organization_name }}" src="{{ $iconUrl }}" class="mx-auto align-middle" />
+                        <td class="px-2 py-2 text-xs text-center align-middle whitespace-nowrap font-bold" style="color: rgb(var(--accent));">{{ $i + 1 }}</td>
+                        <td class="px-2 py-2 text-xs text-center align-middle">
+                            <a href="{{ route('organization.show', ['name' => $org->spectrum_id]) }}" class="inline-block transition-transform hover:scale-110">
+                                <img width="40" height="40" alt="{{ $org->organization_name }}" src="{{ $iconUrl }}" class="mx-auto align-middle rounded shadow-sm" />
                             </a>
                         </td>
-                        <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-200 text-right align-middle whitespace-nowrap font-mono">{{ $org->total_deaths }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-200 text-right align-middle whitespace-nowrap font-mono">{{ \Illuminate\Support\Number::format($org->average_deaths_per_player, 2) }}</td>
+                        <td class="px-2 py-2 text-xs text-right align-middle whitespace-nowrap font-mono font-semibold" style="color: rgb(var(--fg));">{{ $org->total_deaths }}</td>
+                        <td class="px-2 py-2 text-xs text-right align-middle whitespace-nowrap font-mono" style="color: rgb(var(--muted));">{{ \Illuminate\Support\Number::format($org->average_deaths_per_player, 1) }}</td>
                     </tr>
                 @endif
             @empty
                 <tr>
-                    <td colspan="4" class="px-6 py-10 text-center text-sm text-gray-500 dark:text-gray-400 align-middle">No data yet.</td>
+                    <td colspan="4" class="px-3 py-6 text-center text-xs align-middle" style="color: rgb(var(--muted));">{{ __('app.no_data_yet') }}</td>
                 </tr>
             @endforelse
             </tbody>

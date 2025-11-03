@@ -1,5 +1,9 @@
 @props(['value'])
 
-<label {{ $attributes->merge(['class' => 'block font-medium text-sm text-gray-700 dark:text-gray-300']) }}>
+@php
+$baseStyle = $attributes->get('style', '');
+@endphp
+
+<label {{ $attributes->merge(['class' => 'block font-medium text-sm'])->except('style') }} style="{{ $baseStyle }}">
     {{ $value ?? $slot }}
 </label>

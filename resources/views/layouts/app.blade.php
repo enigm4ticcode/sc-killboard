@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="color-scheme" content="light dark">
     <meta name="description" content="Track kills, deaths, and player efficiency for Star Citizen. View global leaderboards and stats for yourself or your organization on the premier Star Citizen killboard.">
     <meta name="keywords" content="Star Citizen killboard, Star Citizen stats, SC kill death tracker, Star Citizen player efficiency, SC leaderboards, Star Citizen combat stats, organization stats, Star Citizen PvP">
     <title>
@@ -30,23 +31,26 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="font-sans antialiased bg-container">
-<div class="min-h-screen">
+<div class="min-h-screen flex flex-col">
     @include('layouts.navigation')
 
     <!-- Page Heading -->
     @isset($header)
-        <header class="bg-white/90 dark:bg-gray-800/90 shadow">
-            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <header class="surface sticky top-0 z-40 backdrop-blur-sm">
+            <div class="container-prose py-4">
                 {{ $header }}
             </div>
         </header>
     @endisset
 
-    <main class="min-w-full">
-        {{ $slot }}
+    <main class="flex-1">
+        <div class="container-prose py-4 sm:py-8 lg:py-12">
+            {{ $slot }}
+        </div>
     </main>
+
+    @include('layouts.footer')
 </div>
-@include('layouts.footer')
 <x-toaster-hub />
 </body>
 </html>
