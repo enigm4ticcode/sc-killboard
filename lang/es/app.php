@@ -58,8 +58,14 @@ return [
     'avg' => 'Prom.',
     'kills' => 'Muertes',
     'deaths' => 'Muertes',
+    'losses' => 'Pérdidas',
+    'efficiency' => 'Eficiencia',
     'avatar' => 'Avatar',
     'no_data_yet' => 'Aún no hay datos.',
+    'none' => 'Ninguno',
+    'date_time_utc' => 'Fecha / Hora (UTC)',
+    'player_activity' => 'Actividad de :name (Últimos :days Días)',
+    'organization_activity' => 'Actividad de :name (Últimos :days Días)',
 
     // Footer
     'made_by_community' => 'Hecho por la Comunidad de Star Citizen',

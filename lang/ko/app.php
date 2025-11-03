@@ -58,8 +58,14 @@ return [
     'avg' => '평균',
     'kills' => '킬',
     'deaths' => '사망',
+    'losses' => '손실',
+    'efficiency' => '효율성',
     'avatar' => '아바타',
     'no_data_yet' => '아직 데이터가 없습니다.',
+    'none' => '없음',
+    'date_time_utc' => '날짜 / 시간 (UTC)',
+    'player_activity' => ':name의 활동 (최근 :days일)',
+    'organization_activity' => ':name 활동 (최근 :days일)',
 
     // Footer
     'made_by_community' => 'Star Citizen 커뮤니티 제작',

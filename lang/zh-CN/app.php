@@ -58,8 +58,14 @@ return [
     'avg' => '平均',
     'kills' => '击杀',
     'deaths' => '死亡',
+    'losses' => '损失',
+    'efficiency' => '效率',
     'avatar' => '头像',
     'no_data_yet' => '暂无数据。',
+    'none' => '无',
+    'date_time_utc' => '日期 / 时间 (UTC)',
+    'player_activity' => ':name 的活动（最近 :days 天）',
+    'organization_activity' => ':name 活动（最近 :days 天）',
 
     // Footer
     'made_by_community' => '由 Star Citizen 社区制作',
