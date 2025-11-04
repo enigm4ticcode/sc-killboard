@@ -169,11 +169,15 @@ class RemoveDuplicateKills extends Command
 
             // Check if core identifying attributes match
             // Note: We DON'T check weapon_id because the same kill event can be logged with different weapons
+            // Note: We properly handle null ship_id by checking both null and non-null cases
+            $shipMatches = ($kill->ship_id === null && $otherKill->ship_id === null) ||
+                           ($kill->ship_id !== null && $kill->ship_id === $otherKill->ship_id);
+
             if ($kill->killer_id === $otherKill->killer_id &&
                 $kill->victim_id === $otherKill->victim_id &&
                 $kill->type === $otherKill->type &&
                 $kill->location === $otherKill->location &&
-                $kill->ship_id === $otherKill->ship_id) {
+                $shipMatches) {
                 $duplicates[] = $otherKill;
             }
         }
