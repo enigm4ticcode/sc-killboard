@@ -645,13 +645,21 @@ class GameLogService
 
         // Try to find existing kill within the time window
         // Note: We DON'T check weapon_id because the same kill can be logged with different weapons
+        // Note: We use fuzzy location matching to handle parent/child zone variations (e.g., OOC_Stanton_2b vs OOC_Stanton_2b_Daymar)
         $existingKill = Kill::query()
             ->where('killer_id', $killerId)
             ->where('victim_id', $victimId)
             ->where('type', $type)
-            ->where('location', $location)
             ->where('destroyed_at', '>=', $startTime)
             ->where('destroyed_at', '<=', $endTime)
+            ->where(function ($query) use ($location) {
+                // Exact match OR fuzzy match where one location is a prefix of the other
+                $query->where('location', $location)
+                    ->orWhere('location', 'LIKE', $location.'_%')
+                    ->orWhere(function ($q) use ($location) {
+                        $q->whereRaw('? LIKE CONCAT(location, \'_%\')', [$location]);
+                    });
+            })
             ->where(function ($query) use ($shipId) {
                 if ($shipId !== null) {
                     $query->where('ship_id', $shipId);
