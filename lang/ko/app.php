@@ -212,4 +212,6 @@ return [
     'fansite_notice_3' => '**Star Citizen®** 및 **Squadron 42®**와 관련된 모든 콘텐츠, 자료, 이름 및 지적 재산은 **Cloud Imperium Rights LLC** 및 **Cloud Imperium Rights Ltd.**의 상표 및/또는 저작권입니다. 모든 권리 보유.',
     'fansite_notice_4' => '모든 게임 콘텐츠 및 자산은 각 소유자의 재산이며 Star Citizen 우주의 커뮤니티 및 즐거움을 지원하고 홍보하기 위해 공정 사용 원칙 및/또는 Cloud Imperium Games Fan Kit 계약 조건에 따라 여기에서 사용됩니다.',
     'fansite_notice_5' => '이 웹사이트 및 앱의 소스 코드는 공개 도메인이며 GitHub와 같은 제3자 웹사이트에서 사용할 수 있으므로 이 웹사이트의 작성자 및 유지 관리자는 이 웹사이트 및 앱의 소스 코드를 사용하는 다른 웹사이트, 앱 또는 엔티티에서 발생할 수 있는 법적 문제에 대해 책임을 지지 않으며 책임을 질 수 없습니다.',
+    'cookie_consent_message' => '이 웹사이트는 최상의 경험을 제공하기 위해 쿠키를 사용합니다. :site를 계속 사용하시면 쿠키 사용에 동의하는 것입니다.',
+    'accept_cookies' => '쿠키 수락',
 ];

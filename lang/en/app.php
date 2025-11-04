@@ -212,4 +212,6 @@ return [
     'fansite_notice_3' => 'All content, materials, names, and intellectual property related to **Star Citizen®** and **Squadron 42®** are trademarks and/or copyrights of **Cloud Imperium Rights LLC** and **Cloud Imperium Rights Ltd.** All rights reserved.',
     'fansite_notice_4' => 'All game content and assets are the property of their respective owners and are used here under the principles of Fair Use and/or the terms of the Cloud Imperium Games Fan Kit Agreement to support and promote the community and enjoyment of the Star Citizen universe.',
     'fansite_notice_5' => 'As the source code for this website and app is public domain and available on third-party websites such as GitHub, the creators and maintainer(s) of this website are not responsible for, and cannot be held liable for any legal issues that may arise from other websites, apps or entities using this website\'s and app\'s source code.',
+    'cookie_consent_message' => 'This website uses cookies to ensure you get the best experience. By continuing to use :site, you consent to our use of cookies.',
+    'accept_cookies' => 'Accept Cookies',
 ];

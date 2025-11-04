@@ -212,4 +212,6 @@ return [
     'fansite_notice_3' => '與 **Star Citizen®** 和 **Squadron 42®** 相關的所有內容、材料、名稱和智慧財產權均為 **Cloud Imperium Rights LLC** 和 **Cloud Imperium Rights Ltd.** 的商標和/或版權。保留所有權利。',
     'fansite_notice_4' => '所有遊戲內容和資產均為其各自所有者的財產，並根據公平使用原則和/或 Cloud Imperium Games Fan Kit 協議的條款在此使用，以支持和推廣 Star Citizen 宇宙的社群和享受。',
     'fansite_notice_5' => '由於本網站和應用程式的原始碼是公共領域，並且可在 GitHub 等第三方網站上獲取，因此本網站的建立者和維護者不對使用本網站和應用程式原始碼的其他網站、應用程式或實體可能產生的任何法律問題負責，也不能承擔責任。',
+    'cookie_consent_message' => '本網站使用 cookies 以確保您獲得最佳體驗。繼續使用 :site，即表示您同意我們使用 cookies。',
+    'accept_cookies' => '接受 Cookies',
 ];
