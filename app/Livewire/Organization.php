@@ -26,11 +26,37 @@ class Organization extends Component
         $this->organization = OrgModel::query()->where('spectrum_id', $name)->firstOrFail();
         $days = config('killboard.home_page.most_recent_kills_days');
         $dateTime = Carbon::now()->subDays($days)->startOfDay();
-        $kills = $this->organization->kills()->where('destroyed_at', '>=', $dateTime)->get();
-        $losses = $this->organization->losses()->where('destroyed_at', '>=', $dateTime)->get();
+
+        // Optimize: Get total counts in single query using organization relationships
+        $playerIds = $this->organization->players()->pluck('id')->toArray();
+
+        if (! empty($playerIds)) {
+            $counts = \App\Models\Kill::query()
+                ->selectRaw('
+                    COUNT(CASE WHEN killer_id IN ('.implode(',', array_map('intval', $playerIds)).') THEN 1 END) as total_kills,
+                    COUNT(CASE WHEN victim_id IN ('.implode(',', array_map('intval', $playerIds)).') THEN 1 END) as total_losses
+                ')
+                ->first();
+
+            $this->totalKills = $counts->total_kills ?? 0;
+            $this->totalLosses = $counts->total_losses ?? 0;
+        } else {
+            $this->totalKills = 0;
+            $this->totalLosses = 0;
+        }
+
+        // Optimize: Add eager loading for recent kills and losses
+        $kills = $this->organization->kills()
+            ->where('destroyed_at', '>=', $dateTime)
+            ->with(['victim', 'killer', 'weapon', 'ship'])
+            ->get();
+
+        $losses = $this->organization->losses()
+            ->where('destroyed_at', '>=', $dateTime)
+            ->with(['victim', 'killer', 'weapon', 'ship'])
+            ->get();
+
         $this->data = $kills->merge($losses)->sortByDesc('destroyed_at');
-        $this->totalKills = $this->organization->kills()->count();
-        $this->totalLosses = $this->organization->losses()->count();
 
         $efficiency = ($this->totalKills + $this->totalLosses) > 0
             ? ($this->totalKills / ($this->totalKills + $this->totalLosses)) * 100

@@ -26,7 +26,8 @@ class LeaderboardService
 
     public function getLeaderboards(): array
     {
-        return Cache::rememberForever($this->cacheKey, function () {
+        // Use TTL-based caching instead of forever (15 minutes)
+        return Cache::remember($this->cacheKey, now()->addMinutes(15), function () {
             return [
                 'top_vehicle_killers' => $this->getTopVehicleKillers(),
                 'top_fps_killers' => $this->getTopFpsKillers(),

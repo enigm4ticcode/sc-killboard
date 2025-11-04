@@ -120,6 +120,11 @@ return [
     // Upload Log
     'process_game_log' => '게임 로그 처리',
     'processing' => '처리 중...',
+    'upload_failed' => '업로드 실패.',
+    'log_processed_success' => '로그 파일이 성공적으로 처리되었습니다. :count개의 새 킬이 생성되었습니다.',
+    'log_processed_success_single' => '로그 파일이 성공적으로 처리되었습니다. :count개의 새 킬이 생성되었습니다.',
+    'log_processed_no_kills' => '로그 파일이 성공적으로 처리되었습니다. 새로운 킬이 생성되지 않았습니다(모든 킬이 중복이거나 NPC이거나 유효한 선박이 없는 차량 킬일 수 있습니다).',
+    'arena_commander_detected' => 'Arena Commander 로그가 감지되었습니다. 킬이 기록되지 않았습니다.',
 
     // RSI Verification
     'verify_rsi_account' => 'RSI 계정 인증',

@@ -18,8 +18,9 @@ class KillObserver
      */
     public function created(Kill $kill): void
     {
-        $this->recentKillsService->refreshCache();
-        $this->leaderboardService->refreshLeaderboards();
+        // Cache refresh moved to batch processing completion to avoid N refreshes
+        // Cache will be refreshed manually after batchProcessKills() completes
+        // Individual kill creations (e.g. via API) can manually refresh if needed
     }
 
     /**
@@ -27,6 +28,7 @@ class KillObserver
      */
     public function updated(Kill $kill): void
     {
+        // Refresh cache on updates (less frequent than creates)
         $this->recentKillsService->refreshCache();
         $this->leaderboardService->refreshLeaderboards();
     }
@@ -36,6 +38,7 @@ class KillObserver
      */
     public function deleted(Kill $kill): void
     {
+        // Refresh cache on deletes (less frequent than creates)
         $this->recentKillsService->refreshCache();
         $this->leaderboardService->refreshLeaderboards();
     }
@@ -45,6 +48,7 @@ class KillObserver
      */
     public function restored(Kill $kill): void
     {
+        // Refresh cache on restores (rare event)
         $this->recentKillsService->refreshCache();
         $this->leaderboardService->refreshLeaderboards();
     }
@@ -54,6 +58,7 @@ class KillObserver
      */
     public function forceDeleted(Kill $kill): void
     {
+        // Refresh cache on force deletes (rare event)
         $this->recentKillsService->refreshCache();
         $this->leaderboardService->refreshLeaderboards();
     }

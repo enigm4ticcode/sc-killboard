@@ -1,7 +1,9 @@
 <?php
 
+use App\Console\Commands\GetAllManufacturersCommand;
 use App\Console\Commands\GetAllVehiclesCommand;
 use App\Http\Middleware\ApiKey;
+use App\Http\Middleware\CacheResponse;
 use App\Http\Middleware\RsiNotVerified;
 use App\Http\Middleware\RsiVerified;
 use App\Http\Middleware\SetLocale;
@@ -27,12 +29,14 @@ return Application::configure(basePath: dirname(__DIR__))
             'rsi-verified' => RsiVerified::class,
             'rsi-not-verified' => RsiNotVerified::class,
             'api-key' => ApiKey::class,
+            'cache.response' => CacheResponse::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
     })->withSchedule(function (Schedule $schedule): void {
         $schedule->command(GetAllVehiclesCommand::class)->weekly()->thursdays()->at('23:00');
+        $schedule->command(GetAllManufacturersCommand::class)->monthly()->thursdays()->at('22:00');
         $schedule->command('sail artisan scout:queue-import "App\Models\Player"')->daily();
         $schedule->command('sail artisan scout:queue-import "App\Models\Organizations"')->daily();
         $schedule->job(CheckRsiStatusJob::class)->everyFiveMinutes();

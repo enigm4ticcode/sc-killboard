@@ -23,6 +23,38 @@ class KillsApiController extends Controller
         $this->gameLogService = $gameLogService;
     }
 
+    public function index(): JsonResponse
+    {
+        // Paginate kills with eager loading to prevent N+1 queries
+        $kills = Kill::query()
+            ->with([
+                'killer:id,name,avatar',
+                'victim:id,name,avatar',
+                'weapon:id,name,slug',
+                'weapon.manufacturer:id,name,code',
+                'ship:id,name,slug',
+            ])
+            ->orderByDesc('destroyed_at')
+            ->paginate(50); // 50 kills per page
+
+        return response()->json([
+            'success' => true,
+            'data' => $kills->items(),
+            'meta' => [
+                'current_page' => $kills->currentPage(),
+                'last_page' => $kills->lastPage(),
+                'per_page' => $kills->perPage(),
+                'total' => $kills->total(),
+            ],
+            'links' => [
+                'first' => $kills->url(1),
+                'last' => $kills->url($kills->lastPage()),
+                'prev' => $kills->previousPageUrl(),
+                'next' => $kills->nextPageUrl(),
+            ],
+        ]);
+    }
+
     public function create(CreateKillApiRequest $request): JsonResponse
     {
         $username = $request->input('username');

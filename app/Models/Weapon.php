@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Weapon extends Model
@@ -19,11 +20,17 @@ class Weapon extends Model
 
     protected $fillable = [
         'id',
+        'manufacturer_id',
         'slug',
         'name',
         'description',
         'icon',
     ];
+
+    public function manufacturer(): BelongsTo
+    {
+        return $this->belongsTo(Manufacturer::class);
+    }
 
     public function kills(): HasMany
     {

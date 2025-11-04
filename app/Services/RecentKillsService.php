@@ -33,11 +33,18 @@ class RecentKillsService
         $startOfFeed = $now->copy()->subDays($this->recentKillsDays)->startOfDay();
 
         $kills = Kill::query()
+            ->with([
+                'victim.organization',
+                'killer.organization',
+                'ship',
+                'weapon.manufacturer',
+            ])
             ->whereBetween('destroyed_at', [$startOfFeed, $now])
             ->orderByDesc('destroyed_at')
             ->get();
 
-        Cache::forever($this->cacheKey, $kills);
+        // Use TTL-based caching instead of forever (15 minutes)
+        Cache::put($this->cacheKey, $kills, now()->addMinutes(15));
 
         return $kills;
     }

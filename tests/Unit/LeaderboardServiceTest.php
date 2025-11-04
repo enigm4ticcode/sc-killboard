@@ -7,7 +7,10 @@ use App\Models\Ship;
 use App\Models\Weapon;
 use App\Services\LeaderboardService;
 use Carbon\Carbon;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
+
+uses(RefreshDatabase::class);
 
 it('builds leaderboards from recent kills and respects cache', function (): void {
     Cache::forget('leaderboards');
@@ -121,9 +124,11 @@ it('builds leaderboards from recent kills and respects cache', function (): void
 
     $boardsCached = $svc->getLeaderboards();
     $fpsCountsCached = $boardsCached['top_fps_killers']->keyBy('killer_id')->map->kill_count;
-    // KillObserver refreshes leaderboards cache on model creation, so the new count is visible immediately
-    expect(($fpsCountsCached[$killer1->id] ?? 0))->toBe(2);
+    // Cache should still show old count (1) because KillObserver no longer refreshes on create
+    // This is a performance optimization to avoid N refreshes during batch operations
+    expect(($fpsCountsCached[$killer1->id] ?? 0))->toBe(1);
 
+    // After manual refresh, the new count (2) should be visible
     $boardsRefreshed = $svc->refreshLeaderboards();
     $fpsCounts = $boardsRefreshed['top_fps_killers']->keyBy('killer_id')->map->kill_count;
     expect($fpsCounts[$killer1->id])->toBe(2);

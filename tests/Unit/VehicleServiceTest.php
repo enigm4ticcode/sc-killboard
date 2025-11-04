@@ -3,7 +3,10 @@
 use App\Models\Ship;
 use App\Services\StarCitizenWikiService;
 use App\Services\VehicleService;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
+
+uses(RefreshDatabase::class);
 
 it('returns vehicle from cache/database when slug matches', function (): void {
     Cache::forget('all-vehicles');

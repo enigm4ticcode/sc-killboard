@@ -54,7 +54,7 @@ class UploadLog extends Component
         $storedPath = $this->file->storeAs('uploads/logs', $name);
 
         if (! $storedPath || ! Storage::exists($storedPath)) {
-            Toaster::error('Upload failed.');
+            Toaster::error(__('app.upload_failed'));
             $this->reset('file');
             $this->dispatch('refreshSelf');
 
@@ -73,17 +73,20 @@ class UploadLog extends Component
         Storage::delete($storedPath);
 
         if ($result['has_arena_commander_kills']) {
-            Toaster::error('Arena Commander log detected. Kills were not recorded.');
+            Toaster::error(__('app.arena_commander_detected'));
 
             return;
         }
 
         $totalKills = $result['total_kills'];
         if ($totalKills > 0) {
-            Toaster::success("Log file processed successfully. Processed $totalKills Kills.");
+            $message = $totalKills === 1
+                ? __('app.log_processed_success_single', ['count' => $totalKills])
+                : __('app.log_processed_success', ['count' => $totalKills]);
+            Toaster::success($message);
             $this->dispatch('killboard-updated');
         } else {
-            Toaster::info('Log file was processed successfully, however, no kills were found in it.');
+            Toaster::info(__('app.log_processed_no_kills'));
         }
 
         $this->dispatch('refreshSelf');
