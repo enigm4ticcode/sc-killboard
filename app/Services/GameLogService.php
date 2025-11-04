@@ -652,7 +652,13 @@ class GameLogService
             ->where('location', $location)
             ->where('destroyed_at', '>=', $startTime)
             ->where('destroyed_at', '<=', $endTime)
-            ->when($shipId !== null, fn ($query) => $query->where('ship_id', $shipId))
+            ->where(function ($query) use ($shipId) {
+                if ($shipId !== null) {
+                    $query->where('ship_id', $shipId);
+                } else {
+                    $query->whereNull('ship_id');
+                }
+            })
             ->first();
 
         if ($existingKill) {

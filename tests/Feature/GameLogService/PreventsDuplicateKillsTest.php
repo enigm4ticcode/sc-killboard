@@ -146,6 +146,33 @@ LOG;
         ->and($result['total_kills'])->toBe(1);
 });
 
+it('prevents re-creating kills when processing same log file multiple times', function () {
+    // This tests the real-world scenario where the same log is processed twice
+    $timestamp = now()->format('Y-m-d H:i:s');
+    $logContent = <<<LOG
+<{$timestamp}> CActor::Kill: 'TestVictim' [12345] in zone 'TestZone' killed by 'TestKiller' [67890] using 'KSAR_Rifle_Energy_01' [Class TestClass] with damage type 'Bullet'
+LOG;
+
+    $filePath = 'test_log_reprocess.log';
+    Storage::put($filePath, $logContent);
+
+    $config = config('gamelog');
+    $vehicleService = app(VehicleService::class);
+    $gameLogService = new GameLogService($vehicleService, $config);
+
+    // Process the log first time
+    $result1 = $gameLogService->processGameLog($filePath, $this->logUpload);
+    expect(Kill::count())->toBe(1)
+        ->and($result1['total_kills'])->toBe(1);
+
+    // Process the same log again
+    $result2 = $gameLogService->processGameLog($filePath, $this->logUpload);
+
+    // Should still only have 1 kill (duplicate prevention worked)
+    expect(Kill::count())->toBe(1)
+        ->and($result2['total_kills'])->toBe(0); // 0 new kills created
+});
+
 it('deduplicates within batches correctly', function () {
     // Create a log with 10 entries with several duplicates
     // This tests batch deduplication efficiently
