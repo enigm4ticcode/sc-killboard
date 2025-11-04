@@ -28,7 +28,18 @@ class GenericKillFeed extends Component
     public function render(): View
     {
         $perPage = config('killboard.pagination.kills_per_page');
-        $data = new LengthAwarePaginator($this->data, $this->data->count(), $perPage);
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+
+        // Slice the data for the current page
+        $currentPageItems = $this->data->slice(($currentPage - 1) * $perPage, $perPage)->values();
+
+        $data = new LengthAwarePaginator(
+            $currentPageItems,
+            $this->data->count(),
+            $perPage,
+            $currentPage,
+            ['path' => LengthAwarePaginator::resolveCurrentPath()]
+        );
 
         return view('livewire.generic-kill-feed', ['feed' => $data]);
     }
