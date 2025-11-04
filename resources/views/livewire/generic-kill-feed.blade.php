@@ -103,7 +103,7 @@ $defaultOrg = Organization::where('spectrum_id', Organization::ORG_NONE)->first(
                             </td>
                         @endif
                         @if($killType === Kill::TYPE_VEHICLE)
-                            <td class="px-2 py-3 lg:px-6 lg:py-5 text-sm lg:text-base text-right align-middle whitespace-nowrap font-medium" style="color: rgb(var(--fg));">
+                            <td class="px-2 py-3 lg:px-6 lg:py-5 text-sm lg:text-base text-right align-middle font-medium max-w-[120px] lg:max-w-[180px]" style="color: rgb(var(--fg));">
                                 {{ $kill->ship->name }}
                             </td>
                         @else
