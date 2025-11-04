@@ -27,5 +27,6 @@
                 {{ $slot }}
             </div>
         </div>
+        <livewire:cookie-consent />
     </body>
 </html>

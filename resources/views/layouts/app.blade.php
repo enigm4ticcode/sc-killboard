@@ -52,5 +52,6 @@
     @include('layouts.footer')
 </div>
 <x-toaster-hub />
+<livewire:cookie-consent />
 </body>
 </html>
