@@ -1,4 +1,6 @@
-@php use App\Models\Kill;use App\Models\Organization;use Carbon\Carbon;use Illuminate\Support\Str @endphp
+@php use App\Models\Kill;use App\Models\Organization;use Carbon\Carbon;use Illuminate\Support\Str;
+$defaultOrg = Organization::where('spectrum_id', Organization::ORG_NONE)->first();
+@endphp
 <div wire:poll class="overflow-hidden rounded-none sm:rounded-xl border border-l-0 border-r-0 sm:border shadow-lg transition-all duration-300" style="background-color: rgb(var(--card)); border-color: rgb(var(--card-border));">
 
     <div class="px-2 sm:px-4 md:px-6 py-3 border-b" style="border-color: rgb(var(--card-border)); background-color: rgb(var(--card));">
@@ -66,15 +68,19 @@
                     <td class="px-2 py-3 lg:px-6 lg:py-5 text-sm lg:text-base align-middle whitespace-nowrap">
                         <b><a href="{{ route('player.show', ['name' => $kill->victim->name]) }}" class="hover:underline transition-colors" style="color: rgb(var(--accent));">{{ $kill->victim->name }}</a></b>
                     </td>
-                    @if($victimOrg->spectrum_id !== Organization::ORG_NONE && $victimOrg->spectrum_id !== Organization::ORG_REDACTED)
+                    @if($victimOrg && $victimOrg->spectrum_id !== Organization::ORG_NONE && $victimOrg->spectrum_id !== Organization::ORG_REDACTED)
                         <td class="px-2 py-3 lg:px-6 lg:py-5 text-sm lg:text-base text-center align-middle">
                             <a href="{{ route('organization.show', ['name' => $victimOrg->spectrum_id]) }}" class="inline-block transition-transform hover:scale-110">
                                 <img width="50" height="50" src="{{ $victimOrg->icon }}" alt="{{ $victimOrg->name }}" class="mx-auto align-middle w-12 h-12 lg:w-16 lg:h-16 rounded-lg shadow-sm"/>
                             </a>
                         </td>
-                    @else
+                    @elseif($victimOrg)
                         <td class="px-2 py-3 lg:px-6 lg:py-5 text-sm lg:text-base text-center align-middle">
                             <img width="50" height="50" src="{{ $victimOrg->icon }}" alt="{{ $victimOrg->name }}" class="mx-auto align-middle w-12 h-12 lg:w-16 lg:h-16 rounded-lg shadow-sm"/>
+                        </td>
+                    @else
+                        <td class="px-2 py-3 lg:px-6 lg:py-5 text-sm lg:text-base text-center align-middle">
+                            <img width="50" height="50" src="{{ $defaultOrg->icon }}" alt="{{ $defaultOrg->name }}" class="mx-auto align-middle w-12 h-12 lg:w-16 lg:h-16 rounded-lg shadow-sm"/>
                         </td>
                     @endif
                     @if($killType === Kill::TYPE_VEHICLE)
@@ -89,15 +95,19 @@
                     <td class="px-2 py-3 lg:px-6 lg:py-5 text-sm lg:text-base align-middle whitespace-nowrap">
                         <b><a href="{{ route('player.show', ['name' => $kill->killer->name]) }}" class="hover:underline transition-colors" style="color: rgb(var(--accent));">{{ $kill->killer->name }}</a></b>
                     </td>
-                    @if($killerOrg->spectrum_id !== Organization::ORG_NONE && $killerOrg->spectrum_id !== Organization::ORG_REDACTED)
+                    @if($killerOrg && $killerOrg->spectrum_id !== Organization::ORG_NONE && $killerOrg->spectrum_id !== Organization::ORG_REDACTED)
                         <td class="px-2 py-3 lg:px-6 lg:py-5 text-sm lg:text-base text-center align-middle">
                             <a href="{{ route('organization.show', ['name' => $killerOrg->spectrum_id]) }}" class="inline-block transition-transform hover:scale-110">
                                 <img width="50" height="50" src="{{ $killerOrg->icon }}" alt="{{ $killerOrg->name }}" class="mx-auto align-middle w-12 h-12 lg:w-16 lg:h-16 rounded-lg shadow-sm"/>
                             </a>
                         </td>
+                    @elseif($killerOrg)
+                        <td class="px-2 py-3 lg:px-6 lg:py-5 text-sm lg:text-base text-center align-middle">
+                            <img width="50" height="50" src="{{ $killerOrg->icon }}" alt="{{ $killerOrg->name }}" class="mx-auto align-middle w-12 h-12 lg:w-16 lg:h-16 rounded-lg shadow-sm"/>
+                        </td>
                     @else
                         <td class="px-2 py-3 lg:px-6 lg:py-5 text-sm lg:text-base text-center align-middle">
-                            <img width="50" height="50" src="{{ $killerOrg->icon }}" alt="None" class="mx-auto align-middle w-12 h-12 lg:w-16 lg:h-16 rounded-lg shadow-sm"/>
+                            <img width="50" height="50" src="{{ $defaultOrg->icon }}" alt="{{ $defaultOrg->name }}" class="mx-auto align-middle w-12 h-12 lg:w-16 lg:h-16 rounded-lg shadow-sm"/>
                         </td>
                     @endif
                 </tr>
