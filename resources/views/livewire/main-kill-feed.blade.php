@@ -32,6 +32,7 @@ $defaultOrg = Organization::where('spectrum_id', Organization::ORG_NONE)->first(
                     style="color: rgb(var(--muted));">
                     {{ __('app.vehicle_fps') }}
                 </th>
+                <th scope="col" class="px-1 py-3 lg:px-2 lg:py-4 align-middle"></th>
                 <th scope="col"
                     class="px-2 py-3 lg:px-6 lg:py-4 text-left text-xs lg:text-sm font-semibold uppercase tracking-wider align-middle"
                     style="color: rgb(var(--muted));">
@@ -56,7 +57,7 @@ $defaultOrg = Organization::where('spectrum_id', Organization::ORG_NONE)->first(
                 @if($currentDate !== $killDate)
                     @php($currentDate = $killDate)
                     <tr style="background-color: rgb(var(--bg));">
-                        <td colspan="7" class="px-4 py-3 text-sm font-bold border-t border-b" style="color: rgb(var(--accent)); border-color: rgb(var(--card-border));">
+                        <td colspan="8" class="px-4 py-3 text-sm font-bold border-t border-b" style="color: rgb(var(--accent)); border-color: rgb(var(--card-border));">
                             📅 {{ $displayDate }}
                         </td>
                     </tr>
@@ -106,6 +107,19 @@ $defaultOrg = Organization::where('spectrum_id', Organization::ORG_NONE)->first(
                             FPS
                         </td>
                     @endif
+                    @if (! empty($kill->killer->avatar) && (str_contains($kill->killer->avatar, '/media/') || str_contains($kill->killer->avatar, '/static/images/account/avatar_default')))
+                        <td class="px-1 py-2 lg:px-2 lg:py-3 text-center align-middle">
+                            <a href="{{ route('player.show', ['name' => $kill->killer->name]) }}" class="inline-block transition-transform hover:scale-110">
+                                <img width="40" height="40" alt="{{ $kill->killer->name }}" src="{{ $kill->killer->avatar }}" class="mx-auto align-middle rounded-full shadow-sm w-10 h-10 lg:w-12 lg:h-12" />
+                            </a>
+                        </td>
+                    @else
+                        <td class="px-1 py-2 lg:px-2 lg:py-3 text-center align-middle">
+                            <a href="{{ route('player.show', ['name' => $kill->killer->name]) }}" class="inline-block transition-transform hover:scale-110">
+                                <img width="40" height="40" src="https://cdn.robertsspaceindustries.com/static/images/account/avatar_default_big.jpg" alt="{{ $kill->killer->name }}" class="mx-auto align-middle rounded-full shadow-sm w-10 h-10 lg:w-12 lg:h-12" />
+                            </a>
+                        </td>
+                    @endif
                     <td class="px-2 py-3 lg:px-6 lg:py-5 text-sm lg:text-base align-middle whitespace-nowrap">
                         <b><a href="{{ route('player.show', ['name' => $kill->killer->name]) }}" class="hover:underline transition-colors" style="color: rgb(var(--accent));">{{ $kill->killer->name }}</a></b>
                     </td>
@@ -127,7 +141,7 @@ $defaultOrg = Organization::where('spectrum_id', Organization::ORG_NONE)->first(
                 </tr>
             @empty
                 <tr>
-                    <td colspan="7" class="px-6 py-10 text-center text-sm align-middle" style="color: rgb(var(--muted));">
+                    <td colspan="8" class="px-6 py-10 text-center text-sm align-middle" style="color: rgb(var(--muted));">
                         {{ __('app.no_data_yet') }}
                     </td>
                 </tr>
