@@ -17,7 +17,7 @@
             @forelse ($victims as $i => $victim)
                 <tr class="transition-colors" style="background-color: rgba(239, 68, 68, 0.08);" onmouseover="this.style.backgroundColor='rgb(var(--table-hover))'" onmouseout="this.style.backgroundColor='rgba(239, 68, 68, 0.08)'">
                     <td class="px-2 py-2 text-xs text-center align-middle whitespace-nowrap font-bold" style="color: rgb(var(--accent));">{{ $i + 1 }}</td>
-                    @if ($victim->victim->avatar !== null)
+                    @if ($victim->victim->avatar !== null && (str_contains($victim->victim->avatar, '/media/') || str_contains($victim->victim->avatar, '/static/images/account/avatar_default')))
                         <td class="px-2 py-2 text-xs text-center align-middle">
                             <a href="{{ route('player.show', ['name' => $victim->victim->name]) }}" class="inline-block transition-transform hover:scale-110">
                                 <img width="40" height="40" alt="{{ $victim->victim->name }}" src="{{ $victim->victim->avatar }}" class="mx-auto align-middle rounded-full shadow-sm" />

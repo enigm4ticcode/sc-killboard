@@ -543,24 +543,54 @@ class GameLogService
             'weaponsCount' => count($weaponMap),
         ]);
 
+        // Deduplicate entries within the batch itself to prevent race conditions
+        $seenSignatures = [];
+        $deduplicatedEntries = [];
+
         foreach ($foundEntries as $entry) {
-            $timestamp = Carbon::parse($entry['timestamp']);
             $killer = $playerMap[$entry['killer']] ?? null;
             $victim = $playerMap[$entry['victim']] ?? null;
             $weapon = $weaponMap[$entry['killWeapon']] ?? null;
 
             if (! $killer || ! $victim || ! $weapon) {
-                Log::warning('[GAMELOG PARSER] Skipping entry - missing required data', [
-                    'killer' => $entry['killer'],
-                    'victim' => $entry['victim'],
-                    'weapon' => $entry['killWeapon'],
-                    'hasKiller' => $killer !== null,
-                    'hasVictim' => $victim !== null,
-                    'hasWeapon' => $weapon !== null,
-                ]);
-
                 continue;
             }
+
+            // Create unique signature for this kill
+            $shipId = $entry['killType'] === Kill::TYPE_VEHICLE ? $entry['vehicle']?->id : null;
+            $signature = implode('|', [
+                $entry['timestamp'],
+                $killer->id,
+                $victim->id,
+                $weapon->id,
+                $entry['killType'],
+                $entry['location'],
+                $shipId ?? 'null',
+            ]);
+
+            if (! isset($seenSignatures[$signature])) {
+                $seenSignatures[$signature] = true;
+                $deduplicatedEntries[] = $entry;
+            } else {
+                Log::debug('[GAMELOG PARSER] Skipping duplicate within batch', [
+                    'killer' => $entry['killer'],
+                    'victim' => $entry['victim'],
+                    'timestamp' => $entry['timestamp'],
+                ]);
+            }
+        }
+
+        Log::debug('[GAMELOG PARSER] Deduplicated batch', [
+            'originalCount' => count($foundEntries),
+            'deduplicatedCount' => count($deduplicatedEntries),
+            'duplicatesRemoved' => count($foundEntries) - count($deduplicatedEntries),
+        ]);
+
+        foreach ($deduplicatedEntries as $entry) {
+            $timestamp = Carbon::parse($entry['timestamp']);
+            $killer = $playerMap[$entry['killer']];
+            $victim = $playerMap[$entry['victim']];
+            $weapon = $weaponMap[$entry['killWeapon']];
 
             $kill = $this->findOrCreateKill(
                 $timestamp,
@@ -757,8 +787,13 @@ class GameLogService
     {
         $playerName = $player->name;
 
-        // Skip if avatar already exists
-        if (! empty($player->avatar)) {
+        // Skip if avatar already exists and is valid (contains /media/ or is the default RSI avatar)
+        $isValidAvatar = ! empty($player->avatar) && (
+            str_contains($player->avatar, '/media/') ||
+            str_contains($player->avatar, '/static/images/account/avatar_default')
+        );
+
+        if ($isValidAvatar) {
             return null;
         }
 
@@ -796,6 +831,14 @@ class GameLogService
 
                                 if (! empty($avatar)) {
                                     $avatar = Str::trim($avatar);
+
+                                    // Validate avatar URL - must contain /media/ or be the default RSI avatar
+                                    $isValid = str_contains($avatar, '/media/') ||
+                                               str_contains($avatar, '/static/images/account/avatar_default');
+
+                                    if (! $isValid) {
+                                        $avatar = null;
+                                    }
                                 }
                             }
                         }
