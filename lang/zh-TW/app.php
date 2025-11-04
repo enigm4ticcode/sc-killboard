@@ -120,6 +120,11 @@ return [
     // Upload Log
     'process_game_log' => '處理遊戲日誌',
     'processing' => '處理中...',
+    'upload_failed' => '上傳失敗。',
+    'log_processed_success' => '日誌檔案處理成功。建立了 :count 個新擊殺。',
+    'log_processed_success_single' => '日誌檔案處理成功。建立了 :count 個新擊殺。',
+    'log_processed_no_kills' => '日誌檔案處理成功。未建立新擊殺（所有擊殺可能是重複的、NPC 或沒有有效船艦的載具擊殺）。',
+    'arena_commander_detected' => '偵測到 Arena Commander 日誌。擊殺未記錄。',
 
     // RSI Verification
     'verify_rsi_account' => '驗證 RSI 帳戶',

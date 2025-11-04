@@ -119,6 +119,11 @@ return [
     // Upload Log
     'process_game_log' => 'Procesar Registro del Juego',
     'processing' => 'Procesando...',
+    'upload_failed' => 'Carga fallida.',
+    'log_processed_success' => 'Archivo de registro procesado exitosamente. Se crearon :count nuevas muertes.',
+    'log_processed_success_single' => 'Archivo de registro procesado exitosamente. Se creó :count nueva muerte.',
+    'log_processed_no_kills' => 'Archivo de registro procesado exitosamente. No se crearon nuevas muertes (todas las muertes pueden ser duplicadas, NPCs o muertes de vehículos sin naves válidas).',
+    'arena_commander_detected' => 'Registro de Arena Commander detectado. Las muertes no fueron registradas.',
 
     // RSI Verification
     'verify_rsi_account' => 'Verificar Cuenta RSI',

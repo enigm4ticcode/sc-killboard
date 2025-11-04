@@ -120,6 +120,11 @@ return [
     // Upload Log
     'process_game_log' => 'Process Game Log',
     'processing' => 'Processing...',
+    'upload_failed' => 'Upload failed.',
+    'log_processed_success' => 'Log file processed successfully. Created :count new kills.',
+    'log_processed_success_single' => 'Log file processed successfully. Created :count new kill.',
+    'log_processed_no_kills' => 'Log file processed successfully. No new kills were created (all kills may be duplicates, NPCs, or vehicle kills without valid ships).',
+    'arena_commander_detected' => 'Arena Commander log detected. Kills were not recorded.',
 
     // RSI Verification
     'verify_rsi_account' => 'Verify RSI Account',

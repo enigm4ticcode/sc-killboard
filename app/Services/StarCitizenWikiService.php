@@ -65,4 +65,42 @@ class StarCitizenWikiService
 
         return [];
     }
+
+    public function getManufacturers(int $page = 1, int $limit = 0): array
+    {
+        // Manufacturers endpoint is only available in v2
+        $baseUrlV2 = str_replace('/v3', '/v2', $this->baseUrl);
+        $url = $baseUrlV2.'/manufacturers';
+        $options = [
+            'page' => $page,
+            'limit' => $limit === 0 ? $this->perPage : $limit,
+        ];
+
+        try {
+            $response = Http::get($url, $options);
+
+            return $response->json();
+        } catch (\Exception $e) {
+            Log::error('[WIKI SERVICE] Error: '.$e->getMessage());
+        }
+
+        return [];
+    }
+
+    public function getManufacturerById(string $uuid): array
+    {
+        // Manufacturers endpoint is only available in v2
+        $baseUrlV2 = str_replace('/v3', '/v2', $this->baseUrl);
+        $url = $baseUrlV2.'/manufacturers/'.$uuid;
+
+        try {
+            $response = Http::get($url);
+
+            return $response->json();
+        } catch (\Exception $e) {
+            Log::error('[WIKI SERVICE] Error: '.$e->getMessage());
+        }
+
+        return [];
+    }
 }
