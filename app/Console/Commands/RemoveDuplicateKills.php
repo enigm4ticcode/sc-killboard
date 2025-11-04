@@ -13,7 +13,7 @@ class RemoveDuplicateKills extends Command
      *
      * @var string
      */
-    protected $signature = 'kills:remove-duplicates {--dry-run : Show duplicates without removing them} {--tolerance=3 : Time tolerance in seconds for duplicate detection}';
+    protected $signature = 'kills:remove-duplicates {--dry-run : Show duplicates without removing them} {--force : Skip confirmation prompt} {--tolerance=3 : Time tolerance in seconds for duplicate detection}';
 
     /**
      * The console command description.
@@ -114,8 +114,8 @@ class RemoveDuplicateKills extends Command
             return self::SUCCESS;
         }
 
-        // Confirm before deletion
-        if (! $this->confirm("Are you sure you want to remove {$totalToRemove} duplicate kills?", false)) {
+        // Confirm before deletion (unless --force is used)
+        if (! $this->option('force') && ! $this->confirm("Are you sure you want to remove {$totalToRemove} duplicate kills?", false)) {
             $this->info('Operation cancelled.');
 
             return self::SUCCESS;
@@ -136,14 +136,14 @@ class RemoveDuplicateKills extends Command
         $bar->finish();
         $this->newLine(2);
 
-        $this->success("✅ Successfully removed {$removed} duplicate kills!");
+        $this->info("✅ Successfully removed {$removed} duplicate kills!");
 
         // Refresh caches
         $this->info('Refreshing caches...');
         app(\App\Services\RecentKillsService::class)->refreshCache();
         app(\App\Services\LeaderboardService::class)->refreshLeaderboards();
 
-        $this->success('✅ Caches refreshed!');
+        $this->info('✅ Caches refreshed!');
 
         return self::SUCCESS;
     }
@@ -167,10 +167,10 @@ class RemoveDuplicateKills extends Command
                 continue;
             }
 
-            // Check if all identifying attributes match
+            // Check if core identifying attributes match
+            // Note: We DON'T check weapon_id because the same kill event can be logged with different weapons
             if ($kill->killer_id === $otherKill->killer_id &&
                 $kill->victim_id === $otherKill->victim_id &&
-                $kill->weapon_id === $otherKill->weapon_id &&
                 $kill->type === $otherKill->type &&
                 $kill->location === $otherKill->location &&
                 $kill->ship_id === $otherKill->ship_id) {

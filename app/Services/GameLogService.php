@@ -557,12 +557,12 @@ class GameLogService
             }
 
             // Create unique signature for this kill
+            // Note: We DON'T include weapon_id because the same kill can be logged with different weapons
             $shipId = $entry['killType'] === Kill::TYPE_VEHICLE ? $entry['vehicle']?->id : null;
             $signature = implode('|', [
                 $entry['timestamp'],
                 $killer->id,
                 $victim->id,
-                $weapon->id,
                 $entry['killType'],
                 $entry['location'],
                 $shipId ?? 'null',
@@ -644,10 +644,10 @@ class GameLogService
         $endTime = $timestamp->copy()->addSeconds($this->killTimeToleranceSeconds);
 
         // Try to find existing kill within the time window
+        // Note: We DON'T check weapon_id because the same kill can be logged with different weapons
         $existingKill = Kill::query()
             ->where('killer_id', $killerId)
             ->where('victim_id', $victimId)
-            ->where('weapon_id', $weaponId)
             ->where('type', $type)
             ->where('location', $location)
             ->where('destroyed_at', '>=', $startTime)
