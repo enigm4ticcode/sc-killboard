@@ -173,10 +173,16 @@ class RemoveDuplicateKills extends Command
             $shipMatches = ($kill->ship_id === null && $otherKill->ship_id === null) ||
                            ($kill->ship_id !== null && $kill->ship_id === $otherKill->ship_id);
 
+            // Fuzzy location matching - allow if locations match exactly OR if one is a prefix of the other
+            // This handles cases like OOC_Stanton_2b vs OOC_Stanton_2b_Daymar
+            $locationMatches = $kill->location === $otherKill->location ||
+                              str_starts_with($kill->location, $otherKill->location.'_') ||
+                              str_starts_with($otherKill->location, $kill->location.'_');
+
             if ($kill->killer_id === $otherKill->killer_id &&
                 $kill->victim_id === $otherKill->victim_id &&
                 $kill->type === $otherKill->type &&
-                $kill->location === $otherKill->location &&
+                $locationMatches &&
                 $shipMatches) {
                 $duplicates[] = $otherKill;
             }

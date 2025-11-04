@@ -173,6 +173,44 @@ LOG;
         ->and($result2['total_kills'])->toBe(0); // 0 new kills created
 });
 
+it('prevents duplicates with fuzzy location matching (parent vs child zones)', function () {
+    // This tests the real-world scenario where location precision varies
+    // e.g., OOC_Stanton_2b vs OOC_Stanton_2b_Daymar
+    $timestamp = now()->format('Y-m-d H:i:s');
+
+    // First log with parent zone
+    $logContent1 = <<<LOG
+<{$timestamp}> CActor::Kill: 'TestVictim' [12345] in zone 'OOC_Stanton_2b' killed by 'TestKiller' [67890] using 'KSAR_Rifle_Energy_01' [Class TestClass] with damage type 'Bullet'
+LOG;
+
+    $filePath1 = 'test_log_parent_zone.log';
+    Storage::put($filePath1, $logContent1);
+
+    $config = config('gamelog');
+    $vehicleService = app(VehicleService::class);
+    $gameLogService = new GameLogService($vehicleService, $config);
+
+    // Process first log
+    $result1 = $gameLogService->processGameLog($filePath1, $this->logUpload);
+    expect(Kill::count())->toBe(1)
+        ->and($result1['total_kills'])->toBe(1);
+
+    // Second log with child zone (more specific location)
+    $logContent2 = <<<LOG
+<{$timestamp}> CActor::Kill: 'TestVictim' [12345] in zone 'OOC_Stanton_2b_Daymar' killed by 'TestKiller' [67890] using 'KSAR_Rifle_Energy_01' [Class TestClass] with damage type 'Bullet'
+LOG;
+
+    $filePath2 = 'test_log_child_zone.log';
+    Storage::put($filePath2, $logContent2);
+
+    // Process second log
+    $result2 = $gameLogService->processGameLog($filePath2, $this->logUpload);
+
+    // Should still only have 1 kill (fuzzy location matching prevented duplicate)
+    expect(Kill::count())->toBe(1)
+        ->and($result2['total_kills'])->toBe(0);
+});
+
 it('deduplicates within batches correctly', function () {
     // Create a log with 10 entries with several duplicates
     // This tests batch deduplication efficiently
