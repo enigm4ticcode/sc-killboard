@@ -122,6 +122,30 @@ LOG;
         ->and($result['total_kills'])->toBe(2);
 });
 
+it('prevents duplicate kills with different weapons at same timestamp', function () {
+    // This tests the real-world scenario where Star Citizen logs the same kill with different weapons
+    $timestamp = now()->format('Y-m-d H:i:s');
+    $logContent = <<<LOG
+<{$timestamp}> CActor::Kill: 'TestVictim' [12345] in zone 'TestZone' killed by 'TestKiller' [67890] using 'KSAR_Rifle_Energy_01' [Class TestClass] with damage type 'Bullet'
+<{$timestamp}> CActor::Kill: 'TestVictim' [12345] in zone 'TestZone' killed by 'TestKiller' [67890] using 'KSAR_Ballistic_Shotgun_01' [Class TestClass] with damage type 'Bullet'
+<{$timestamp}> CActor::Kill: 'TestVictim' [12345] in zone 'TestZone' killed by 'TestKiller' [67890] using 'AEGS_Saber_Weapon_01' [Class TestClass] with damage type 'Energy'
+LOG;
+
+    $filePath = 'test_log_different_weapons.log';
+    Storage::put($filePath, $logContent);
+
+    $config = config('gamelog');
+    $vehicleService = app(VehicleService::class);
+    $gameLogService = new GameLogService($vehicleService, $config);
+
+    // Process the log
+    $result = $gameLogService->processGameLog($filePath, $this->logUpload);
+
+    // Should only create 1 kill despite different weapons being logged
+    expect(Kill::count())->toBe(1)
+        ->and($result['total_kills'])->toBe(1);
+});
+
 it('deduplicates within batches correctly', function () {
     // Create a log with 10 entries with several duplicates
     // This tests batch deduplication efficiently
