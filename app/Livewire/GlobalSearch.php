@@ -15,17 +15,39 @@ class GlobalSearch extends Component
 
     public $showDropdown = false;
 
+    public $isSearching = false;
+
+    // Minimum characters before triggering search
+    protected const MIN_QUERY_LENGTH = 2;
+
+    // Maximum results to return per type
+    protected const MAX_RESULTS_PER_TYPE = 10;
+
     public function updatedQuery(): void
     {
+        // Reset results and dropdown if query is empty
         if (empty($this->query)) {
             $this->results = [];
             $this->showDropdown = false;
+            $this->isSearching = false;
 
             return;
         }
 
-        $players = Player::search($this->query)->get();
-        $organizations = Organization::search($this->query)->get();
+        // Require minimum character length to prevent expensive searches on short queries
+        if (strlen(trim($this->query)) < self::MIN_QUERY_LENGTH) {
+            $this->results = [];
+            $this->showDropdown = false;
+            $this->isSearching = false;
+
+            return;
+        }
+
+        $this->isSearching = true;
+
+        // Limit results to prevent excessive data transfer
+        $players = Player::search($this->query)->take(self::MAX_RESULTS_PER_TYPE)->get();
+        $organizations = Organization::search($this->query)->take(self::MAX_RESULTS_PER_TYPE)->get();
 
         $this->results = [
             'players' => $players->map(function (Player $player) {
@@ -50,6 +72,7 @@ class GlobalSearch extends Component
         ];
 
         $this->showDropdown = true;
+        $this->isSearching = false;
     }
 
     public function render(): View

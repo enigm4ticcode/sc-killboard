@@ -119,6 +119,11 @@ return [
     // Upload Log
     'process_game_log' => 'Traiter Journal de Jeu',
     'processing' => 'Traitement...',
+    'upload_failed' => 'Échec du téléchargement.',
+    'log_processed_success' => 'Fichier journal traité avec succès. :count nouvelles éliminations créées.',
+    'log_processed_success_single' => 'Fichier journal traité avec succès. :count nouvelle élimination créée.',
+    'log_processed_no_kills' => 'Fichier journal traité avec succès. Aucune nouvelle élimination n\'a été créée (toutes les éliminations peuvent être des doublons, des PNJ ou des éliminations de véhicules sans vaisseaux valides).',
+    'arena_commander_detected' => 'Journal Arena Commander détecté. Les éliminations n\'ont pas été enregistrées.',
 
     // RSI Verification
     'verify_rsi_account' => 'Vérifier Compte RSI',

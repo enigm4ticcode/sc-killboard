@@ -119,6 +119,11 @@ return [
     // Upload Log
     'process_game_log' => 'Обработать игровой лог',
     'processing' => 'Обработка...',
+    'upload_failed' => 'Загрузка не удалась.',
+    'log_processed_success' => 'Файл лога успешно обработан. Создано :count новых убийств.',
+    'log_processed_success_single' => 'Файл лога успешно обработан. Создано :count новое убийство.',
+    'log_processed_no_kills' => 'Файл лога успешно обработан. Новые убийства не были созданы (все убийства могут быть дубликатами, NPC или убийствами транспорта без действительных кораблей).',
+    'arena_commander_detected' => 'Обнаружен лог Arena Commander. Убийства не были записаны.',
 
     // RSI Verification
     'verify_rsi_account' => 'Верифицировать RSI аккаунт',

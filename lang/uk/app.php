@@ -120,6 +120,11 @@ return [
     // Upload Log
     'process_game_log' => 'Обробити журнал гри',
     'processing' => 'Обробка...',
+    'upload_failed' => 'Завантаження не вдалося.',
+    'log_processed_success' => 'Файл журналу успішно оброблено. Створено :count нових вбивств.',
+    'log_processed_success_single' => 'Файл журналу успішно оброблено. Створено :count нове вбивство.',
+    'log_processed_no_kills' => 'Файл журналу успішно оброблено. Нові вбивства не були створені (всі вбивства можуть бути дублікатами, NPC або вбивствами транспорту без дійсних кораблів).',
+    'arena_commander_detected' => 'Виявлено журнал Arena Commander. Вбивства не були записані.',
 
     // RSI Verification
     'verify_rsi_account' => 'Підтвердити обліковий запис RSI',

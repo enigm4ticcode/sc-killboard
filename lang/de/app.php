@@ -120,6 +120,11 @@ return [
     // Upload Log
     'process_game_log' => 'Spielprotokoll verarbeiten',
     'processing' => 'Wird verarbeitet...',
+    'upload_failed' => 'Upload fehlgeschlagen.',
+    'log_processed_success' => 'Protokolldatei erfolgreich verarbeitet. :count neue Kills erstellt.',
+    'log_processed_success_single' => 'Protokolldatei erfolgreich verarbeitet. :count neuer Kill erstellt.',
+    'log_processed_no_kills' => 'Protokolldatei erfolgreich verarbeitet. Es wurden keine neuen Kills erstellt (alle Kills sind möglicherweise Duplikate, NPCs oder Fahrzeugkills ohne gültige Schiffe).',
+    'arena_commander_detected' => 'Arena Commander-Protokoll erkannt. Kills wurden nicht aufgezeichnet.',
 
     // RSI Verification
     'verify_rsi_account' => 'RSI-Konto verifizieren',

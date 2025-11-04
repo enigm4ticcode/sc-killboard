@@ -26,11 +26,31 @@ class Player extends Component
         $this->player = PlayerModel::query()->where('name', $name)->firstOrFail();
         $days = config('killboard.home_page.most_recent_kills_days');
         $dateTime = Carbon::now()->subDays($days)->startOfDay();
-        $kills = $this->player->kills()->where('destroyed_at', '>=', $dateTime)->get();
-        $losses = $this->player->losses()->where('destroyed_at', '>=', $dateTime)->get();
-        $this->totalKills = $this->player->kills()->count();
-        $this->totalLosses = $this->player->losses()->count();
+
+        // Optimize: Use single query to get both total counts
+        $counts = \App\Models\Kill::query()
+            ->selectRaw('
+                COUNT(CASE WHEN killer_id = ? THEN 1 END) as total_kills,
+                COUNT(CASE WHEN victim_id = ? THEN 1 END) as total_losses
+            ', [$this->player->id, $this->player->id])
+            ->first();
+
+        $this->totalKills = $counts->total_kills ?? 0;
+        $this->totalLosses = $counts->total_losses ?? 0;
+
+        // Optimize: Use single query with union for recent kills and losses
+        $kills = $this->player->kills()
+            ->where('destroyed_at', '>=', $dateTime)
+            ->with(['victim', 'weapon', 'ship'])
+            ->get();
+
+        $losses = $this->player->losses()
+            ->where('destroyed_at', '>=', $dateTime)
+            ->with(['killer', 'weapon', 'ship'])
+            ->get();
+
         $this->data = $kills->merge($losses)->sortByDesc('destroyed_at');
+
         $efficiency = ($this->totalKills + $this->totalLosses) > 0
             ? ($this->totalKills / ($this->totalKills + $this->totalLosses)) * 100
             : 0.0;
