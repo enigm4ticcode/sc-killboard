@@ -19,7 +19,7 @@ $defaultOrg = Organization::where('spectrum_id', Organization::ORG_NONE)->first(
             <thead style="background-color: rgb(var(--table-header));">
             <tr>
                 <th scope="col"
-                    class="px-2 py-3 lg:px-6 lg:py-4 text-right text-xs lg:text-sm font-semibold uppercase tracking-wider align-middle"
+                    class="px-2 py-3 lg:px-6 lg:py-4 text-right text-xs lg:text-sm font-semibold uppercase tracking-wider align-middle whitespace-nowrap"
                     style="color: rgb(var(--muted));">
                     {{ __('app.time_utc') }}
                 </th>
@@ -80,13 +80,13 @@ $defaultOrg = Organization::where('spectrum_id', Organization::ORG_NONE)->first(
                         </span>
                     </td>
                     @if (! empty($kill->victim->avatar) && (str_contains($kill->victim->avatar, '/media/') || str_contains($kill->victim->avatar, '/static/images/account/avatar_default')))
-                        <td class="px-1 py-2 lg:px-3 lg:py-4 text-center align-middle">
+                        <td class="px-1 py-2 lg:px-3 lg:py-4 text-center align-middle min-w-[72px]">
                             <a href="{{ route('player.show', ['name' => $kill->victim->name]) }}" class="inline-block transition-transform hover:scale-110">
                                 <img width="56" height="56" alt="{{ $kill->victim->name }}" src="{{ $kill->victim->avatar }}" class="mx-auto align-middle rounded-full w-14 h-14 object-cover flex-shrink-0" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);" />
                             </a>
                         </td>
                     @else
-                        <td class="px-1 py-2 lg:px-3 lg:py-4 text-center align-middle">
+                        <td class="px-1 py-2 lg:px-3 lg:py-4 text-center align-middle min-w-[72px]">
                             <a href="{{ route('player.show', ['name' => $kill->victim->name]) }}" class="inline-block transition-transform hover:scale-110">
                                 <img width="56" height="56" src="https://cdn.robertsspaceindustries.com/static/images/account/avatar_default_big.jpg" alt="{{ $kill->victim->name }}" class="mx-auto align-middle rounded-full w-14 h-14 object-cover flex-shrink-0" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);" />
                             </a>
@@ -111,8 +111,8 @@ $defaultOrg = Organization::where('spectrum_id', Organization::ORG_NONE)->first(
                         </td>
                     @endif
                     @if($killType === Kill::TYPE_VEHICLE)
-                        <td class="px-2 py-3 lg:px-6 lg:py-5 text-right align-middle">
-                            <span class="text-sm font-semibold" style="color: rgb(var(--fg));">
+                        <td class="px-2 py-3 lg:px-6 lg:py-5 text-right align-middle max-w-[200px]">
+                            <span class="text-sm font-semibold block truncate" style="color: rgb(var(--fg));" title="{{ $kill->ship->name }}">
                                 {{ $kill->ship->name }}
                             </span>
                         </td>
@@ -124,13 +124,13 @@ $defaultOrg = Organization::where('spectrum_id', Organization::ORG_NONE)->first(
                         </td>
                     @endif
                     @if (! empty($kill->killer->avatar) && (str_contains($kill->killer->avatar, '/media/') || str_contains($kill->killer->avatar, '/static/images/account/avatar_default')))
-                        <td class="px-1 py-2 lg:px-3 lg:py-4 text-center align-middle">
+                        <td class="px-1 py-2 lg:px-3 lg:py-4 text-center align-middle min-w-[72px]">
                             <a href="{{ route('player.show', ['name' => $kill->killer->name]) }}" class="inline-block transition-transform hover:scale-110">
                                 <img width="56" height="56" alt="{{ $kill->killer->name }}" src="{{ $kill->killer->avatar }}" class="mx-auto align-middle rounded-full w-14 h-14 object-cover flex-shrink-0" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);" />
                             </a>
                         </td>
                     @else
-                        <td class="px-1 py-2 lg:px-3 lg:py-4 text-center align-middle">
+                        <td class="px-1 py-2 lg:px-3 lg:py-4 text-center align-middle min-w-[72px]">
                             <a href="{{ route('player.show', ['name' => $kill->killer->name]) }}" class="inline-block transition-transform hover:scale-110">
                                 <img width="56" height="56" src="https://cdn.robertsspaceindustries.com/static/images/account/avatar_default_big.jpg" alt="{{ $kill->killer->name }}" class="mx-auto align-middle rounded-full w-14 h-14 object-cover flex-shrink-0" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);" />
                             </a>
