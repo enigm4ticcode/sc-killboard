@@ -14,44 +14,28 @@ $defaultOrg = Organization::where('spectrum_id', Organization::ORG_NONE)->first(
             @media (min-width: 1280px) {
                 .desktop-table { display: block; }
             }
+            .avatar-cell {
+                width: 80px;
+                min-width: 80px;
+                max-width: 80px;
+            }
+            .org-icon-cell {
+                width: 120px;
+                min-width: 120px;
+                max-width: 120px;
+            }
         </style>
-        <table class="min-w-full divide-y" style="divide-color: rgb(var(--card-border));">
-            <thead style="background-color: rgb(var(--table-header));">
-            <tr>
-                <th scope="col"
-                    class="px-2 py-3 lg:px-6 lg:py-4 text-right text-xs lg:text-sm font-semibold uppercase tracking-wider align-middle whitespace-nowrap"
-                    style="color: rgb(var(--muted));">
-                    {{ __('app.time_utc') }}
-                </th>
-                <th scope="col" class="px-1 py-3 lg:px-2 lg:py-4 align-middle"></th>
-                <th scope="col"
-                    class="px-2 py-3 lg:px-6 lg:py-4 text-left text-xs lg:text-sm font-semibold uppercase tracking-wider align-middle"
-                    style="color: rgb(var(--muted));">
-                    {{ __('app.victim') }}
-                </th>
-                <th scope="col"
-                    class="px-2 py-3 lg:px-6 lg:py-4 text-center text-xs lg:text-sm font-semibold uppercase tracking-wider align-middle"
-                    style="color: rgb(var(--muted));">
-                    {{ __('app.organization') }}
-                </th>
-                <th scope="col"
-                    class="px-2 py-3 lg:px-6 lg:py-4 text-right text-xs lg:text-sm font-semibold uppercase tracking-wider align-middle"
-                    style="color: rgb(var(--muted));">
-                    {{ __('app.vehicle_fps') }}
-                </th>
-                <th scope="col" class="px-1 py-3 lg:px-2 lg:py-4 align-middle"></th>
-                <th scope="col"
-                    class="px-2 py-3 lg:px-6 lg:py-4 text-left text-xs lg:text-sm font-semibold uppercase tracking-wider align-middle"
-                    style="color: rgb(var(--muted));">
-                    {{ __('app.final_blow') }}
-                </th>
-                <th scope="col"
-                    class="px-2 py-3 lg:px-6 lg:py-4 text-center text-xs lg:text-sm font-semibold uppercase tracking-wider align-middle"
-                    style="color: rgb(var(--muted));">
-                    {{ __('app.organization') }}
-                </th>
-            </tr>
-            </thead>
+        <table class="min-w-full divide-y table-fixed" style="divide-color: rgb(var(--card-border));">
+            <colgroup>
+                <col style="width: 120px;"> {{-- Time --}}
+                <col style="max-w: auto;"> {{-- Vehicle/FPS --}}
+                <col class="avatar-cell"> {{-- Victim Avatar --}}
+                <col style="width: auto;"> {{-- Victim Name --}}
+                <col class="org-icon-cell"> {{-- Victim Org --}}
+                <col class="avatar-cell"> {{-- Killer Avatar --}}
+                <col style="width: auto;"> {{-- Killer Name --}}
+                <col class="org-icon-cell"> {{-- Killer Org --}}
+            </colgroup>
             <tbody class="divide-y" style="divide-color: rgb(var(--card-border)); background-color: rgb(var(--card));">
             @php($currentDate = null)
             @forelse ($kills as $kill)
@@ -79,16 +63,36 @@ $defaultOrg = Organization::where('spectrum_id', Organization::ORG_NONE)->first(
                             {{ Carbon::parse($kill->destroyed_at)->format('H:i:s') }}
                         </span>
                     </td>
+                    @if($killType === Kill::TYPE_VEHICLE)
+                        <td class="px-2 py-3 lg:px-6 lg:py-5 text-center align-middle">
+                            <div class="flex flex-col items-center gap-2">
+                                @if($kill->ship->icon)
+                                    <img src="{{ $kill->ship->icon }}" alt="{{ $kill->ship->name }}" class="mx-auto align-middle w-28 h-16 rounded-lg" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);" />
+                                @else
+                                    <img src="{{ Vite::asset('resources/images/ships/default.jpg') }}" alt="{{ $kill->ship->name }}" class="mx-auto align-middle w-28 h-16 rounded-lg" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);" />
+                                @endif
+                                <span class="text-xs font-semibold leading-tight" style="color: rgb(var(--fg));">
+                                    {{ $kill->ship->name }}
+                                </span>
+                            </div>
+                        </td>
+                    @else
+                        <td class="px-2 py-3 lg:px-6 lg:py-5 text-center align-middle">
+                            <span class="inline-block px-3 py-1.5 text-sm font-semibold rounded-md" style="color: rgb(var(--fg)); background-color: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.3);">
+                                FPS
+                            </span>
+                        </td>
+                    @endif
                     @if (! empty($kill->victim->avatar) && (str_contains($kill->victim->avatar, '/media/') || str_contains($kill->victim->avatar, '/static/images/account/avatar_default')))
-                        <td class="px-1 py-2 lg:px-3 lg:py-4 text-center align-middle min-w-[72px]">
+                        <td class="px-2 py-3 text-center align-middle">
                             <a href="{{ route('player.show', ['name' => $kill->victim->name]) }}" class="inline-block transition-transform hover:scale-110">
-                                <img width="56" height="56" alt="{{ $kill->victim->name }}" src="{{ $kill->victim->avatar }}" class="mx-auto align-middle rounded-full w-14 h-14 object-cover flex-shrink-0" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);" />
+                                <img width="56" height="56" alt="{{ $kill->victim->name }}" src="{{ $kill->victim->avatar }}" class="mx-auto rounded-full w-14 h-14 object-cover" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);" />
                             </a>
                         </td>
                     @else
-                        <td class="px-1 py-2 lg:px-3 lg:py-4 text-center align-middle min-w-[72px]">
+                        <td class="px-2 py-3 text-center align-middle">
                             <a href="{{ route('player.show', ['name' => $kill->victim->name]) }}" class="inline-block transition-transform hover:scale-110">
-                                <img width="56" height="56" src="https://cdn.robertsspaceindustries.com/static/images/account/avatar_default_big.jpg" alt="{{ $kill->victim->name }}" class="mx-auto align-middle rounded-full w-14 h-14 object-cover flex-shrink-0" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);" />
+                                <img width="56" height="56" src="https://cdn.robertsspaceindustries.com/static/images/account/avatar_default_big.jpg" alt="{{ $kill->victim->name }}" class="mx-auto rounded-full w-14 h-14 object-cover" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);" />
                             </a>
                         </td>
                     @endif
@@ -110,29 +114,16 @@ $defaultOrg = Organization::where('spectrum_id', Organization::ORG_NONE)->first(
                             <img width="64" height="64" src="{{ $defaultOrg->icon }}" alt="{{ $defaultOrg->name }}" class="mx-auto align-middle w-16 h-16 rounded-lg" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);"/>
                         </td>
                     @endif
-                    @if($killType === Kill::TYPE_VEHICLE)
-                        <td class="px-2 py-3 lg:px-6 lg:py-5 text-right align-middle max-w-[200px]">
-                            <span class="text-sm font-semibold block truncate" style="color: rgb(var(--fg));" title="{{ $kill->ship->name }}">
-                                {{ $kill->ship->name }}
-                            </span>
-                        </td>
-                    @else
-                        <td class="px-2 py-3 lg:px-6 lg:py-5 text-right align-middle whitespace-nowrap">
-                            <span class="inline-block px-3 py-1.5 text-sm font-semibold rounded-md" style="color: rgb(var(--fg)); background-color: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.3);">
-                                FPS
-                            </span>
-                        </td>
-                    @endif
                     @if (! empty($kill->killer->avatar) && (str_contains($kill->killer->avatar, '/media/') || str_contains($kill->killer->avatar, '/static/images/account/avatar_default')))
-                        <td class="px-1 py-2 lg:px-3 lg:py-4 text-center align-middle min-w-[72px]">
+                        <td class="px-2 py-3 text-center align-middle">
                             <a href="{{ route('player.show', ['name' => $kill->killer->name]) }}" class="inline-block transition-transform hover:scale-110">
-                                <img width="56" height="56" alt="{{ $kill->killer->name }}" src="{{ $kill->killer->avatar }}" class="mx-auto align-middle rounded-full w-14 h-14 object-cover flex-shrink-0" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);" />
+                                <img width="56" height="56" alt="{{ $kill->killer->name }}" src="{{ $kill->killer->avatar }}" class="mx-auto rounded-full w-14 h-14 object-cover" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);" />
                             </a>
                         </td>
                     @else
-                        <td class="px-1 py-2 lg:px-3 lg:py-4 text-center align-middle min-w-[72px]">
+                        <td class="px-2 py-3 text-center align-middle">
                             <a href="{{ route('player.show', ['name' => $kill->killer->name]) }}" class="inline-block transition-transform hover:scale-110">
-                                <img width="56" height="56" src="https://cdn.robertsspaceindustries.com/static/images/account/avatar_default_big.jpg" alt="{{ $kill->killer->name }}" class="mx-auto align-middle rounded-full w-14 h-14 object-cover flex-shrink-0" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);" />
+                                <img width="56" height="56" src="https://cdn.robertsspaceindustries.com/static/images/account/avatar_default_big.jpg" alt="{{ $kill->killer->name }}" class="mx-auto rounded-full w-14 h-14 object-cover" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);" />
                             </a>
                         </td>
                     @endif

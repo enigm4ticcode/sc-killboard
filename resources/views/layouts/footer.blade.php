@@ -2,7 +2,7 @@
     <div class="container-prose flex flex-col md:flex-row items-center justify-between text-sm">
         <div class="flex items-center gap-4 mb-6 md:mb-0">
             <a href="https://robertsspaceindustries.com" aria-label="Star Citizen Community" class="transition-transform hover:scale-110">
-                <img src="{{ asset('img/logos/made_by_the_community.png') }}" alt="{{ __('app.made_by_community') }}" class="w-12 h-auto rounded-full object-cover shadow-md">
+                <img src="{{ Vite::asset('resources/images/logos/made_by_the_community.png') }}" alt="{{ __('app.made_by_community') }}" class="w-12 h-auto rounded-full object-cover shadow-md">
             </a>
             <p class="text-gray-600 dark:text-gray-400 inline-flex items-center gap-1 flex-wrap">
                 <span>{{ __('app.brought_to_you_by') }}</span>

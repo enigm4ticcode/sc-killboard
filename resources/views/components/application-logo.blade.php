@@ -1,1 +1,1 @@
-<img src="{{ asset('img/logos/logo_headhunters.png') }}" alt="{{ config('app.name') }}" {{ $attributes }} />
+<img src="{{ Vite::asset('resources/images/logos/logo_headhunters.png') }}" alt="{{ config('app.name') }}" {{ $attributes }} />
