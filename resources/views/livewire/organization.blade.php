@@ -2,8 +2,8 @@
     <header class="pb-6 mb-6 border-b sc-hud-header sc-grid-pattern sc-hud-glow" style="border-color: rgb(var(--card-border));">
         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
             <div class="shrink-0">
-                <a href="https://robertsspaceindustries.com/orgs/{{ $organization->spectrum_id }}" target="_blank" rel="noopener noreferrer" class="inline-block transition-transform hover:scale-105">
-                    <img class="h-24 w-24 sm:h-32 sm:w-32 rounded-lg object-cover ring-4 ring-offset-4 shadow-lg transition-all" style="ring-color: rgb(var(--accent)); ring-offset-color: rgb(var(--card));" src="{{ $organization->icon }}" alt="{{ $organization->name }}">
+                <a href="https://robertsspaceindustries.com/orgs/{{ $organization->spectrum_id }}" target="_blank" rel="noopener noreferrer" class="inline-block">
+                    <img class="h-24 w-24 sm:h-32 sm:w-32 rounded-lg object-cover shadow-lg transition-all" src="{{ $organization->icon }}" alt="{{ $organization->name }}">
                 </a>
             </div>
             <div class="flex flex-col justify-center flex-1">

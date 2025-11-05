@@ -54,6 +54,8 @@ return [
     'top_weapons' => '前 :count 名武器 (:days 天)',
     'top_fps_killers' => '前 :count 名 FPS (:days 天)',
     'top_fps_victims' => '前 :count 名 FPS 受害者 (:days 天)',
+    'big_kills' => '大型击杀（最近 :days 天）',
+    'no_big_kills_yet' => '暂无大型击杀。',
     'rsi_status' => 'RSI 状态',
 
     'name' => '名称',

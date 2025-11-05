@@ -22,9 +22,9 @@ $defaultOrg = Organization::where('spectrum_id', Organization::ORG_NONE)->first(
             }
             /* Prevent org icon column compression */
             .org-cell {
-                width: 100px;
-                min-width: 100px;
-                max-width: 100px;
+                width: 120px;
+                min-width: 120px;
+                max-width: 120px;
             }
         </style>
         <table class="min-w-full divide-y table-fixed" style="divide-color: rgb(var(--card-border));">
@@ -109,7 +109,7 @@ $defaultOrg = Organization::where('spectrum_id', Organization::ORG_NONE)->first(
                             <td class="px-2 py-3 lg:px-6 lg:py-5 text-center align-middle">
                                 <div class="flex flex-col items-center gap-2">
                                     @if($kill->ship->icon)
-                                        <img src="{{ $kill->ship->icon }}" alt="{{ $kill->ship->name }}" class="mx-auto align-middle w-28 h-16 rounded-lg" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);"/>
+                                        <img src="{{ $kill->ship->icon_url ?? $kill->ship->icon }}" alt="{{ $kill->ship->name }}" class="mx-auto align-middle w-28 h-16 rounded-lg" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);"/>
                                     @else
                                         <img src="{{ Vite::asset('resources/images/ships/default.jpg') }}" alt="{{ $kill->ship->name }}" class="mx-auto align-middle w-28 h-16 rounded-lg" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);"/>
                                     @endif
@@ -256,7 +256,7 @@ $defaultOrg = Organization::where('spectrum_id', Organization::ORG_NONE)->first(
                     <div class="flex flex-col items-center gap-1 flex-shrink-0 w-28">
                         @if($killType === Kill::TYPE_VEHICLE)
                             @if($kill->ship->icon)
-                                <img src="{{ $kill->ship->icon }}" alt="{{ $kill->ship->name }}" class="w-28 h-16 object-contain rounded-lg" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);" />
+                                <img src="{{ $kill->ship->icon_url ?? $kill->ship->icon }}" alt="{{ $kill->ship->name }}" class="w-28 h-16 object-contain rounded-lg" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);" />
                             @else
                                 <img src="{{ Vite::asset('resources/images/ships/default.jpg') }}" alt="{{ $kill->ship->name }}" class="w-28 h-16 object-contain rounded-lg" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);" />
                             @endif

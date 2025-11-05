@@ -54,6 +54,8 @@ return [
     'top_weapons' => 'Top :count Armas (:days d)',
     'top_fps_killers' => 'Top :count FPS (:days d)',
     'top_fps_victims' => 'Top :count Víctimas FPS (:days d)',
+    'big_kills' => 'Grandes Bajas (Últimos :days Días)',
+    'no_big_kills_yet' => 'Aún no hay grandes bajas.',
     'rsi_status' => 'Estado RSI',
 
     'name' => 'Nombre',

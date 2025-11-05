@@ -36,6 +36,7 @@ class LeaderboardService
                 'top_fps_victims' => $this->getTopFpsVictims(),
                 'top_weapons' => $this->getTopWeapons(),
                 'top_victim_orgs' => $this->getTopVictimOrgs(),
+                'big_kills' => $this->getBigKills(),
             ];
         });
     }
@@ -147,6 +148,25 @@ class LeaderboardService
             ->where('organizations.spectrum_id', '<>', Organization::ORG_NONE)
             ->orderByDesc('total_deaths')
             ->take($this->numOfPositions)
+            ->get();
+    }
+
+    private function getBigKills(): Collection
+    {
+        $threshold = config('killboard.big_kills.usd_threshold', 450);
+        $limit = config('killboard.big_kills.number_to_display', 5);
+
+        return Kill::query()
+            ->join('ships', 'kills.ship_id', '=', 'ships.id')
+            ->where('kills.destroyed_at', '>=', Carbon::now()->subDays($this->timeSpanDays)->startOfDay())
+            ->where('kills.type', Kill::TYPE_VEHICLE)
+            ->where('ships.price_usd', '>=', $threshold)
+            ->whereNotNull('ships.price_usd')
+            ->orderByDesc('ships.price_usd')
+            ->orderByDesc('kills.destroyed_at')
+            ->select('kills.*')
+            ->with(['ship', 'victim', 'killer'])
+            ->take($limit)
             ->get();
     }
 }

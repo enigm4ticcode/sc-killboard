@@ -80,7 +80,72 @@ class VehicleService
                 'name' => $wikiVehicleData['name'],
                 'description' => $wikiVehicleData['description']['en_EN'] ?? null,
                 'version' => $wikiVehicleData['version'],
+                'price_uec' => $this->extractPrice($wikiVehicleData, 'auec'),
+                'price_usd' => $this->extractPrice($wikiVehicleData, 'pledge'),
             ]);
+        }
+
+        return null;
+    }
+
+    /**
+     * Extract price from wiki vehicle data
+     */
+    protected function extractPrice(array $wikiVehicleData, string $priceType): ?int
+    {
+        // For pledge/USD price, check the msrp field first (this is the main field used by the API)
+        if ($priceType === 'pledge') {
+            if (isset($wikiVehicleData['msrp']) && $wikiVehicleData['msrp'] !== null) {
+                return (int) $wikiVehicleData['msrp'];
+            }
+        }
+
+        // Check in prices array
+        if (isset($wikiVehicleData['prices'])) {
+            foreach ($wikiVehicleData['prices'] as $price) {
+                if (isset($price['type']) && strtolower($price['type']) === $priceType) {
+                    return (int) ($price['amount'] ?? $price['value'] ?? null);
+                }
+            }
+        }
+
+        // Check in shop data for in-game prices
+        if (isset($wikiVehicleData['shops'])) {
+            foreach ($wikiVehicleData['shops'] as $shop) {
+                if (isset($shop['price']) && $priceType === 'auec') {
+                    return (int) $shop['price'];
+                }
+                if (isset($shop['prices'])) {
+                    foreach ($shop['prices'] as $price) {
+                        if (isset($price['type']) && strtolower($price['type']) === $priceType) {
+                            return (int) ($price['amount'] ?? $price['value'] ?? null);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Check commerce data
+        if (isset($wikiVehicleData['commerce'])) {
+            foreach ($wikiVehicleData['commerce'] as $commerce) {
+                if (isset($commerce['price']) && $priceType === 'auec') {
+                    return (int) $commerce['price'];
+                }
+            }
+        }
+
+        // Check direct fields as fallback
+        $fieldMap = [
+            'auec' => ['price_auec', 'price_uec', 'auec_price', 'uec_price', 'price'],
+            'pledge' => ['price_pledge', 'price_usd', 'pledge_price', 'usd_price'],
+        ];
+
+        if (isset($fieldMap[$priceType])) {
+            foreach ($fieldMap[$priceType] as $field) {
+                if (isset($wikiVehicleData[$field]) && $wikiVehicleData[$field] !== null) {
+                    return (int) $wikiVehicleData[$field];
+                }
+            }
         }
 
         return null;

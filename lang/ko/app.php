@@ -54,6 +54,8 @@ return [
     'top_weapons' => '상위 :count 무기 (:days일)',
     'top_fps_killers' => '상위 :count FPS (:days일)',
     'top_fps_victims' => '상위 :count FPS 희생자 (:days일)',
+    'big_kills' => '대형 킬 (최근 :days일)',
+    'no_big_kills_yet' => '아직 대형 킬이 없습니다.',
     'rsi_status' => 'RSI 상태',
 
     'name' => '이름',

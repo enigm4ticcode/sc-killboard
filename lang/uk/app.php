@@ -54,6 +54,8 @@ return [
     'top_weapons' => 'Топ :count зброї (:days д)',
     'top_fps_killers' => 'Топ :count FPS (:days д)',
     'top_fps_victims' => 'Топ :count FPS жертв (:days д)',
+    'big_kills' => 'Великі вбивства (останні :days днів)',
+    'no_big_kills_yet' => 'Поки немає великих вбивств.',
     'rsi_status' => 'Статус RSI',
 
     'name' => 'Ім\'я',

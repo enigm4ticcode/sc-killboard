@@ -9,6 +9,7 @@
     </header>
     <div class="flex flex-col lg:flex-row h-full lg:gap-4 lg:max-w-[1920px] lg:mx-auto lg:px-4">
         <section class="flex-1 py-4 h-full overflow-x-auto">
+            <livewire:big-kills />
             <livewire:main-kill-feed />
         </section>
 
