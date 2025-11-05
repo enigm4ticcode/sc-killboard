@@ -26,16 +26,42 @@ $defaultOrg = Organization::where('spectrum_id', Organization::ORG_NONE)->first(
             }
         </style>
         <table class="min-w-full divide-y table-fixed" style="divide-color: rgb(var(--card-border));">
-            <colgroup>
-                <col style="width: 120px;"> {{-- Time --}}
-                <col style="max-w: auto;"> {{-- Vehicle/FPS --}}
-                <col class="avatar-cell"> {{-- Victim Avatar --}}
-                <col style="width: auto;"> {{-- Victim Name --}}
-                <col class="org-icon-cell"> {{-- Victim Org --}}
-                <col class="avatar-cell"> {{-- Killer Avatar --}}
-                <col style="width: auto;"> {{-- Killer Name --}}
-                <col class="org-icon-cell"> {{-- Killer Org --}}
-            </colgroup>
+            <thead style="background-color: rgb(var(--table-header));">
+            <tr>
+                <th scope="col"
+                    class="px-2 py-3 lg:px-6 lg:py-4 text-right text-xs lg:text-sm font-semibold uppercase tracking-wider align-middle"
+                    style="color: rgb(var(--muted));">
+                    {{ __('app.time_utc') }}
+                </th>
+                <th scope="col" class="px-1 py-3 lg:px-2 lg:py-4 align-middle"></th>
+                <th scope="col"
+                    class="px-2 py-3 lg:px-6 lg:py-4 text-left text-xs lg:text-sm font-semibold uppercase tracking-wider align-middle"
+                    style="color: rgb(var(--muted));">
+                    {{ __('app.victim') }}
+                </th>
+                <th scope="col"
+                    class="px-2 py-3 lg:px-6 lg:py-4 text-center text-xs lg:text-sm font-semibold uppercase tracking-wider align-middle"
+                    style="color: rgb(var(--muted));">
+                    {{ __('app.organization') }}
+                </th>
+                <th scope="col"
+                    class="px-2 py-3 lg:px-6 lg:py-4 text-right text-xs lg:text-sm font-semibold uppercase tracking-wider align-middle"
+                    style="color: rgb(var(--muted));">
+                    {{ __('app.vehicle_fps') }}
+                </th>
+                <th scope="col" class="px-1 py-3 lg:px-2 lg:py-4 align-middle"></th>
+                <th scope="col"
+                    class="px-2 py-3 lg:px-6 lg:py-4 text-left text-xs lg:text-sm font-semibold uppercase tracking-wider align-middle"
+                    style="color: rgb(var(--muted));">
+                    {{ __('app.final_blow') }}
+                </th>
+                <th scope="col"
+                    class="px-2 py-3 lg:px-6 lg:py-4 text-center text-xs lg:text-sm font-semibold uppercase tracking-wider align-middle"
+                    style="color: rgb(var(--muted));">
+                    {{ __('app.organization') }}
+                </th>
+            </tr>
+            </thead>
             <tbody class="divide-y" style="divide-color: rgb(var(--card-border)); background-color: rgb(var(--card));">
             @php($currentDate = null)
             @forelse ($kills as $kill)
