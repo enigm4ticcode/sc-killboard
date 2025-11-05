@@ -29,19 +29,37 @@
     --danger: 239 68 68; /* red-500 */
 }
 
-.dark {
-    /* Dark mode - enhanced palette */
-    --bg: 15 23 42; /* slate-900 - deeper dark */
-    --fg: 248 250 252; /* slate-50 - brighter text */
-    --muted: 148 163 184; /* slate-400 */
-    --card: 30 41 59; /* slate-800 */
-    --card-border: 15 23 42; /* slate-900 - much darker borders for better row separation */
-    --table-hover: 23 34 51; /* slate-850 - darker hover state */
-    --table-header: 23 34 51; /* slate-850 - subtle darker header */
-    --dropdown-hover: 39 52 72; /* slate-750 - subtle dropdown hover */
-    --accent: 56 189 248; /* sky-400 - bright in dark */
-    --accent-hover: 125 211 252; /* sky-300 */
-    --accent-fg: 15 23 42; /* slate-900 for contrast */
+/* Dark mode - Space Black (OLED/True Dark) */
+.dark[data-theme="space-black"] {
+    --bg: 10 10 10; /* near-black #0a0a0a */
+    --fg: 250 250 250; /* near-white text */
+    --muted: 163 163 163; /* gray-400 - muted text */
+    --card: 18 18 18; /* very dark gray card #121212 */
+    --card-border: 5 5 5; /* near-black border #050505 */
+    --table-hover: 25 25 25; /* subtle hover #191919 */
+    --table-header: 20 20 20; /* dark header #141414 */
+    --dropdown-hover: 30 30 30; /* dropdown hover #1e1e1e */
+    --accent: 56 189 248; /* sky-400 - bright cyan accent */
+    --accent-hover: 125 211 252; /* sky-300 - lighter cyan */
+    --accent-fg: 10 10 10; /* dark bg for contrast on accent */
+    --success: 74 222 128; /* green-400 */
+    --warning: 250 204 21; /* yellow-400 */
+    --danger: 248 113 113; /* red-400 */
+}
+
+/* Dark mode - Deep Space Blue */
+.dark[data-theme="space-blue"], .dark:not([data-theme]) {
+    --bg: 8 12 24; /* very dark space blue #080c18 */
+    --fg: 226 232 240; /* slate-200 - light blue-white text */
+    --muted: 148 163 184; /* slate-400 - muted text */
+    --card: 13 20 36; /* dark blue card #0d1424 */
+    --card-border: 6 10 20; /* very dark blue border #060a14 */
+    --table-hover: 17 27 45; /* blue hover #111b2d */
+    --table-header: 15 24 40; /* dark blue header #0f1828 */
+    --dropdown-hover: 20 32 52; /* blue dropdown hover #142034 */
+    --accent: 56 189 248; /* sky-400 - bright cyan accent */
+    --accent-hover: 125 211 252; /* sky-300 - lighter cyan */
+    --accent-fg: 8 12 24; /* dark bg for contrast on accent */
     --success: 74 222 128; /* green-400 */
     --warning: 250 204 21; /* yellow-400 */
     --danger: 248 113 113; /* red-400 */
@@ -199,6 +217,132 @@ body {
 
 /*
  |--------------------------------------------------------------------------
+ | Sci-Fi Effects (HUD-inspired styling)
+ |--------------------------------------------------------------------------
+ */
+
+/* Corner accents for cards - creates diagonal cut effect */
+.sci-fi-corners {
+    position: relative;
+}
+
+.sci-fi-corners::before,
+.sci-fi-corners::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-style: solid;
+    border-color: rgb(var(--accent) / 0.4);
+    pointer-events: none;
+}
+
+.sci-fi-corners::before {
+    top: 0;
+    left: 0;
+    border-width: 2px 0 0 2px;
+    border-top-left-radius: 2px;
+}
+
+.sci-fi-corners::after {
+    top: 0;
+    right: 0;
+    border-width: 2px 2px 0 0;
+    border-top-right-radius: 2px;
+}
+
+/* Subtle hex pattern background */
+.hex-pattern {
+    background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 24px, rgb(var(--accent) / 0.03) 24px, rgb(var(--accent) / 0.03) 26px),
+        repeating-linear-gradient(60deg, transparent, transparent 24px, rgb(var(--accent) / 0.03) 24px, rgb(var(--accent) / 0.03) 26px),
+        repeating-linear-gradient(120deg, transparent, transparent 24px, rgb(var(--accent) / 0.03) 24px, rgb(var(--accent) / 0.03) 26px);
+}
+
+/* Glow effect for dark themes */
+.dark .glow-accent {
+    box-shadow:
+        0 0 10px rgb(var(--accent) / 0.1),
+        inset 0 1px 0 rgb(var(--accent) / 0.1);
+}
+
+/* Tech divider line */
+.tech-divider {
+    position: relative;
+    height: 1px;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgb(var(--accent) / 0.3) 20%,
+        rgb(var(--accent) / 0.6) 50%,
+        rgb(var(--accent) / 0.3) 80%,
+        transparent 100%);
+}
+
+.tech-divider::before,
+.tech-divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 4px;
+    background-color: rgb(var(--accent) / 0.6);
+    border-radius: 50%;
+}
+
+.tech-divider::before { left: 10%; }
+.tech-divider::after { right: 10%; }
+
+/* Scan line animation (very subtle) */
+@keyframes scan-line {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+}
+
+.scan-line {
+    position: relative;
+    overflow: hidden;
+}
+
+.scan-line::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgb(var(--accent) / 0.2) 50%,
+        transparent 100%);
+    animation: scan-line 8s linear infinite;
+    pointer-events: none;
+}
+
+/* Data badge style (for stats) */
+.data-badge {
+    font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.05em;
+}
+
+/* Hologram-style shimmer on hover */
+@keyframes hologram-shimmer {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; }
+}
+
+.hologram-hover {
+    transition: all 0.3s ease;
+}
+
+.hologram-hover:hover {
+    animation: hologram-shimmer 2s ease-in-out infinite;
+    box-shadow: 0 0 15px rgb(var(--accent) / 0.3);
+}
+
+/*
+ |--------------------------------------------------------------------------
  | Accessibility & motion
  |--------------------------------------------------------------------------
  */
@@ -206,4 +350,5 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
     * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+    .scan-line::after { animation: none !important; }
 }

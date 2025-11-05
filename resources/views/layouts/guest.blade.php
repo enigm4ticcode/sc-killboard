@@ -19,7 +19,7 @@
         <div class="min-h-screen flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
             <div class="mb-8">
                 <a href="/" class="transition-transform hover:scale-105 inline-block">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-700 dark:text-gray-300" />
+                    <x-application-logo class="w-20 h-20 fill-current text-gray-700 dark:text-slate-300" />
                 </a>
             </div>
 

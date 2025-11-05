@@ -4,7 +4,7 @@
         <div class="flex justify-between h-16">
             <!-- Hamburger (Left Side) -->
             <div class="flex items-center lg:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out">
+                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-slate-400 hover:text-gray-500 dark:hover:text-slate-300 hover:bg-gray-100 dark:hover:bg-[#142034] focus:outline-none focus:bg-gray-100 dark:focus:bg-[#142034] focus:text-gray-500 dark:focus:text-slate-300 transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -16,7 +16,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('home') }}">
-                        <x-application-logo class="block h-16 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                        <x-application-logo class="block h-16 w-auto fill-current text-gray-800 dark:text-slate-200" />
                     </a>
                 </div>
 
@@ -198,20 +198,34 @@
                                 </span>
                             </x-dropdown-link>
 
-                            <!-- Theme Toggle -->
-                            <div class="border-t border-gray-200 dark:border-gray-600 my-1"></div>
-                            <button @click="window.toggleTheme()" class="w-full text-left px-4 py-2 text-sm transition flex items-center gap-2" style="color: rgb(var(--fg));" onmouseover="this.style.backgroundColor='rgb(var(--dropdown-hover))'" onmouseout="this.style.backgroundColor='transparent'">
-                                <svg x-show="isDark" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
-                                </svg>
-                                <svg x-show="!isDark" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-                                </svg>
-                                <span x-text="isDark ? '{{ __('app.theme_toggle') }}' : '{{ __('app.theme_toggle') }}'"></span>
-                            </button>
+                            <!-- Theme Selector -->
+                            <div class="border-t border-gray-200 dark:border-[#0f1828] my-1"></div>
+                            <div class="px-4 py-2">
+                                <div class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-slate-400 mb-2">{{ __('app.theme') }}</div>
+                                <div class="space-y-1" x-data="{ currentTheme: window.getCurrentTheme() }" @theme-changed.window="currentTheme = window.getCurrentTheme()">
+                                    <button @click="window.setTheme('light')" class="w-full text-left px-3 py-2 rounded-lg text-sm transition flex items-center gap-2" :class="currentTheme === 'light' ? 'font-bold' : ''" :style="currentTheme === 'light' ? 'color: rgb(var(--fg)); background-color: rgba(var(--accent), 0.08);' : 'color: rgb(var(--fg));'" onmouseover="if (window.getCurrentTheme() !== 'light') this.style.backgroundColor='rgba(var(--card-border), 0.3)'" onmouseout="if (window.getCurrentTheme() !== 'light') this.style.backgroundColor='transparent'">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        {{ __('app.theme_light') }}
+                                    </button>
+                                    <button @click="window.setTheme('space-black')" class="w-full text-left px-3 py-2 rounded-lg text-sm transition flex items-center gap-2" :class="currentTheme === 'space-black' ? 'font-bold' : ''" :style="currentTheme === 'space-black' ? 'color: rgb(var(--fg)); background-color: rgba(var(--accent), 0.08);' : 'color: rgb(var(--fg));'" onmouseover="if (window.getCurrentTheme() !== 'space-black') this.style.backgroundColor='rgba(var(--card-border), 0.3)'" onmouseout="if (window.getCurrentTheme() !== 'space-black') this.style.backgroundColor='transparent'">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                                        </svg>
+                                        {{ __('app.theme_space_black') }}
+                                    </button>
+                                    <button @click="window.setTheme('space-blue')" class="w-full text-left px-3 py-2 rounded-lg text-sm transition flex items-center gap-2" :class="currentTheme === 'space-blue' ? 'font-bold' : ''" :style="currentTheme === 'space-blue' ? 'color: rgb(var(--fg)); background-color: rgba(var(--accent), 0.08);' : 'color: rgb(var(--fg));'" onmouseover="if (window.getCurrentTheme() !== 'space-blue') this.style.backgroundColor='rgba(var(--card-border), 0.3)'" onmouseout="if (window.getCurrentTheme() !== 'space-blue') this.style.backgroundColor='transparent'">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                                        </svg>
+                                        {{ __('app.theme_space_blue') }}
+                                    </button>
+                                </div>
+                            </div>
 
                             <!-- Authentication -->
-                            <div class="border-t border-gray-200 dark:border-gray-600 my-1"></div>
+                            <div class="border-t border-gray-200 dark:border-[#0f1828] my-1"></div>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
 
@@ -260,19 +274,33 @@
                                 </span>
                             </x-dropdown-link>
 
-                            <!-- Theme Toggle -->
-                            <div class="border-t border-gray-200 dark:border-gray-600 my-1"></div>
-                            <button @click="window.toggleTheme()" class="w-full text-left px-4 py-2 text-sm transition flex items-center gap-2" style="color: rgb(var(--fg));" onmouseover="this.style.backgroundColor='rgb(var(--dropdown-hover))'" onmouseout="this.style.backgroundColor='transparent'">
-                                <svg x-show="isDark" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
-                                </svg>
-                                <svg x-show="!isDark" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-                                </svg>
-                                <span x-text="isDark ? '{{ __('app.light_mode') }}' : '{{ __('app.dark_mode') }}'"></span>
-                            </button>
+                            <!-- Theme Selector -->
+                            <div class="border-t border-gray-200 dark:border-[#0f1828] my-1"></div>
+                            <div class="px-4 py-2">
+                                <div class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-slate-400 mb-2">{{ __('app.theme') }}</div>
+                                <div class="space-y-1" x-data="{ currentTheme: window.getCurrentTheme() }" @theme-changed.window="currentTheme = window.getCurrentTheme()">
+                                    <button @click="window.setTheme('light')" class="w-full text-left px-3 py-2 rounded-lg text-sm transition flex items-center gap-2" :class="currentTheme === 'light' ? 'font-bold' : ''" :style="currentTheme === 'light' ? 'color: rgb(var(--fg)); background-color: rgba(var(--accent), 0.08);' : 'color: rgb(var(--fg));'" onmouseover="if (window.getCurrentTheme() !== 'light') this.style.backgroundColor='rgba(var(--card-border), 0.3)'" onmouseout="if (window.getCurrentTheme() !== 'light') this.style.backgroundColor='transparent'">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        {{ __('app.theme_light') }}
+                                    </button>
+                                    <button @click="window.setTheme('space-black')" class="w-full text-left px-3 py-2 rounded-lg text-sm transition flex items-center gap-2" :class="currentTheme === 'space-black' ? 'font-bold' : ''" :style="currentTheme === 'space-black' ? 'color: rgb(var(--fg)); background-color: rgba(var(--accent), 0.08);' : 'color: rgb(var(--fg));'" onmouseover="if (window.getCurrentTheme() !== 'space-black') this.style.backgroundColor='rgba(var(--card-border), 0.3)'" onmouseout="if (window.getCurrentTheme() !== 'space-black') this.style.backgroundColor='transparent'">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                                        </svg>
+                                        {{ __('app.theme_space_black') }}
+                                    </button>
+                                    <button @click="window.setTheme('space-blue')" class="w-full text-left px-3 py-2 rounded-lg text-sm transition flex items-center gap-2" :class="currentTheme === 'space-blue' ? 'font-bold' : ''" :style="currentTheme === 'space-blue' ? 'color: rgb(var(--fg)); background-color: rgba(var(--accent), 0.08);' : 'color: rgb(var(--fg));'" onmouseover="if (window.getCurrentTheme() !== 'space-blue') this.style.backgroundColor='rgba(var(--card-border), 0.3)'" onmouseout="if (window.getCurrentTheme() !== 'space-blue') this.style.backgroundColor='transparent'">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                                        </svg>
+                                        {{ __('app.theme_space_blue') }}
+                                    </button>
+                                </div>
+                            </div>
 
-                            <div class="border-t border-gray-200 dark:border-gray-600 my-1"></div>
+                            <div class="border-t border-gray-200 dark:border-[#0f1828] my-1"></div>
                             <x-dropdown-link :href="route('login')">
                                 {{ __('app.login_discord') }}
                             </x-dropdown-link>
@@ -315,15 +343,15 @@
         </div>
 
         <!-- Mobile Search -->
-        <div class="px-3 pb-3 border-t border-gray-200 dark:border-gray-600 pt-3">
+        <div class="px-3 pb-3 border-t border-gray-200 dark:border-[#0f1828] pt-3">
             <livewire:global-search />
         </div>
 
         <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
+        <div class="pt-4 pb-1 border-t border-gray-200 dark:border-[#0f1828]">
             @if(Auth::user())
                 <div class="px-4">
-                    <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->getTagAttribute() }}</div>
+                    <div class="font-medium text-base text-gray-800 dark:text-slate-200">{{ Auth::user()->getTagAttribute() }}</div>
                 </div>
 
                 <div class="mt-3 space-y-1">
@@ -337,7 +365,7 @@
                     <!-- Language Switcher -->
                     <div class="border-t border-gray-200 dark:border-gray-600 my-1"></div>
                     <div class="px-3 py-2">
-                        <div class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2">{{ __('app.language') }}</div>
+                        <div class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-slate-400 mb-2">{{ __('app.language') }}</div>
                         <div class="space-y-1">
                             <a href="{{ route('language.switch', 'en') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {{ app()->getLocale() == 'en' ? 'font-bold' : '' }}" style="color: rgb(var(--fg)); {{ app()->getLocale() == 'en' ? 'background-color: rgba(var(--accent), 0.08);' : '' }}" onmouseover="if ('{{ app()->getLocale() }}' !== 'en') this.style.backgroundColor='rgba(var(--card-border), 0.3)'" onmouseout="if ('{{ app()->getLocale() }}' !== 'en') this.style.backgroundColor='transparent'">
                                 <span class="text-lg">🇺🇸</span> English
@@ -369,17 +397,31 @@
                         </div>
                     </div>
 
-                    <!-- Theme Toggle -->
-                    <div class="border-t border-gray-200 dark:border-gray-600 my-1"></div>
-                    <button @click="window.toggleTheme()" class="w-full text-left px-3 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600 focus:outline-none focus:text-gray-800 dark:focus:text-gray-200 focus:bg-gray-50 dark:focus:bg-gray-700 focus:border-gray-300 dark:focus:border-gray-600 transition flex items-center gap-2">
-                        <svg x-show="isDark" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
-                        </svg>
-                        <svg x-show="!isDark" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-                        </svg>
-                        <span x-text="isDark ? '{{ __('app.light_mode') }}' : '{{ __('app.dark_mode') }}'"></span>
-                    </button>
+                    <!-- Theme Selector -->
+                    <div class="border-t border-gray-200 dark:border-[#0f1828] my-1"></div>
+                    <div class="px-3 py-2">
+                        <div class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-slate-400 mb-2">{{ __('app.theme') }}</div>
+                        <div class="space-y-1" x-data="{ currentTheme: window.getCurrentTheme() }" @theme-changed.window="currentTheme = window.getCurrentTheme()">
+                            <button @click="window.setTheme('light')" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition w-full text-left" :class="currentTheme === 'light' ? 'font-bold' : ''" :style="currentTheme === 'light' ? 'color: rgb(var(--fg)); background-color: rgba(var(--accent), 0.08);' : 'color: rgb(var(--fg));'" onmouseover="if (window.getCurrentTheme() !== 'light') this.style.backgroundColor='rgba(var(--card-border), 0.3)'" onmouseout="if (window.getCurrentTheme() !== 'light') this.style.backgroundColor='transparent'">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                                </svg>
+                                {{ __('app.theme_light') }}
+                            </button>
+                            <button @click="window.setTheme('space-black')" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition w-full text-left" :class="currentTheme === 'space-black' ? 'font-bold' : ''" :style="currentTheme === 'space-black' ? 'color: rgb(var(--fg)); background-color: rgba(var(--accent), 0.08);' : 'color: rgb(var(--fg));'" onmouseover="if (window.getCurrentTheme() !== 'space-black') this.style.backgroundColor='rgba(var(--card-border), 0.3)'" onmouseout="if (window.getCurrentTheme() !== 'space-black') this.style.backgroundColor='transparent'">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                                </svg>
+                                {{ __('app.theme_space_black') }}
+                            </button>
+                            <button @click="window.setTheme('space-blue')" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition w-full text-left" :class="currentTheme === 'space-blue' ? 'font-bold' : ''" :style="currentTheme === 'space-blue' ? 'color: rgb(var(--fg)); background-color: rgba(var(--accent), 0.08);' : 'color: rgb(var(--fg));'" onmouseover="if (window.getCurrentTheme() !== 'space-blue') this.style.backgroundColor='rgba(var(--card-border), 0.3)'" onmouseout="if (window.getCurrentTheme() !== 'space-blue') this.style.backgroundColor='transparent'">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                                </svg>
+                                {{ __('app.theme_space_blue') }}
+                            </button>
+                        </div>
+                    </div>
 
                     <!-- Authentication -->
                     <form method="POST" action="{{ route('logout') }}">
@@ -401,7 +443,7 @@
                     <!-- Language Switcher -->
                     <div class="border-t border-gray-200 dark:border-gray-600 my-1"></div>
                     <div class="px-3 py-2">
-                        <div class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2">{{ __('app.language') }}</div>
+                        <div class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-slate-400 mb-2">{{ __('app.language') }}</div>
                         <div class="space-y-1">
                             <a href="{{ route('language.switch', 'en') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {{ app()->getLocale() == 'en' ? 'font-bold' : '' }}" style="color: rgb(var(--fg)); {{ app()->getLocale() == 'en' ? 'background-color: rgba(var(--accent), 0.08);' : '' }}" onmouseover="if ('{{ app()->getLocale() }}' !== 'en') this.style.backgroundColor='rgba(var(--card-border), 0.3)'" onmouseout="if ('{{ app()->getLocale() }}' !== 'en') this.style.backgroundColor='transparent'">
                                 <span class="text-lg">🇺🇸</span> English
@@ -433,17 +475,31 @@
                         </div>
                     </div>
 
-                    <!-- Theme Toggle -->
-                    <div class="border-t border-gray-200 dark:border-gray-600 my-1"></div>
-                    <button @click="window.toggleTheme()" class="w-full text-left px-3 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600 focus:outline-none focus:text-gray-800 dark:focus:text-gray-200 focus:bg-gray-50 dark:focus:bg-gray-700 focus:border-gray-300 dark:focus:border-gray-600 transition flex items-center gap-2">
-                        <svg x-show="isDark" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
-                        </svg>
-                        <svg x-show="!isDark" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-                        </svg>
-                        <span x-text="isDark ? '{{ __('app.light_mode') }}' : '{{ __('app.dark_mode') }}'"></span>
-                    </button>
+                    <!-- Theme Selector -->
+                    <div class="border-t border-gray-200 dark:border-[#0f1828] my-1"></div>
+                    <div class="px-3 py-2">
+                        <div class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-slate-400 mb-2">{{ __('app.theme') }}</div>
+                        <div class="space-y-1" x-data="{ currentTheme: window.getCurrentTheme() }" @theme-changed.window="currentTheme = window.getCurrentTheme()">
+                            <button @click="window.setTheme('light')" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition w-full text-left" :class="currentTheme === 'light' ? 'font-bold' : ''" :style="currentTheme === 'light' ? 'color: rgb(var(--fg)); background-color: rgba(var(--accent), 0.08);' : 'color: rgb(var(--fg));'" onmouseover="if (window.getCurrentTheme() !== 'light') this.style.backgroundColor='rgba(var(--card-border), 0.3)'" onmouseout="if (window.getCurrentTheme() !== 'light') this.style.backgroundColor='transparent'">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                                </svg>
+                                {{ __('app.theme_light') }}
+                            </button>
+                            <button @click="window.setTheme('space-black')" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition w-full text-left" :class="currentTheme === 'space-black' ? 'font-bold' : ''" :style="currentTheme === 'space-black' ? 'color: rgb(var(--fg)); background-color: rgba(var(--accent), 0.08);' : 'color: rgb(var(--fg));'" onmouseover="if (window.getCurrentTheme() !== 'space-black') this.style.backgroundColor='rgba(var(--card-border), 0.3)'" onmouseout="if (window.getCurrentTheme() !== 'space-black') this.style.backgroundColor='transparent'">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                                </svg>
+                                {{ __('app.theme_space_black') }}
+                            </button>
+                            <button @click="window.setTheme('space-blue')" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition w-full text-left" :class="currentTheme === 'space-blue' ? 'font-bold' : ''" :style="currentTheme === 'space-blue' ? 'color: rgb(var(--fg)); background-color: rgba(var(--accent), 0.08);' : 'color: rgb(var(--fg));'" onmouseover="if (window.getCurrentTheme() !== 'space-blue') this.style.backgroundColor='rgba(var(--card-border), 0.3)'" onmouseout="if (window.getCurrentTheme() !== 'space-blue') this.style.backgroundColor='transparent'">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                                </svg>
+                                {{ __('app.theme_space_blue') }}
+                            </button>
+                        </div>
+                    </div>
 
                     <x-responsive-nav-link :href="route('login')">
                         {{ __('app.login_discord') }}

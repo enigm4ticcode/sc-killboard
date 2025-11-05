@@ -4,7 +4,7 @@
             <a href="https://robertsspaceindustries.com" aria-label="Star Citizen Community" class="transition-transform hover:scale-110">
                 <img src="{{ Vite::asset('resources/images/logos/made_by_the_community.png') }}" alt="{{ __('app.made_by_community') }}" class="w-12 h-auto rounded-full object-cover shadow-md">
             </a>
-            <p class="text-gray-600 dark:text-gray-400 inline-flex items-center gap-1 flex-wrap">
+            <p class="text-gray-600 dark:text-slate-400 inline-flex items-center gap-1 flex-wrap">
                 <span>{{ __('app.brought_to_you_by') }}</span>
                 <a class="font-medium underline hover:no-underline transition-colors opacity-70 hover:opacity-100 inline-flex items-center gap-1" style="color: rgb(var(--fg));" href="https://robertsspaceindustries.com/citizens/ENIGM4" target="_blank" rel="noopener">
                     <span>ENIGM4</span>
@@ -15,7 +15,7 @@
                 </a>
             </p>
         </div>
-        <nav class="flex flex-wrap justify-center gap-6 md:gap-8 text-gray-600 dark:text-gray-400 opacity-70">
+        <nav class="flex flex-wrap justify-center gap-6 md:gap-8 text-gray-600 dark:text-slate-400 opacity-70">
             <a href="{{ route('legal') }}#legal-disclaimer" class="hover:opacity-100 transition-all" style="color: rgb(var(--fg));">{{ __('app.legal') }}</a>
             <a href="{{ route('legal') }}#cookie-policy" class="hover:opacity-100 transition-all" style="color: rgb(var(--fg));">{{ __('app.cookie_policy') }}</a>
             <a href="{{ route('legal') }}#privacy-policy" class="hover:opacity-100 transition-all" style="color: rgb(var(--fg));">{{ __('app.privacy_policy') }}</a>

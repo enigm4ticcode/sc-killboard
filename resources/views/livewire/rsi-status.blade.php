@@ -16,7 +16,7 @@
                             'bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-200 ring-1 ring-yellow-600/20' => $status['platform'] == 'degraded',
                             'bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-200 ring-1 ring-green-600/20' => $status['platform'] == 'operational',
                             'bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-200 ring-1 ring-red-600/20' => $status['platform'] == 'outage',
-                            'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 ring-1 ring-gray-600/20' => $status['platform'] == 'unknown',
+                            'bg-gray-100 dark:bg-[#142034] text-gray-700 dark:text-slate-300 ring-1 ring-gray-600/20' => $status['platform'] == 'unknown',
                         ])>
                             {{ __('app.' . $status['platform']) }}
                         </span>
@@ -35,7 +35,7 @@
                             'bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-200 ring-1 ring-yellow-600/20' => $status['persistent_universe'] == 'degraded',
                             'bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-200 ring-1 ring-green-600/20' => $status['persistent_universe'] == 'operational',
                             'bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-200 ring-1 ring-red-600/20' => $status['persistent_universe'] == 'outage',
-                            'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 ring-1 ring-gray-600/20' => $status['persistent_universe'] == 'unknown',
+                            'bg-gray-100 dark:bg-[#142034] text-gray-700 dark:text-slate-300 ring-1 ring-gray-600/20' => $status['persistent_universe'] == 'unknown',
                         ])>
                             {{ __('app.' . $status['persistent_universe']) }}
                         </span>
@@ -54,7 +54,7 @@
                             'bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-200 ring-1 ring-yellow-600/20' => $status['arena_commander'] == 'degraded',
                             'bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-200 ring-1 ring-green-600/20' => $status['arena_commander'] == 'operational',
                             'bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-200 ring-1 ring-red-600/20' => $status['arena_commander'] == 'outage',
-                            'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 ring-1 ring-gray-600/20' => $status['arena_commander'] == 'unknown',
+                            'bg-gray-100 dark:bg-[#142034] text-gray-700 dark:text-slate-300 ring-1 ring-gray-600/20' => $status['arena_commander'] == 'unknown',
                         ])>
                             {{ __('app.' . $status['arena_commander']) }}
                         </span>
