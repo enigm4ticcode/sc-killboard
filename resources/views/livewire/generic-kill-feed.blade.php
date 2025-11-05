@@ -14,16 +14,6 @@ $defaultOrg = Organization::where('spectrum_id', Organization::ORG_NONE)->first(
             @media (min-width: 1280px) {
                 .desktop-table { display: block; }
             }
-            .avatar-cell {
-                width: 80px;
-                min-width: 80px;
-                max-width: 80px;
-            }
-            .org-icon-cell {
-                width: 120px;
-                min-width: 120px;
-                max-width: 120px;
-            }
         </style>
         <table class="min-w-full divide-y" style="divide-color: rgb(var(--card-border));">
             <thead style="background-color: rgb(var(--table-header));">

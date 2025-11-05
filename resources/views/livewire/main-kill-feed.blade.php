@@ -14,16 +14,6 @@ $defaultOrg = Organization::where('spectrum_id', Organization::ORG_NONE)->first(
             @media (min-width: 1280px) {
                 .desktop-table { display: block; }
             }
-            .avatar-cell {
-                width: 80px;
-                min-width: 80px;
-                max-width: 80px;
-            }
-            .org-icon-cell {
-                width: 120px;
-                min-width: 120px;
-                max-width: 120px;
-            }
         </style>
         <table class="min-w-full divide-y table-fixed" style="divide-color: rgb(var(--card-border));">
             <thead style="background-color: rgb(var(--table-header));">
@@ -32,6 +22,11 @@ $defaultOrg = Organization::where('spectrum_id', Organization::ORG_NONE)->first(
                     class="px-2 py-3 lg:px-6 lg:py-4 text-right text-xs lg:text-sm font-semibold uppercase tracking-wider align-middle"
                     style="color: rgb(var(--muted));">
                     {{ __('app.time_utc') }}
+                </th>
+                <th scope="col"
+                    class="px-2 py-3 lg:px-6 lg:py-4 text-right text-xs lg:text-sm font-semibold uppercase tracking-wider align-middle"
+                    style="color: rgb(var(--muted));">
+                    {{ __('app.vehicle_fps') }}
                 </th>
                 <th scope="col" class="px-1 py-3 lg:px-2 lg:py-4 align-middle"></th>
                 <th scope="col"
@@ -43,11 +38,6 @@ $defaultOrg = Organization::where('spectrum_id', Organization::ORG_NONE)->first(
                     class="px-2 py-3 lg:px-6 lg:py-4 text-center text-xs lg:text-sm font-semibold uppercase tracking-wider align-middle"
                     style="color: rgb(var(--muted));">
                     {{ __('app.organization') }}
-                </th>
-                <th scope="col"
-                    class="px-2 py-3 lg:px-6 lg:py-4 text-right text-xs lg:text-sm font-semibold uppercase tracking-wider align-middle"
-                    style="color: rgb(var(--muted));">
-                    {{ __('app.vehicle_fps') }}
                 </th>
                 <th scope="col" class="px-1 py-3 lg:px-2 lg:py-4 align-middle"></th>
                 <th scope="col"
