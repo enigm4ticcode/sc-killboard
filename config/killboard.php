@@ -29,7 +29,7 @@ return [
         'ttl' => env('RSI_STATUS_TTL', 300),
     ],
     'big_kills' => [
-        'usd_threshold' => env('BIG_KILL_USD_THRESHOLD', 1),
+        'usd_threshold' => env('BIG_KILL_USD_THRESHOLD', 449),
         'number_to_display' => env('BIG_KILL_NUMBER_TO_DISPLAY', 5),
     ],
 ];
