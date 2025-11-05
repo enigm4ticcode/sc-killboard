@@ -84,7 +84,7 @@
                     ['killer', 'String', 'Yes', '`required`, `string`, `min:3`'],
                     ['victim', 'String', 'Yes', '`required`, `string`, `min:3`'],
                     ['weapon', 'String', 'Yes', '`required`, `string`, `min:3`'],
-                    ['vehicle', 'String', 'No', '`sometimes`, `string`, `min:4`'],
+                    ['vehicle', 'String', 'No', '`sometimes`, `string`, `min:4`, Required if `kill_type` is `vehicle`'],
                 ] as $param)
                     <tr class="transition-colors" onmouseover="this.style.backgroundColor='rgb(var(--table-hover))'" onmouseout="this.style.backgroundColor='rgb(var(--card))'">
                         <td class="px-6 py-4 whitespace-nowrap"><code>{{ $param[0] }}</code></td>

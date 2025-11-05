@@ -1,5 +1,5 @@
 <div class="card p-4 sm:p-6 lg:p-8 mx-4 sm:mx-0">
-    <header class="pb-6 mb-6 border-b" style="border-color: rgb(var(--card-border));">
+    <header class="pb-6 mb-6 border-b sc-hud-header sc-grid-pattern sc-hud-glow" style="border-color: rgb(var(--card-border));">
         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
             <div class="shrink-0">
                 <a href="https://robertsspaceindustries.com/citizens/{{ $player->name }}" target="_blank" rel="noopener noreferrer" class="inline-block transition-transform hover:scale-105">

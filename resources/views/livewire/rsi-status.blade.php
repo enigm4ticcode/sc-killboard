@@ -1,5 +1,5 @@
 <div class="card !rounded-xl overflow-hidden">
-    <div class="border-b px-4 py-3 text-sm font-semibold" style="border-color: rgb(var(--card-border)); background-color: rgb(var(--table-header)); color: rgb(var(--fg));">
+    <div class="border-b px-4 py-3 text-sm font-semibold sc-hud-header sc-grid-pattern sc-hud-glow" style="border-color: rgb(var(--card-border)); background-color: rgb(var(--table-header)); color: rgb(var(--fg));">
         🌐 {{ __('app.rsi_status') }}
     </div>
 

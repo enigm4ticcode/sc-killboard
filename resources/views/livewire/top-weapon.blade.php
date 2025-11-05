@@ -1,5 +1,5 @@
 <div class="card !rounded-xl overflow-hidden">
-    <div class="border-b px-4 py-3 text-sm font-bold" style="border-color: rgba(var(--accent), 0.3); background: linear-gradient(135deg, rgba(var(--accent), 0.15) 0%, rgba(var(--accent), 0.05) 100%); color: rgb(var(--fg));">
+    <div class="border-b px-4 py-3 text-sm font-bold sc-hud-header sc-grid-pattern sc-hud-glow" style="border-color: rgba(var(--accent), 0.3); background: linear-gradient(135deg, rgba(var(--accent), 0.15) 0%, rgba(var(--accent), 0.05) 100%); color: rgb(var(--fg));">
         <div class="flex items-center gap-2">
             <span class="text-xl">🔫</span>
             <span>{{ __('app.top_weapons', ['count' => config('killboard.leaderboards.number-of-positions'), 'days' => config('killboard.leaderboards.timespan-days')]) }}</span>

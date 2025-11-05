@@ -1,5 +1,5 @@
 <div>
-    <header class="pb-6 mb-6 border-b" style="border-color: rgb(var(--card-border));">
+    <header class="pb-6 mb-6 border-b sc-hud-header sc-grid-pattern sc-hud-glow" style="border-color: rgb(var(--card-border));">
         <h1 class="text-3xl sm:text-4xl font-extrabold mb-2" style="color: rgb(var(--accent));">
             {{ __('profile.title') }}
         </h1>

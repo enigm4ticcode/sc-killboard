@@ -3,5 +3,5 @@
 return [
     'previous' => '&laquo; Previous',
     'next' => 'Next &raquo;',
-    'showing' => 'Showing :first to :last of :total results',
+    'showing' => 'Showing :first to :last of :total kills',
 ];

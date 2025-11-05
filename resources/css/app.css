@@ -217,128 +217,44 @@ body {
 
 /*
  |--------------------------------------------------------------------------
- | Sci-Fi Effects (HUD-inspired styling)
+ | Star Citizen HUD-inspired styling (Angular Brackets)
  |--------------------------------------------------------------------------
  */
 
-/* Corner accents for cards - creates diagonal cut effect */
-.sci-fi-corners {
+/* Angular HUD header with SC MobiGlas aesthetic */
+.sc-hud-header {
     position: relative;
+    letter-spacing: 0.025em;
+    clip-path: polygon(
+        0 0,
+        calc(100% - 8px) 0,
+        100% 8px,
+        100% 100%,
+        8px 100%,
+        0 calc(100% - 8px)
+    );
 }
 
-.sci-fi-corners::before,
-.sci-fi-corners::after {
-    content: '';
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    border-style: solid;
-    border-color: rgb(var(--accent) / 0.4);
-    pointer-events: none;
-}
-
-.sci-fi-corners::before {
-    top: 0;
-    left: 0;
-    border-width: 2px 0 0 2px;
-    border-top-left-radius: 2px;
-}
-
-.sci-fi-corners::after {
-    top: 0;
-    right: 0;
-    border-width: 2px 2px 0 0;
-    border-top-right-radius: 2px;
-}
-
-/* Subtle hex pattern background */
-.hex-pattern {
+/* Subtle grid pattern background */
+.sc-grid-pattern {
     background-image:
-        repeating-linear-gradient(0deg, transparent, transparent 24px, rgb(var(--accent) / 0.03) 24px, rgb(var(--accent) / 0.03) 26px),
-        repeating-linear-gradient(60deg, transparent, transparent 24px, rgb(var(--accent) / 0.03) 24px, rgb(var(--accent) / 0.03) 26px),
-        repeating-linear-gradient(120deg, transparent, transparent 24px, rgb(var(--accent) / 0.03) 24px, rgb(var(--accent) / 0.03) 26px);
+        linear-gradient(0deg, transparent 95%, rgb(var(--accent) / 0.015) 100%),
+        linear-gradient(90deg, transparent 95%, rgb(var(--accent) / 0.015) 100%);
+    background-size: 20px 20px;
 }
 
-/* Glow effect for dark themes */
-.dark .glow-accent {
+/* Holographic glow effect for Deep Space Blue theme only */
+.dark[data-theme="space-blue"] .sc-hud-glow {
     box-shadow:
-        0 0 10px rgb(var(--accent) / 0.1),
-        inset 0 1px 0 rgb(var(--accent) / 0.1);
+        0 0 8px rgb(var(--accent) / 0.08),
+        inset 0 1px 0 rgb(var(--accent) / 0.08),
+        inset 0 -1px 0 rgb(var(--accent) / 0.05);
 }
 
-/* Tech divider line */
-.tech-divider {
-    position: relative;
-    height: 1px;
-    background: linear-gradient(90deg,
-        transparent 0%,
-        rgb(var(--accent) / 0.3) 20%,
-        rgb(var(--accent) / 0.6) 50%,
-        rgb(var(--accent) / 0.3) 80%,
-        transparent 100%);
-}
-
-.tech-divider::before,
-.tech-divider::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 4px;
-    height: 4px;
-    background-color: rgb(var(--accent) / 0.6);
-    border-radius: 50%;
-}
-
-.tech-divider::before { left: 10%; }
-.tech-divider::after { right: 10%; }
-
-/* Scan line animation (very subtle) */
-@keyframes scan-line {
-    0% { transform: translateY(-100%); }
-    100% { transform: translateY(100%); }
-}
-
-.scan-line {
-    position: relative;
-    overflow: hidden;
-}
-
-.scan-line::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg,
-        transparent 0%,
-        rgb(var(--accent) / 0.2) 50%,
-        transparent 100%);
-    animation: scan-line 8s linear infinite;
-    pointer-events: none;
-}
-
-/* Data badge style (for stats) */
-.data-badge {
-    font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
-    font-variant-numeric: tabular-nums;
-    letter-spacing: 0.05em;
-}
-
-/* Hologram-style shimmer on hover */
-@keyframes hologram-shimmer {
-    0%, 100% { opacity: 0.8; }
-    50% { opacity: 1; }
-}
-
-.hologram-hover {
-    transition: all 0.3s ease;
-}
-
-.hologram-hover:hover {
-    animation: hologram-shimmer 2s ease-in-out infinite;
-    box-shadow: 0 0 15px rgb(var(--accent) / 0.3);
+/* Optional: Add layered border effect */
+.sc-layered-border {
+    border-top: 1px solid rgb(var(--accent) / 0.15);
+    border-bottom: 1px solid rgb(var(--accent) / 0.15);
 }
 
 /*

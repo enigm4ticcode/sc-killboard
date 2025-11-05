@@ -499,13 +499,30 @@ class GameLogService
         $weaponBulkData = [];
         foreach ($weaponsData as $weaponString => $parsed) {
             $manufacturer = $manufacturers[$parsed['manufacturer_code']] ?? null;
-            if ($manufacturer) {
-                $weaponBulkData[] = [
-                    'slug' => $parsed['slug'],
-                    'name' => $parsed['name'],
-                    'manufacturer_id' => $manufacturer->id,
-                ];
+
+            // If manufacturer not found, create a fallback manufacturer
+            if (! $manufacturer) {
+                Log::warning('[GAMELOG PARSER] Manufacturer not found after upsert, creating fallback', [
+                    'manufacturerCode' => $parsed['manufacturer_code'],
+                    'weaponString' => $weaponString,
+                ]);
+
+                // Create manufacturer synchronously as fallback
+                $manufacturer = \App\Models\Manufacturer::query()->firstOrCreate([
+                    'code' => $parsed['manufacturer_code'],
+                ], [
+                    'name' => 'Unknown',
+                ]);
+
+                // Add to manufacturers collection for future weapons in this batch
+                $manufacturers[$parsed['manufacturer_code']] = $manufacturer;
             }
+
+            $weaponBulkData[] = [
+                'slug' => $parsed['slug'],
+                'name' => $parsed['name'],
+                'manufacturer_id' => $manufacturer->id,
+            ];
         }
 
         if (! empty($weaponBulkData)) {
