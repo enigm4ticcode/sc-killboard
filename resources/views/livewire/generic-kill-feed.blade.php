@@ -1,7 +1,7 @@
 @php use App\Models\Kill;use App\Models\Organization;use Carbon\Carbon;use Illuminate\Support\Str;
 $defaultOrg = Organization::where('spectrum_id', Organization::ORG_NONE)->first();
 @endphp
-<div class="overflow-hidden rounded-xl border shadow-lg transition-all duration-300" style="background-color: rgb(var(--card)); border-color: rgb(var(--card-border));">
+<div class="overflow-hidden rounded-none sm:rounded-xl border border-l-0 border-r-0 sm:border shadow-lg transition-all duration-300" style="background-color: rgb(var(--card)); border-color: rgb(var(--card-border));">
 
     <div class="px-2 sm:px-4 md:px-6 py-3 border-b" style="border-color: rgb(var(--card-border)); background-color: rgb(var(--card));">
         {{ $feed->links() }}
@@ -14,8 +14,30 @@ $defaultOrg = Organization::where('spectrum_id', Organization::ORG_NONE)->first(
             @media (min-width: 1280px) {
                 .desktop-table { display: block; }
             }
+            /* Prevent avatar column compression */
+            .avatar-cell {
+                width: 80px;
+                min-width: 80px;
+                max-width: 80px;
+            }
+            /* Prevent org icon column compression */
+            .org-cell {
+                width: 100px;
+                min-width: 100px;
+                max-width: 100px;
+            }
         </style>
-        <table class="min-w-full divide-y" style="divide-color: rgb(var(--card-border));">
+        <table class="min-w-full divide-y table-fixed" style="divide-color: rgb(var(--card-border));">
+            <colgroup>
+                <col style="width: 120px;"> {{-- Time --}}
+                <col style="width: auto; min-width: 150px;"> {{-- Vehicle/FPS --}}
+                <col class="avatar-cell"> {{-- Victim Avatar --}}
+                <col style="width: auto;"> {{-- Victim Name --}}
+                <col class="org-cell"> {{-- Victim Org --}}
+                <col class="avatar-cell"> {{-- Killer Avatar --}}
+                <col style="width: auto;"> {{-- Killer Name --}}
+                <col class="org-cell"> {{-- Killer Org --}}
+            </colgroup>
             <thead style="background-color: rgb(var(--table-header));">
             <tr>
                 <th scope="col"
@@ -204,9 +226,9 @@ $defaultOrg = Organization::where('spectrum_id', Organization::ORG_NONE)->first(
                 </div>
 
                 {{-- Kill Info Container --}}
-                <div class="flex items-center justify-between gap-3">
+                <div class="flex items-center justify-center gap-2">
                     {{-- Victim Side --}}
-                    <div class="flex flex-col items-center gap-2 flex-1">
+                    <div class="flex flex-col items-center gap-2 flex-1 min-w-0">
                         @if (! empty($kill->victim->avatar) && (str_contains($kill->victim->avatar, '/media/') || str_contains($kill->victim->avatar, '/static/images/account/avatar_default')))
                             <a href="{{ route('player.show', ['name' => $kill->victim->name]) }}" class="transition-transform hover:scale-110">
                                 <img width="48" height="48" alt="{{ $kill->victim->name }}" src="{{ $kill->victim->avatar }}" class="rounded-full shadow-md w-12 h-12 object-cover flex-shrink-0" />
@@ -216,7 +238,7 @@ $defaultOrg = Organization::where('spectrum_id', Organization::ORG_NONE)->first(
                                 <img width="48" height="48" src="https://cdn.robertsspaceindustries.com/static/images/account/avatar_default_big.jpg" alt="{{ $kill->victim->name }}" class="rounded-full shadow-md w-12 h-12 object-cover flex-shrink-0" />
                             </a>
                         @endif
-                        <a href="{{ route('player.show', ['name' => $kill->victim->name]) }}" class="text-sm font-semibold text-center hover:underline transition-colors" style="color: rgb(var(--accent));">
+                        <a href="{{ route('player.show', ['name' => $kill->victim->name]) }}" class="text-xs font-semibold text-center hover:underline transition-colors" style="color: rgb(var(--accent));">
                             {{ Str::limit($kill->victim->name, 20) }}
                         </a>
                         @if($victimOrg && $victimOrg->spectrum_id !== Organization::ORG_NONE && $victimOrg->spectrum_id !== Organization::ORG_REDACTED)
@@ -230,20 +252,27 @@ $defaultOrg = Organization::where('spectrum_id', Organization::ORG_NONE)->first(
                         @endif
                     </div>
 
-                    {{-- VS Indicator --}}
-                    <div class="flex flex-col items-center gap-1 flex-shrink-0 max-w-[120px]">
-                        <div class="text-2xl">⚔️</div>
-                        <div class="text-xs font-medium px-2 py-1 rounded text-center" style="color: rgb(var(--fg)); background-color: rgba(var(--fg), 0.1); word-break: break-word;">
-                            @if($killType === Kill::TYPE_VEHICLE)
-                                {{ $kill->ship->name }}
+                    {{-- VS Indicator / Ship Info --}}
+                    <div class="flex flex-col items-center gap-1 flex-shrink-0 w-28">
+                        @if($killType === Kill::TYPE_VEHICLE)
+                            @if($kill->ship->icon)
+                                <img src="{{ $kill->ship->icon }}" alt="{{ $kill->ship->name }}" class="w-28 h-16 object-contain rounded-lg" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);" />
                             @else
-                                FPS
+                                <img src="{{ Vite::asset('resources/images/ships/default.jpg') }}" alt="{{ $kill->ship->name }}" class="w-28 h-16 object-contain rounded-lg" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);" />
                             @endif
-                        </div>
+                            <div class="text-xs font-medium px-2 py-1 rounded text-center" style="color: rgb(var(--fg)); background-color: rgba(var(--fg), 0.1); word-break: break-word;">
+                                {{ $kill->ship->name }}
+                            </div>
+                        @else
+                            <div class="text-2xl">⚔️</div>
+                            <div class="text-xs font-medium px-2 py-1 rounded text-center" style="color: rgb(var(--fg)); background-color: rgba(var(--fg), 0.1);">
+                                FPS
+                            </div>
+                        @endif
                     </div>
 
                     {{-- Killer Side --}}
-                    <div class="flex flex-col items-center gap-2 flex-1">
+                    <div class="flex flex-col items-center gap-2 flex-1 min-w-0">
                         @if (! empty($kill->killer->avatar) && (str_contains($kill->killer->avatar, '/media/') || str_contains($kill->killer->avatar, '/static/images/account/avatar_default')))
                             <a href="{{ route('player.show', ['name' => $kill->killer->name]) }}" class="transition-transform hover:scale-110">
                                 <img width="48" height="48" alt="{{ $kill->killer->name }}" src="{{ $kill->killer->avatar }}" class="rounded-full shadow-md w-12 h-12 object-cover flex-shrink-0" />
@@ -253,7 +282,7 @@ $defaultOrg = Organization::where('spectrum_id', Organization::ORG_NONE)->first(
                                 <img width="48" height="48" src="https://cdn.robertsspaceindustries.com/static/images/account/avatar_default_big.jpg" alt="{{ $kill->killer->name }}" class="rounded-full shadow-md w-12 h-12 object-cover flex-shrink-0" />
                             </a>
                         @endif
-                        <a href="{{ route('player.show', ['name' => $kill->killer->name]) }}" class="text-sm font-semibold text-center hover:underline transition-colors" style="color: rgb(var(--accent));">
+                        <a href="{{ route('player.show', ['name' => $kill->killer->name]) }}" class="text-xs font-semibold text-center hover:underline transition-colors" style="color: rgb(var(--accent));">
                             {{ Str::limit($kill->killer->name, 20) }}
                         </a>
                         @if($killerOrg && $killerOrg->spectrum_id !== Organization::ORG_NONE && $killerOrg->spectrum_id !== Organization::ORG_REDACTED)
@@ -275,7 +304,7 @@ $defaultOrg = Organization::where('spectrum_id', Organization::ORG_NONE)->first(
         @endforelse
     </div>
 
-    <div class="border-t rounded-b-xl px-4 py-3 sm:px-6" style="border-color: rgb(var(--card-border)); background-color: rgb(var(--card));">
+    <div class="border-t rounded-b-none sm:rounded-b-xl px-4 py-3 sm:px-6" style="border-color: rgb(var(--card-border)); background-color: rgb(var(--card));">
         {{ $feed->links() }}
     </div>
 </div>
