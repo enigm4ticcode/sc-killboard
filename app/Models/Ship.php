@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 
 #[ObservedBy([ShipObserver::class])]
 class Ship extends Model
@@ -36,7 +37,7 @@ class Ship extends Model
 
     /**
      * Get the proper URL for the ship icon
-     * Handles both external URLs and local storage paths
+     * Handles both external URLs and storage paths (local or S3)
      */
     protected function iconUrl(): Attribute
     {
@@ -51,8 +52,13 @@ class Ship extends Model
                     return $this->icon;
                 }
 
-                // Otherwise, it's a storage path - convert to URL
-                return asset($this->icon);
+                // Handle legacy storage/ prefix (for backwards compatibility during migration)
+                $path = str_starts_with($this->icon, 'storage/')
+                    ? substr($this->icon, 8) // Remove 'storage/' prefix
+                    : $this->icon;
+
+                // Use Storage::url() to generate proper URLs (works for both local and S3)
+                return Storage::url($path);
             }
         );
     }

@@ -281,11 +281,11 @@ class ScrapeShipIcons extends Command
             // Generate filename based on ship slug
             $filename = 'ships/'.Str::slug($ship->name).'.'.$extension;
 
-            // Save to storage
-            Storage::disk('public')->put($filename, $imageResponse->body());
+            // Save to the default configured disk (public locally, S3 in production)
+            Storage::put($filename, $imageResponse->body());
 
-            // Return storage path
-            return 'storage/'.$filename;
+            // Return just the filename - Storage::url() will handle the full path
+            return $filename;
         } catch (\Exception $e) {
             $this->error("Failed to download image for {$ship->name}: ".$e->getMessage());
 
