@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
 @import 'tailwindcss';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
@@ -79,8 +80,17 @@ body {
     @apply antialiased;
     color: rgb(var(--fg));
     background-color: rgb(var(--bg));
+    font-family: 'Rajdhani', system-ui, -apple-system, sans-serif;
     font-feature-settings: 'rlig' 1, 'calt' 1;
     transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Headings use futuristic Exo 2 font */
+h1, h2, h3, h4, h5, h6,
+.heading-font {
+    font-family: 'Exo 2', system-ui, -apple-system, sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.01em;
 }
 
 .bg-container {
