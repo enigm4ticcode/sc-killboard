@@ -1,6 +1,9 @@
 <div class="card !rounded-xl overflow-hidden">
-    <div class="border-b px-3 py-2 text-xs font-semibold" style="border-color: rgb(var(--card-border)); background-color: rgb(var(--table-header)); color: rgb(var(--fg));">
-        🔫 {{ __('app.top_weapons', ['count' => config('killboard.leaderboards.number-of-positions'), 'days' => config('killboard.leaderboards.timespan-days')]) }}
+    <div class="border-b px-4 py-3 text-sm font-bold" style="border-color: rgba(var(--accent), 0.3); background: linear-gradient(135deg, rgba(var(--accent), 0.15) 0%, rgba(var(--accent), 0.05) 100%); color: rgb(var(--fg));">
+        <div class="flex items-center gap-2">
+            <span class="text-xl">🔫</span>
+            <span>{{ __('app.top_weapons', ['count' => config('killboard.leaderboards.number-of-positions'), 'days' => config('killboard.leaderboards.timespan-days')]) }}</span>
+        </div>
     </div>
 
     <div class="overflow-x-auto">
@@ -14,10 +17,18 @@
             </thead>
             <tbody class="divide-y" style="divide-color: rgb(var(--card-border)); background-color: rgb(var(--card));">
             @forelse ($weapons as $i => $weapon)
-                <tr class="transition-colors" onmouseover="this.style.backgroundColor='rgb(var(--table-hover))'" onmouseout="this.style.backgroundColor='rgb(var(--card))'">
-                    <td class="px-2 py-2 text-xs text-center align-middle whitespace-nowrap font-bold" style="color: rgb(var(--accent));">{{ $i + 1 }}</td>
-                    <td class="px-2 py-2 text-xs align-middle font-mono truncate max-w-[140px]" style="color: rgb(var(--fg));">{{ $weapon->weapon->name }}</td>
-                    <td class="px-2 py-2 text-xs text-right align-middle whitespace-nowrap font-mono font-semibold" style="color: rgb(var(--fg));">{{ $weapon->weapon_kill_count }}</td>
+                <tr class="transition-colors" style="background-color: rgba(var(--accent), 0.05);" onmouseover="this.style.backgroundColor='rgb(var(--table-hover))'" onmouseout="this.style.backgroundColor='rgba(var(--accent), 0.05)'">
+                    <td class="px-2 py-3 text-xs text-center align-middle whitespace-nowrap">
+                        <div class="inline-flex items-center justify-center w-6 h-6 rounded-full font-bold text-xs" style="background-color: rgba(var(--accent), 0.2); color: rgb(var(--accent));">
+                            {{ $i + 1 }}
+                        </div>
+                    </td>
+                    <td class="px-2 py-3 text-xs align-middle font-mono truncate max-w-[140px]" style="color: rgb(var(--fg));">{{ $weapon->weapon->name }}</td>
+                    <td class="px-2 py-3 text-right align-middle whitespace-nowrap">
+                        <span class="inline-block px-2 py-1 text-xs font-bold rounded" style="color: rgb(var(--fg)); background-color: rgba(var(--accent), 0.15);">
+                            {{ $weapon->weapon_kill_count }}
+                        </span>
+                    </td>
                 </tr>
             @empty
                 <tr>
