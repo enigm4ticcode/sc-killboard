@@ -37,7 +37,7 @@ return Application::configure(basePath: dirname(__DIR__))
     })->withSchedule(function (Schedule $schedule): void {
         $schedule->command(GetAllVehiclesCommand::class)->weekly()->thursdays()->at('23:00');
         $schedule->command(GetAllManufacturersCommand::class)->monthly()->thursdays()->at('22:00');
-        $schedule->command('php artisan app:scrape-ship-icons')->monthly()->thursdays()->at('22:30');;
+        $schedule->command('php artisan app:scrape-ship-icons')->monthly()->thursdays()->at('22:30');
         $schedule->command('php artisan scout:queue-import "App\Models\Player"')->daily();
         $schedule->command('php artisan scout:queue-import "App\Models\Organizations"')->daily();
         $schedule->job(CheckRsiStatusJob::class)->everyFiveMinutes();
