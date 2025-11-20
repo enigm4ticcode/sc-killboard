@@ -33,9 +33,9 @@ class RsiStatusService
 
     public function getRsiStatus(): array
     {
-        //        return Cache::remember($this->cacheKey, $this->ttl, function () {
-        return $this->retrieveRsiStatus();
-        //        });
+        return Cache::remember($this->cacheKey, $this->ttl, function () {
+            return $this->retrieveRsiStatus();
+        });
     }
 
     private function retrieveRsiStatus(): array
@@ -60,13 +60,13 @@ class RsiStatusService
                 foreach ($systems as $system) {
                     switch ($system['name']) {
                         case self::AC:
-                            $output[$acSlug] = $system['status'];
+                            $output[$acSlug] = Str::remove('app.', $system['status'] ?? 'unknown');
                             break;
                         case self::PU:
-                            $output[$puSlug] = $system['status'];
+                            $output[$puSlug] = Str::remove('app.', $system['status'] ?? 'unknown');
                             break;
                         case self::PLATFORM:
-                            $output[$platformSlug] = $system['status'];
+                            $output[$platformSlug] = Str::remove('app.', $system['status'] ?? 'unknown');
                             break;
                         default:
                             break;
