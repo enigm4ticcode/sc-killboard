@@ -87,6 +87,7 @@ return [
     'arena_commander' => '아레나 커맨더',
     'operational' => '정상',
     'degraded' => '저하됨',
+    'maintenance' => '유지보수',
     'outage' => '중단',
     'unknown' => '알 수 없음',
 

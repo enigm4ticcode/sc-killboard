@@ -89,6 +89,7 @@ return [
     'degraded' => 'Degradado',
     'outage' => 'Fuera de Servicio',
     'unknown' => 'Desconocido',
+    'maintenance' => 'Mantenimiento',
 
     // API Documentation
     'api_docs_subtitle' => 'Guía completa para integrar con la API del killboard.',

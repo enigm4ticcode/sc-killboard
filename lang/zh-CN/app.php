@@ -87,6 +87,7 @@ return [
     'arena_commander' => '竞技场指挥官',
     'operational' => '正常运作',
     'degraded' => '性能下降',
+    'maintenance' => '维护',
     'outage' => '中断',
     'unknown' => '未知',
 

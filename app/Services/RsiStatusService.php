@@ -60,13 +60,13 @@ class RsiStatusService
                 foreach ($systems as $system) {
                     switch ($system['name']) {
                         case self::AC:
-                            $output[$acSlug] = Str::remove('app.', $system['status'] ?? 'unknown');
+                            $output[$acSlug] = $system['status'] ?? 'unknown';
                             break;
                         case self::PU:
-                            $output[$puSlug] = Str::remove('app.', $system['status'] ?? 'unknown');
+                            $output[$puSlug] = $system['status'] ?? 'unknown';
                             break;
                         case self::PLATFORM:
-                            $output[$platformSlug] = Str::remove('app.', $system['status'] ?? 'unknown');
+                            $output[$platformSlug] = $system['status'] ?? 'unknown';
                             break;
                         default:
                             break;

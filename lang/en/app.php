@@ -87,6 +87,7 @@ return [
     'arena_commander' => 'Arena Commander',
     'operational' => 'Operational',
     'degraded' => 'Degraded',
+    'maintenance' => 'Maintenance',
     'outage' => 'Outage',
     'unknown' => 'Unknown',
 
